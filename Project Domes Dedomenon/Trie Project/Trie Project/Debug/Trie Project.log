@@ -1,0 +1,8 @@
+﻿  Trie Project.cpp
+c:\users\jimak\desktop\project domes dedomenon\trie project\trie project\trie project.cpp(32): warning C4018: '<': signed/unsigned mismatch
+c:\users\jimak\desktop\project domes dedomenon\trie project\trie project\trie project.cpp(49): warning C4018: '<': signed/unsigned mismatch
+c:\users\jimak\desktop\project domes dedomenon\trie project\trie project\trie project.cpp(107): warning C4018: '<': signed/unsigned mismatch
+c:\users\jimak\desktop\project domes dedomenon\trie project\trie project\trie project.cpp(125): warning C4018: '<': signed/unsigned mismatch
+c:\users\jimak\desktop\project domes dedomenon\trie project\trie project\trie project.cpp(174): warning C4101: 'counter': unreferenced local variable
+c:\users\jimak\desktop\project domes dedomenon\trie project\trie project\trie project.cpp(169): warning C4715: 'Digital_Tree_Delete': not all control paths return a value
+  Trie Project.vcxproj -> C:\Users\jimak\Desktop\Project Domes Dedomenon\Trie Project\Debug\Trie Project.exe

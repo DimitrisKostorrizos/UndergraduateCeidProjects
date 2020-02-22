@@ -1,0 +1,5 @@
+﻿  Main Project.cpp
+c:\users\jimak\desktop\project domes dedomenon\main project\main project\main project.cpp(88): warning C4018: '<': signed/unsigned mismatch
+c:\users\jimak\desktop\project domes dedomenon\main project\main project\main project.cpp(417): warning C4018: '<': signed/unsigned mismatch
+c:\users\jimak\desktop\project domes dedomenon\main project\main project\main project.cpp(129): warning C4715: 'BinarySearch': not all control paths return a value
+  Main Project.vcxproj -> C:\Users\jimak\Desktop\Project Domes Dedomenon\Main Project\Debug\Main Project.exe
