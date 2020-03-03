@@ -1,4 +1,4 @@
-function BerSer(N)
+function BerSerMetrics(N)
     index = 1;
     BER4 = zeros(1,16);
     SER4 = zeros(1,16);
