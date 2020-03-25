@@ -1,0 +1,28 @@
+.arm
+.text
+.global main
+
+main:
+STMDB R13!,{R0-R12,R14}
+
+LDR R0,=Stor
+MOV R1,#1
+MOV R2,#2
+MOV R4,#0
+STR R1,[R0],#4
+STR R2,[R0],#4
+
+loop:
+ADD R3,R2,R1
+STR R3,[R0],#4
+ADD R4,R4,#1
+MOV R1,R2
+MOV	R2,R3
+CMP R4,#3
+BLE loop
+
+LDMIA R13!,{R0-R12,PC}
+
+.data
+Stor:
+.word 0x00000000,0x00000000,0x00000000,0x00000000,0x00000000,0x00000000

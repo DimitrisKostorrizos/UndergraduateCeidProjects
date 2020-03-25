@@ -1,0 +1,24 @@
+.arm
+.text
+.global main
+
+main:
+STMDB R13!,{R0-R12}
+LDR R1,=Values
+LDR R0,[R1]
+MOV R1,#1
+BL LFSR
+end:
+LDMIA R13!,{R0-R12}
+LFSR:
+STMDB R13!,{R2-R12}
+MOV R3,#0
+MOVS R2,R1,LSL #1
+ADC R2,R2,R3
+EOR R1,R0,R2
+LDMIA R13!,{R2-R12}
+MOV PC,LR
+
+.data
+Values:
+.word 0x10424200
