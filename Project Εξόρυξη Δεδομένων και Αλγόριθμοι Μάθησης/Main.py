@@ -17,8 +17,23 @@ importedInstancesSize = len(wineQualityMetricsInstanceList)
 # Calculate the size of the test sample
 testSampleLength = round(importedInstancesSize / 4)
 
-# Calculate the size of the test sample
-trainingSampleLength = importedInstancesSize - testSampleLength
-
 # Get the test sample from all the instances
-testSample = random.sample(wineQualityMetricsInstanceList, testSampleLength)
+testSampleList = random.sample(wineQualityMetricsInstanceList, testSampleLength)
+
+# Copy the whole instance list
+trainingSampleList = wineQualityMetricsInstanceList.copy()
+
+# Get the training sample from the remaining instances
+for removeInstance in testSampleList:
+    trainingSampleList.remove(removeInstance)
+
+# Calculate the size of the training sample
+trainingSampleLength = len(trainingSampleList)
+
+# For the every instance in the test sample
+for testSample in testSampleList:
+    #  Clear the quality property of the instance
+    testSample.Quality = None
+
+# Calculate F1 score
+test = sklearn.metrics.f1_score(trainingSampleList, testSampleList)
