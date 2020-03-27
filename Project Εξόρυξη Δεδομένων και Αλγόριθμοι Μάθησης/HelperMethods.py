@@ -1,5 +1,7 @@
 import csv
+import logging
 
+import WineQualityMetrics
 """
 Returns a list that contain the imported, from a csv file rows, as class instances
 
@@ -11,33 +13,44 @@ Attributes
     delimiter : str
         The delimiter used in the csv
         
-    importingClass : class
-        The class object that the imported instances will be based on
-        
     ignoredRows : list<int>
         A list containing the index of the csv file rows that will be ignored
         
     ignoredColumns : list<int>
         A list containing the index of the csv file columns that will be ignored
 """
-def CsvImporter(fileName, delimiter, importingClass, ignoredRows, ignoredColumns):
+def CsvImporter(fileName, delimiter, ignoredRows, ignoredColumns):
 
     # Try to open the csv file
-    with open(fileName) as csvFile:
+    try:
+        with open(fileName) as csvFile:
 
-        # Create a csv file reader to read the opened file
-        csvFileReader = csv.reader(csvFile, delimiter = delimiter)
+            # Create a csv file reader to read the opened file
+            csvFileReader = csv.reader(csvFile, delimiter = delimiter)
 
-        # Initialize a index for the csv file lines
-        csvLineIndex = 0
+            # Initialize an index for the csv file lines
+            csvLineIndex = 0
 
-        # For each row in the csv file...
-        for csvFileRow in csvFileReader:
+            # Initialize a list that will contain the class instances
+            instanceList = []
 
-            # If the row has to be imported...
-            if csvLineIndex not in ignoredRows:
-                print(csvFileRow)
-            # Increase the csv line index
-            csvLineIndex = csvLineIndex + 1
-    # Return None if an error occurred
-    return None
+            # For each row in the csv file...
+            for csvFileRow in csvFileReader:
+
+                # If the row has to be imported...
+                if csvLineIndex not in ignoredRows:
+
+                    # For every deselected column
+                    for csvFileColumn in ignoredColumns:
+
+                        # Set the property associated to the ignored column
+                        csvFileRow[csvFileColumn] = None
+
+                    classInstance = WineQualityMetrics.WineQualityMetrics(csvFileRow[0], csvFileRow[1], csvFileRow[2], csvFileRow[3], csvFileRow[4], csvFileRow[5], csvFileRow[6], csvFileRow[7],  csvFileRow[8], csvFileRow[9], csvFileRow[10], csvFileRow[11])
+                    instanceList.append(classInstance)
+
+                # Increase the csv line index
+                csvLineIndex = csvLineIndex + 1
+            return instanceList
+    except IOError:
+        logging.exception("Csv file cannot be opened.")
