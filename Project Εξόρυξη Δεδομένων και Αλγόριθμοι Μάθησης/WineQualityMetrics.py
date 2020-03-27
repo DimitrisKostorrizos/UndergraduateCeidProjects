@@ -1,5 +1,6 @@
-# TODO
+""" A class that represents the wine quality metrics"""
 class WineQualityMetrics:
+
     # Wine fixed acidity property
     FixedAcidity = None
 
@@ -36,7 +37,7 @@ class WineQualityMetrics:
     # Wine quality property
     Quality = None
 
-    # Default constructor
+    """Default initialization method"""
     def __init__(self, fixedAcidity, volatileAcidity, citricAcid, residualSugar, chlorides, freeSulfurDioxide, totalSulfurDioxide, density, pH, sulphates, alcohol, quality):
         self.FixedAcidity = fixedAcidity
         self.VolatileAcidity = volatileAcidity

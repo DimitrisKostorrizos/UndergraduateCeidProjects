@@ -1,6 +1,25 @@
 import csv
 
-# Returns a list that contain the imported class instances TODO
+"""
+Returns a list that contain the imported, from a csv file rows, as class instances
+
+Attributes
+    ----------
+    fileName : str
+        A string that contains the file path and the file name
+        
+    delimiter : str
+        The delimiter used in the csv
+        
+    importingClass : class
+        The class object that the imported instances will be based on
+        
+    ignoredRows : list<int>
+        A list containing the index of the csv file rows that will be ignored
+        
+    ignoredColumns : list<int>
+        A list containing the index of the csv file columns that will be ignored
+"""
 def CsvImporter(fileName, delimiter, importingClass, ignoredRows, ignoredColumns):
 
     # Try to open the csv file
