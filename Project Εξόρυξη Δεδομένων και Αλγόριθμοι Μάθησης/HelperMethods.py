@@ -1,6 +1,6 @@
 import csv
 
-# Returns a list that contain the imported class instances
+# Returns a list that contain the imported class instances TODO
 def CsvImporter(fileName, delimiter, importingClass, ignoredRows, ignoredColumns):
 
     # Try to open the csv file
@@ -18,7 +18,7 @@ def CsvImporter(fileName, delimiter, importingClass, ignoredRows, ignoredColumns
             # If the row has to be imported...
             if csvLineIndex not in ignoredRows:
                 print(csvFileRow)
-
+            # Increase the csv line index
             csvLineIndex = csvLineIndex + 1
     # Return None if an error occurred
     return None
