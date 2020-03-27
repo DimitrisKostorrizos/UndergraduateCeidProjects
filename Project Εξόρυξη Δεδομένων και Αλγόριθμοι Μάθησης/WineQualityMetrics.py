@@ -36,8 +36,17 @@ class WineQualityMetrics:
     # Wine quality property
     Quality = None
 
-    def __init__(self, fixedAcidity, volatileAcidity, citricAcid, residualSugar):
+    # Default constructor
+    def __init__(self, fixedAcidity, volatileAcidity, citricAcid, residualSugar, chlorides, freeSulfurDioxide, totalSulfurDioxide, density, pH, sulphates, alcohol, quality):
         self.FixedAcidity = fixedAcidity
         self.VolatileAcidity = volatileAcidity
         self.CitricAcid = citricAcid
         self.ResidualSugar = residualSugar
+        self.Chlorides = chlorides
+        self.FreeSulfurDioxide = freeSulfurDioxide
+        self.TotalSulfurDioxide = totalSulfurDioxide
+        self.Density = density
+        self.pH = pH
+        self.Sulphates = sulphates
+        self.Alcohol = alcohol
+        self.Quality = quality
