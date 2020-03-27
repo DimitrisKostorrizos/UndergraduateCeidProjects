@@ -1,6 +1,7 @@
 import random
 import HelperMethods
-import sklearn
+from sklearn.metrics import f1_score
+from sklearn.svm import SVC
 
 # Initialise the list that contains the rows that will be ignored during the import
 ignoredRowsList = [0]
@@ -35,5 +36,10 @@ for testSample in testSampleList:
     #  Clear the quality property of the instance
     testSample.Quality = None
 
+classifier = SVC()
+
+classifier.fit(trainingSampleList., testSampleList)
+
+classifier.predict(testSampleList)
 # Calculate F1 score
-test = sklearn.metrics.f1_score(trainingSampleList, testSampleList)
+test = f1_score(trainingSampleList, testSampleList)
