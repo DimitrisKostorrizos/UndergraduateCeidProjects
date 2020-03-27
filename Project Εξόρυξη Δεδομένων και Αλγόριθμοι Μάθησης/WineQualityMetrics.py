@@ -1,30 +1,30 @@
 # TODO
 class WineQualityMetrics:
-    # Fixed acidity property
+    # Wine fixed acidity property
     FixedAcidity = None
 
-    # Volatile acidity property
+    # Wine volatile acidity property
     VolatileAcidity = None
 
-    # Citric acid property
+    # Wine citric acid concentration property
     CitricAcid = None
 
-    # Residual Sugar property
+    # Wine residual sugar property
     ResidualSugar = None
 
-    # Chlorides property
+    # Wine chlorides concentration property
     Chlorides = None
 
-    # Free sulfur dioxide property
+    # Wine free sulfur dioxide concentration property
     FreeSulfurDioxide = None
 
-    # Total sulfur dioxide property
+    # Wine total sulfur dioxide concentration property
     TotalSulfurDioxide = None
 
-    # Density property
+    # Wine density property
     Density = None
 
-    # pH property
+    # Wine pH property
     pH = None
 
     # Wine sulphates concentration property
@@ -36,6 +36,8 @@ class WineQualityMetrics:
     # Wine quality property
     Quality = None
 
-    def __init__(self, name, age):
-        self.name = name
-        self.age = age
+    def __init__(self, fixedAcidity, volatileAcidity, citricAcid, residualSugar):
+        self.FixedAcidity = fixedAcidity
+        self.VolatileAcidity = volatileAcidity
+        self.CitricAcid = citricAcid
+        self.ResidualSugar = residualSugar
