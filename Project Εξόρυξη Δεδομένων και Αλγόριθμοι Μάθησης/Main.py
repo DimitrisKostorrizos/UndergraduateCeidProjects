@@ -38,7 +38,7 @@ for testSample in testSampleList:
 
 classifier = SVC()
 
-classifier.fit(trainingSampleList., testSampleList)
+classifier.fit(trainingSampleList, testSampleList)
 
 classifier.predict(testSampleList)
 # Calculate F1 score
