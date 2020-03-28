@@ -39,3 +39,6 @@ class WineQualityMetrics:
 
         # Wine quality property
         self.Quality = quality
+
+    def ClassToClassPropertiesList(self):
+        return [self.FixedAcidity, self.VolatileAcidity, self.CitricAcid, self.ResidualSugar, self.Chlorides, self.FreeSulfurDioxide, self.TotalSulfurDioxide, self.Density, self.pH, self.Sulphates, self.Alcohol, self.Quality]
