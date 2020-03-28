@@ -29,36 +29,33 @@ trainingSampleList = wineQualityMetricsInstanceList.copy()
 for removeInstance in testSampleList:
     trainingSampleList.remove(removeInstance)
 
-# Calculate the size of the training sample
-trainingSampleLength = len(trainingSampleList)
-
-# Get the quality column
-quality = numpy.ravel(HelperMethods.ClassListToClassPropertiesList(testSampleList, [11]))
+# Get the wine quality values
+wineQualityValues = numpy.ravel(HelperMethods.ClassListToClassPropertiesList(testSampleList, [11]))
 
 # For the every instance in the test sample
 for testSample in testSampleList:
-    #  Clear the quality property of the instance
-    testSample.Quality = None
-
-# Initialize the support vector classifier
-classifier = SVC(kernel = 'linear')
-
-# Transform the training class set to a list of list object
-trainingSamplePropertiesList = HelperMethods.ClassListToClassPropertiesList(trainingSampleList, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
-
-# Transform the training class set to a list of list object
-trainingTargetSamplePropertiesList = numpy.ravel(HelperMethods.ClassListToClassPropertiesList(trainingSampleList, [11]))
-
-# Fit the classifier using the training sample lists
-classifier.fit(trainingSamplePropertiesList, trainingTargetSamplePropertiesList)
+    #  Clear the wineQualityValues property of the instance
+    testSample.WineQualityValues = None
 
 # Transform the test class set to a list of list objects
-testTargetSamplePropertiesList = HelperMethods.ClassListToClassPropertiesList(testSampleList, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+testSampleList = HelperMethods.ClassListToClassPropertiesList(testSampleList, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+
+# Transform the training class set to a list of list object
+trainingTargetSampleList = numpy.ravel(HelperMethods.ClassListToClassPropertiesList(trainingSampleList, [11]))
+
+# Transform the training class set to a list of list object
+trainingSampleList = HelperMethods.ClassListToClassPropertiesList(trainingSampleList, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+
+# Initialize the support vector classifier
+supportVectorClassifier = SVC(kernel = 'linear')
+
+# Fit the supportVectorClassifier using the training sample lists
+supportVectorClassifier.fit(trainingSampleList, trainingTargetSampleList)
 
 # Predict the target property values of the test sample set
-prediction = classifier.predict(testTargetSamplePropertiesList)
+wineQualityPrediction = supportVectorClassifier.predict(testSampleList)
 
 # Calculate F1 score
-test = f1_score(prediction, quality, average =None)
+wineQualityPredictionF1Score = f1_score(wineQualityPrediction, wineQualityValues, average = None)
 
-print(test)
+

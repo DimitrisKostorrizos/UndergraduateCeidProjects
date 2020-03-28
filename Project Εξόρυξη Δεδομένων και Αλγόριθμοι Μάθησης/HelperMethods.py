@@ -27,7 +27,7 @@ def CsvImporter(fileName, delimiter, ignoredRows, ignoredColumns):
         with open(fileName) as csvFile:
 
             # Create a csv file reader to read the opened file
-            csvFileReader = csv.reader(csvFile, delimiter=delimiter)
+            csvFileReader = csv.reader(csvFile, delimiter = delimiter)
 
             # Initialize an index for the csv file lines
             csvLineIndex = 0
@@ -56,7 +56,7 @@ def CsvImporter(fileName, delimiter, ignoredRows, ignoredColumns):
                     instanceList.append(classInstance)
 
                 # Increase the csv line index
-                csvLineIndex = csvLineIndex + 1
+                csvLineIndex += 1
 
             # Return the imported class instances
             return instanceList
