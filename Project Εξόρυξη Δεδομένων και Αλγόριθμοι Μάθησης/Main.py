@@ -47,7 +47,7 @@ trainingTargetSampleList = numpy.ravel(HelperMethods.ClassListToClassPropertiesL
 trainingSampleList = HelperMethods.ClassListToClassPropertiesList(trainingSampleList, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
 
 # Initialize the support vector classifier
-supportVectorClassifier = SVC(kernel = 'linear')
+supportVectorClassifier = SVC(C = 1000, kernel = 'poly', gamma = 'auto', degree = 2)
 
 # Fit the supportVectorClassifier using the training sample lists
 supportVectorClassifier.fit(trainingSampleList, trainingTargetSampleList)
@@ -58,4 +58,16 @@ wineQualityPrediction = supportVectorClassifier.predict(testSampleList)
 # Calculate F1 score
 wineQualityPredictionF1Score = f1_score(wineQualityPrediction, wineQualityValues, average = None)
 
+resultList = []
+for index in range(len(wineQualityValues)):
+    resultList.append(int(wineQualityPrediction[index]) - int(wineQualityValues[index]))
 
+zeroCounter = 0
+oneCounter = 0
+for result in resultList:
+    if result == 0:
+        zeroCounter += 1
+    if abs(result) == 1:
+        oneCounter += 1
+
+print("Zero counter: ", zeroCounter, "One counter: ", oneCounter)
