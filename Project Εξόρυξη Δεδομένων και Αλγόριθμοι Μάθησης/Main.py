@@ -1,6 +1,8 @@
 import random
 import HelperMethods
 from sklearn.metrics import f1_score
+from sklearn.metrics import recall_score
+from sklearn.metrics import average_precision_score
 from sklearn.svm import SVC
 import numpy
 
@@ -47,7 +49,7 @@ trainingTargetSampleList = numpy.ravel(HelperMethods.ClassListToClassPropertiesL
 trainingSampleList = HelperMethods.ClassListToClassPropertiesList(trainingSampleList, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
 
 # Initialize the support vector classifier
-supportVectorClassifier = SVC(C = 1000, kernel = 'poly', gamma = 'auto', degree = 2)
+supportVectorClassifier = SVC(kernel = 'linear')
 
 # Fit the supportVectorClassifier using the training sample lists
 supportVectorClassifier.fit(trainingSampleList, trainingTargetSampleList)
@@ -55,8 +57,14 @@ supportVectorClassifier.fit(trainingSampleList, trainingTargetSampleList)
 # Predict the target property values of the test sample set
 wineQualityPrediction = supportVectorClassifier.predict(testSampleList)
 
-# Calculate F1 score
+# Calculate f1 score
 wineQualityPredictionF1Score = f1_score(wineQualityPrediction, wineQualityValues, average = None)
+
+# Calculate recall score
+wineQualityPredictionRecallScore = recall_score(wineQualityPrediction, wineQualityValues, average = None)
+
+# Calculate recall score
+wineQualityPredictionPrecision = average_precision_score(wineQualityPrediction, wineQualityValues)
 
 resultList = []
 for index in range(len(wineQualityValues)):
