@@ -65,7 +65,7 @@ wineQualityPredictionRecallScore = recall_score(wineQualityPrediction, wineQuali
 
 # Calculate recall score
 wineQualityPredictionPrecision = average_precision_score(wineQualityPrediction, wineQualityValues)
-
+##https://stackoverflow.com/questions/21393704/scikit-learn-svm-giving-me-zero-error-but-cant-predict
 resultList = []
 for index in range(len(wineQualityValues)):
     resultList.append(int(wineQualityPrediction[index]) - int(wineQualityValues[index]))
