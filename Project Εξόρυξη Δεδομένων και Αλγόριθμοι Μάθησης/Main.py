@@ -1,4 +1,7 @@
 import random
+
+from sklearn.model_selection import StratifiedKFold, GridSearchCV
+
 import HelperMethods
 from sklearn.metrics import f1_score
 from sklearn.metrics import recall_score
@@ -64,8 +67,9 @@ wineQualityPredictionF1Score = f1_score(wineQualityPrediction, wineQualityValues
 wineQualityPredictionRecallScore = recall_score(wineQualityPrediction, wineQualityValues, average = None)
 
 # Calculate recall score
-wineQualityPredictionPrecision = average_precision_score(wineQualityPrediction, wineQualityValues)
+#wineQualityPredictionPrecision = average_precision_score(wineQualityPrediction, wineQualityValues)
 ##https://stackoverflow.com/questions/21393704/scikit-learn-svm-giving-me-zero-error-but-cant-predict
+#https://towardsdatascience.com/fine-tuning-a-classifier-in-scikit-learn-66e048c21e65
 resultList = []
 for index in range(len(wineQualityValues)):
     resultList.append(int(wineQualityPrediction[index]) - int(wineQualityValues[index]))
@@ -79,3 +83,13 @@ for result in resultList:
         oneCounter += 1
 
 print("Zero counter: ", zeroCounter, "One counter: ", oneCounter)
+
+C_range = 10.0 ** numpy.arange(-2, 9)
+gamma_range = 10.0 ** numpy.arange(-5, 4)
+param_grid = dict(gamma=gamma_range, C=C_range)
+cv = StratifiedKFold()
+
+grid = GridSearchCV(SVC(), param_grid=param_grid, cv=cv)
+grid.fit(trainingSampleList, trainingTargetSampleList)
+
+print("The best classifier is: ", grid.best_estimator_)
