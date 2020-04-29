@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <a href="../UserHomePage/UserHomePage.html" id="UserHomePage"></a>
+  <a href="UserDataAnalysisPage.html" id="UserDataAnalysisPage"></a>
+  <a href="../UserUploadDataPage/UserUploadDataPage.html" id="UserUploadDataPage"></a>
+  <link rel="stylesheet" href="../MainPage/ProjectStyles.css">
+  <link rel="stylesheet" href="../leaflet\leaflet.css">
+  <script src="../leaflet\leaflet.js"></script>
+  <script src="../chart.js-2.9.3/dist/Chart.js"></script>
+  <script type="text/javascript" src="UserDataAnalysisPageFunctions.js"></script>
+  
+</head>
+<body>
+  <div class="topnav">
+    <a onclick="window.location.href=document.getElementById('UserHomePage');">Home Page</a>
+    <a onclick="window.location.href=document.getElementById('UserDataAnalysisPage');">Data Analysis</a>
+    <a onclick="window.location.href=document.getElementById('UserUploadDataPage');">Upload Data</a>
+  </div>
+
+  <label for="StartingMonths">StartingMonths</label>
+  <select id="StartingMonths">
+    <option value="volvo">-</option>
+    <option value="volvo">January</option>
+    <option value="saab">Ferbruary</option>
+    <option value="mercedes">March</option>
+    <option value="audi">April</option>
+    <option value="audi">May</option>
+    <option value="audi">June</option>
+    <option value="audi">July</option>
+    <option value="audi">August</option>
+    <option value="audi">September</option>
+    <option value="audi">October</option>
+    <option value="audi">November</option>
+    <option value="audi">December</option>
+  </select>
+  <label for="StartingYears">StartingYears</label>
+  <select id="StartingYears">
+    <option value="volvo">-</option>
+    <option value="volvo">2020</option>
+    <option value="saab">2019</option>
+    <option value="mercedes">2018</option>
+    <option value="audi">2017</option>
+    <option value="audi">2016</option>
+    <option value="audi">2015</option>
+    <option value="audi">2014</option>
+    <option value="audi">2013</option>
+    <option value="audi">2012</option>
+    <option value="audi">2011</option>
+    <option value="audi">2010</option>
+    <option value="audi">2009</option>
+  </select><br><br>
+
+  <label for="EndingMonths">EndingMonths</label>
+  <select id="EndingMonths">
+    <option value="volvo">-</option>
+    <option value="volvo">January</option>
+    <option value="saab">Ferbruary</option>
+    <option value="mercedes">March</option>
+    <option value="audi">April</option>
+    <option value="audi">May</option>
+    <option value="audi">June</option>
+    <option value="audi">July</option>
+    <option value="audi">August</option>
+    <option value="audi">September</option>
+    <option value="audi">October</option>
+    <option value="audi">November</option>
+    <option value="audi">December</option>
+  </select>
+  <label for="EndingYears">EndingYears</label>
+  <select id="EndingYears">
+    <option value="volvo">-</option>
+    <option value="volvo">2020</option>
+    <option value="saab">2019</option>
+    <option value="mercedes">2018</option>
+    <option value="audi">2017</option>
+    <option value="audi">2016</option>
+    <option value="audi">2015</option>
+    <option value="audi">2014</option>
+    <option value="audi">2013</option>
+    <option value="audi">2012</option>
+    <option value="audi">2011</option>
+    <option value="audi">2010</option>
+    <option value="audi">2009</option>
+  </select><br><br>
+
+  <div class="chartcontainer">
+    <canvas id="myChart"></canvas>
+    <script>
+      JSONParser();
+    </script>
+  </div>
+  
+  <div id="mapid"></div>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <a href="../UserHomePage/UserHomePage.html" id="UserHomePage"></a>
+  <a href="../UserDataAnalysisPage/UserDataAnalysisPage.html" id="UserDataAnalysisPage"></a>
+  <a href="UserUploadDataPage.html" id="UserUploadDataPage"></a>
+  <link rel="stylesheet" href="../MainPage/ProjectStyles.css">
+  <link rel="stylesheet" href="../leaflet\leaflet.css">
+  <link rel="stylesheet" href="../Leaflet.draw\src\leaflet.draw.css">
+  <script src="../leaflet\leaflet.js"></script>
+  <script src="../Leaflet.draw\src\Leaflet.draw.js"></script>
+  <script src="../Leaflet.draw\src\Control.Draw.js"></script>
+  <script type="text/javascript" src="UserUploadDataPageFunctions.js"></script>
+  <script src="../jquery-3.4.1.min.js"></script>
+</head>
+<body>
+  <div class="topnav">
+    <a onclick="window.location.href=document.getElementById('UserHomePage');">Home Page</a>
+    <a onclick="window.location.href=document.getElementById('UserDataAnalysisPage');">Data Analysis</a>
+    <a onclick="window.location.href=document.getElementById('UserUploadDataPage');">Upload Data</a>
+  </div>
+
+  <input type="file" id="JSONFile" accept=".json" onchange="JSONParser(this.files[0])">
+  <div id="mapid"></div>
+
+</body>
+</html>

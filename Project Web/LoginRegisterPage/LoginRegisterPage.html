@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="UTF-8">
+  <a href="../MainPage/MainPage.html" id="MainPage"></a>
+  <a href="LoginRegisterPage.html" id="LoginRegisterPage"></a>
+  <link rel="stylesheet" href="../MainPage/ProjectStyles.css">
+  <script type="text/javascript" src="LoginRegisterPageFunctions.js"></script>
+</head>
+<body>
+  <div class="topnav">
+    <a onclick="window.location.href=document.getElementById('MainPage');">Home Page</a>
+  </div>
+
+<form id="userForm">
+  <h1>Login Form</h1>
+  <fieldset>
+    Username:<br>
+    <input type="text" id="username" placeholder="Username" maxlength="16" autocomplete="off">
+    <label id="usernameLabel"></label><br><br>
+    <button type="button" onclick="CheckUsername()">Next</button>
+    <div class="button-right">
+      <button type="button" onclick="SwitchtoRegisterForm()">No Account? Register</button>
+    </div>  
+  </fieldset>
+</form>
+
+<form id="passwordForm">
+  <h1>Login Form</h1>
+  <fieldset>
+    Password:<br>
+    <input type="password" id="psw" placeholder="Password" maxlength="16" autocomplete="off">
+    <label id="passwordLabel"></label><br><br>
+    <button type="button" onclick="CheckPassword()">Login</button>
+    <div class="button-right">
+      <button type="button" onclick="SwitchtoLoginForm()">Back</button>
+    </div> 
+  </fieldset>
+</form>
+<script>HideElementbyId("passwordForm")</script>
+
+<div id="registerForm">
+  <form>
+    <h1>Registration Form</h1>
+    <fieldset>
+      <legend>Personal information:</legend>
+      Username:<br>
+      <input type="text" id="usrname" maxlength="20">
+      <label id="usrnametip"></label><br>
+      First name:<br>
+      <input type="text" id="firstname" maxlength="20">
+      <label id="firstnametip"></label><br>
+      Last name:<br>
+      <input type="text" id="lastname" maxlength="20">
+      <label id="lastnametip"></label><br>
+      User password:<br>
+      <input type="password" id="pasw" onblur="passwordEquals()" maxlength="16"><br>
+      Repeat password:<br>
+      <input type="password" id="paswr" onblur="passwordEquals()" maxlength="16">
+      <label id="passwordtip"></label><br>
+      Email:<br>
+      <input type="email" id="email" placeholder="Email Format:text@text.text">
+      <label id="emailtip"></label><br><br>
+      <button type="button" onclick="ValidateRegistration()">Register</button>
+      <div class="button-right">
+        <button type="button" onclick="SwitchtoLoginForm()">Already Registered? Login</button>
+      </div> 
+    </fieldset>
+    <form action="/action_page.php" method="post">
+  </form>
+</div>
+<script>HideElementbyId("registerForm")</script>
+</body>
+</html>

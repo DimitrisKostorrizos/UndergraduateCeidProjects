@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <a href="UserHomePage.html" id="UserHomePage"></a>
+  <a href="../UserUploadDataPage/UserUploadDataPage.html" id="UserUploadDataPage"></a>
+  <a href="../UserDataAnalysisPage/UserDataAnalysisPage.html" id="UserDataAnalysisPage"></a>
+  <link rel="stylesheet" href="../MainPage/ProjectStyles.css">
+  <script type="text/javascript" src="UserHomePageFunctions.js"></script>
+  <script src="../chart.js-2.9.3/dist/Chart.js"></script>
+</head>
+<body>
+  <div class="topnav">
+    <a onclick="window.location.href=document.getElementById('UserHomePage');">Home Page</a>
+    <a onclick="window.location.href=document.getElementById('UserDataAnalysisPage');">Data Analysis</a>
+    <a onclick="window.location.href=document.getElementById('UserUploadDataPage');">Upload Data</a>
+  </div>
+
+  <div class="div-right">
+    Score Οικολογικής Μετακίνησης<br>
+    <input type="text" value="66%" readonly></input><br><br>
+    Ημερονημία Τελευταίου Upload<br>
+    <input type="text" value="68/5/1998" readonly></input><br><br>
+    Περίοδος Εγγραφών<br>
+    <input type="text" value="Periodos" readonly></input><br><br>
+    <table id="Leaderboard">
+      <tr>
+        <th>Leaderboard Δεκεμβρίου</th>
+        <th>Θέση</th>
+      </tr>
+      <tr>
+        <th id="Firstname"></th>
+        <th >1st</th>
+      </tr>
+      <tr>
+        <th id="Secondname"></th>
+        <th>2nd</th>
+      </tr>
+      <tr>
+        <th id="Thirdname"></th>
+        <th>3rd</th>
+      </tr>
+      <tr>
+          <th id="username"></th>
+          <th id="userposition"></th>
+      </tr>
+    </table>
+    <script>
+      LeaderboardSetter("Firstname","Secondname","Thirdname","username","userposition");
+    </script>
+  </div>
+  <div class="chartcontainer">
+    <canvas id="myChart"></canvas>
+    <script>
+      GraphSetter();
+    </script>
+  </div>
+</body>
+</html>
