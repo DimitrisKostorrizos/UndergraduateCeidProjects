@@ -3,10 +3,10 @@ import random
 from sklearn.model_selection import StratifiedKFold, GridSearchCV
 
 import HelperMethods
-from sklearn.metrics import f1_score
+from sklearn.metrics import f1_score, precision_score
 from sklearn.metrics import recall_score
-from sklearn.metrics import average_precision_score
 from sklearn.svm import SVC
+from HelperMethods import WineQualityMetricsEnum
 import numpy
 
 # Initialise the list that contains the rows that will be ignored during the import
@@ -16,7 +16,8 @@ ignoredRowsList = [0]
 ignoredColumnsList = []
 
 # Import the wine quality metrics from the csv file
-wineQualityMetricsInstanceList = HelperMethods.CsvImporter("Project Εξόρυξη Δεδομένων και Αλγόριθμοι Μάθησης/winequality-red.csv", ",", ignoredRowsList, ignoredColumnsList)
+wineQualityMetricsInstanceList = HelperMethods.CsvImporter(
+    "Project Εξόρυξη Δεδομένων και Αλγόριθμοι Μάθησης/winequality-red.csv", ",", ignoredRowsList, ignoredColumnsList)
 
 # Get the imported instances count
 importedInstancesSize = len(wineQualityMetricsInstanceList)
@@ -35,7 +36,8 @@ for removeInstance in testSampleList:
     trainingSampleList.remove(removeInstance)
 
 # Get the wine quality values
-wineQualityValues = numpy.ravel(HelperMethods.ClassListToClassPropertiesList(testSampleList, [11]))
+wineQualityValues = numpy.ravel(
+    HelperMethods.ClassListToClassPropertiesList(testSampleList, [WineQualityMetricsEnum.Quality.value]))
 
 # For the every instance in the test sample
 for testSample in testSampleList:
@@ -43,16 +45,39 @@ for testSample in testSampleList:
     testSample.WineQualityValues = None
 
 # Transform the test class set to a list of list objects
-testSampleList = HelperMethods.ClassListToClassPropertiesList(testSampleList, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+testSampleList = HelperMethods.ClassListToClassPropertiesList(testSampleList,
+                                                              [WineQualityMetricsEnum.FixedAcidity.value,
+                                                               WineQualityMetricsEnum.VolatileAcidity.value,
+                                                               WineQualityMetricsEnum.CitricAcid.value,
+                                                               WineQualityMetricsEnum.ResidualSugar.value,
+                                                               WineQualityMetricsEnum.Chlorides.value,
+                                                               WineQualityMetricsEnum.FreeSulfurDioxide.value,
+                                                               WineQualityMetricsEnum.TotalSulfurDioxide.value,
+                                                               WineQualityMetricsEnum.Density.value,
+                                                               WineQualityMetricsEnum.pH.value,
+                                                               WineQualityMetricsEnum.Sulphates.value,
+                                                               WineQualityMetricsEnum.Alcohol.value])
 
 # Transform the training class set to a list of list object
-trainingTargetSampleList = numpy.ravel(HelperMethods.ClassListToClassPropertiesList(trainingSampleList, [11]))
+trainingTargetSampleList = numpy.ravel(
+    HelperMethods.ClassListToClassPropertiesList(trainingSampleList, [WineQualityMetricsEnum.Quality.value]))
 
 # Transform the training class set to a list of list object
-trainingSampleList = HelperMethods.ClassListToClassPropertiesList(trainingSampleList, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+trainingSampleList = HelperMethods.ClassListToClassPropertiesList(trainingSampleList,
+                                                                  [WineQualityMetricsEnum.FixedAcidity.value,
+                                                                   WineQualityMetricsEnum.VolatileAcidity.value,
+                                                                   WineQualityMetricsEnum.CitricAcid.value,
+                                                                   WineQualityMetricsEnum.ResidualSugar.value,
+                                                                   WineQualityMetricsEnum.Chlorides.value,
+                                                                   WineQualityMetricsEnum.FreeSulfurDioxide.value,
+                                                                   WineQualityMetricsEnum.TotalSulfurDioxide.value,
+                                                                   WineQualityMetricsEnum.Density.value,
+                                                                   WineQualityMetricsEnum.pH.value,
+                                                                   WineQualityMetricsEnum.Sulphates.value,
+                                                                   WineQualityMetricsEnum.Alcohol.value])
 
 # Initialize the support vector classifier
-supportVectorClassifier = SVC(kernel = 'linear')
+supportVectorClassifier = SVC(kernel='linear')
 
 # Fit the supportVectorClassifier using the training sample lists
 supportVectorClassifier.fit(trainingSampleList, trainingTargetSampleList)
@@ -61,15 +86,16 @@ supportVectorClassifier.fit(trainingSampleList, trainingTargetSampleList)
 wineQualityPrediction = supportVectorClassifier.predict(testSampleList)
 
 # Calculate f1 score
-wineQualityPredictionF1Score = f1_score(wineQualityPrediction, wineQualityValues, average = None)
+wineQualityPredictionF1Score = f1_score(wineQualityPrediction, wineQualityValues, average=None)
 
 # Calculate recall score
-wineQualityPredictionRecallScore = recall_score(wineQualityPrediction, wineQualityValues, average = None)
+wineQualityPredictionRecall = recall_score(wineQualityPrediction, wineQualityValues, average=None, zero_division=1)
 
-# Calculate recall score
-#wineQualityPredictionPrecision = average_precision_score(wineQualityPrediction, wineQualityValues)
-##https://stackoverflow.com/questions/21393704/scikit-learn-svm-giving-me-zero-error-but-cant-predict
-#https://towardsdatascience.com/fine-tuning-a-classifier-in-scikit-learn-66e048c21e65
+# Calculate precision score
+wineQualityPredictionPrecision = precision_score(wineQualityPrediction, wineQualityValues, average=None)
+
+# https://stackoverflow.com/questions/21393704/scikit-learn-svm-giving-me-zero-error-but-cant-predict
+# https://towardsdatascience.com/fine-tuning-a-classifier-in-scikit-learn-66e048c21e65
 resultList = []
 for index in range(len(wineQualityValues)):
     resultList.append(int(wineQualityPrediction[index]) - int(wineQualityValues[index]))
@@ -82,14 +108,24 @@ for result in resultList:
     if abs(result) == 1:
         oneCounter += 1
 
+print("F1 Score: ", wineQualityPredictionF1Score)
+print("Recall: ", wineQualityPredictionRecall)
+print("Precision: ", wineQualityPredictionPrecision)
 print("Zero counter: ", zeroCounter, "One counter: ", oneCounter)
 
-C_range = 10.0 ** numpy.arange(-2, 9)
-gamma_range = 10.0 ** numpy.arange(-5, 4)
-param_grid = dict(gamma=gamma_range, C=C_range)
-cv = StratifiedKFold()
+# C_range = 10.0 ** numpy.arange(-2, 9)
+# gamma_range = 10.0 ** numpy.arange(-5, 4)
+# param_grid = dict(gamma=gamma_range, C=C_range)
+# cv = StratifiedKFold()
+#
+# grid = GridSearchCV(SVC(), param_grid=param_grid, cv=cv)
+# grid.fit(trainingSampleList, trainingTargetSampleList)
+#
+# print("The best classifier is: ", grid.best_estimator_)
 
-grid = GridSearchCV(SVC(), param_grid=param_grid, cv=cv)
-grid.fit(trainingSampleList, trainingTargetSampleList)
+##########################################################################
 
-print("The best classifier is: ", grid.best_estimator_)
+for index in range(round(len(testSampleList) / 3)):
+    testSampleList[index][WineQualityMetricsEnum.pH.value] = None
+
+#part 1
