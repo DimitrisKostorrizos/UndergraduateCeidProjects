@@ -12,12 +12,9 @@ import numpy
 # Initialise the list that contains the rows that will be ignored during the import
 ignoredRowsList = [0]
 
-# Initialise the list that contains the columns that will be ignored during the import
-ignoredColumnsList = []
-
 # Import the wine quality metrics from the csv file
 wineQualityMetricsInstanceList = HelperMethods.CsvImporter(
-    "Project Εξόρυξη Δεδομένων και Αλγόριθμοι Μάθησης/winequality-red.csv", ",", ignoredRowsList, ignoredColumnsList)
+    "Project Εξόρυξη Δεδομένων και Αλγόριθμοι Μάθησης/winequality-red.csv", ",", ignoredRowsList)
 
 # Get the imported instances count
 importedInstancesSize = len(wineQualityMetricsInstanceList)
@@ -108,6 +105,7 @@ for result in resultList:
     if abs(result) == 1:
         oneCounter += 1
 
+print("\nScores for the unedited data\n")
 print("F1 Score: ", wineQualityPredictionF1Score)
 print("Recall: ", wineQualityPredictionRecall)
 print("Precision: ", wineQualityPredictionPrecision)
@@ -157,6 +155,7 @@ wineQualityPredictionRecall = recall_score(wineQualityPrediction, wineQualityVal
 # Calculate precision score
 wineQualityPredictionPrecision = precision_score(wineQualityPrediction, wineQualityValues, average=None)
 
+print("\nScores for the delete ph column\n")
 print("F1 Score: ", wineQualityPredictionF1Score)
 print("Recall: ", wineQualityPredictionRecall)
 print("Precision: ", wineQualityPredictionPrecision)
@@ -169,15 +168,34 @@ testSampleListOneThirdLength = round(len(editedTestSampleList) / 3)
 # Get the length of the two third slices of the list
 testSampleListTwoThirdLength = len(editedTestSampleList) - testSampleListOneThirdLength
 
+Average = 0
+for sampleList in editedTestSampleList[testSampleListOneThirdLength + 1:]:
+    Average += sampleList[WineQualityMetricsEnum.pH.value]
+
+Average /= testSampleListTwoThirdLength
+
 # For every edited test sample in the first one third of the list...
 for index in range(testSampleListOneThirdLength):
 
     # Remove the pH value
-    editedTestSampleList[index][WineQualityMetricsEnum.pH.value] = None
+    editedTestSampleList[index][WineQualityMetricsEnum.pH.value] = Average
 
-Sum = 0
-for sampleList in editedTestSampleList[testSampleListTwoThirdLength::-1]:
-    Sum += type(int(sampleList[WineQualityMetricsEnum.pH.value]))
+# Fit the supportVectorClassifier using the training sample lists
+supportVectorClassifier.fit(trainingSampleList, trainingTargetSampleList)
 
+# Predict the target property values of the test sample set
+wineQualityPrediction = supportVectorClassifier.predict(testSampleList)
 
-print("f")
+# Calculate f1 score
+wineQualityPredictionF1Score = f1_score(wineQualityPrediction, wineQualityValues, average=None)
+
+# Calculate recall score
+wineQualityPredictionRecall = recall_score(wineQualityPrediction, wineQualityValues, average=None, zero_division=1)
+
+# Calculate precision score
+wineQualityPredictionPrecision = precision_score(wineQualityPrediction, wineQualityValues, average=None)
+
+print("\nScores for the average ph column\n")
+print("F1 Score: ", wineQualityPredictionF1Score)
+print("Recall: ", wineQualityPredictionRecall)
+print("Precision: ", wineQualityPredictionPrecision)

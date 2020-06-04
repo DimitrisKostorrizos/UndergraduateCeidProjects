@@ -23,7 +23,7 @@ Attributes
 """
 
 
-def CsvImporter(fileName, delimiter, ignoredRows, ignoredColumns):
+def CsvImporter(fileName, delimiter, ignoredRows):
     # Try to open the csv file
     try:
         with open(fileName) as csvFile:
@@ -42,11 +42,6 @@ def CsvImporter(fileName, delimiter, ignoredRows, ignoredColumns):
 
                 # If the row has to be imported...
                 if csvLineIndex not in ignoredRows:
-
-                    # For every deselected column
-                    for csvFileColumn in ignoredColumns:
-                        # Set the property associated to the ignored column to None
-                        csvFileRow[csvFileColumn] = None
 
                     # Create the class instance based on the imported row
                     classInstance = WineQualityMetrics.WineQualityMetrics(csvFileRow[0], csvFileRow[1], csvFileRow[2],
