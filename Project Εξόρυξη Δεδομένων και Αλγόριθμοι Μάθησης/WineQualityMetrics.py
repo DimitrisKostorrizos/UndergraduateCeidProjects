@@ -1,3 +1,5 @@
+from enum import Enum
+
 """ A class that represents the wine quality metrics"""
 class WineQualityMetrics:
 
@@ -39,6 +41,31 @@ class WineQualityMetrics:
 
         # Wine quality property
         self.Quality = float(quality)
+
+class WineQualityMetricsEnum(Enum):
+    FixedAcidity = 0
+
+    VolatileAcidity = 1
+
+    CitricAcid = 2
+
+    ResidualSugar = 3
+
+    Chlorides = 4
+
+    FreeSulfurDioxide = 5
+
+    TotalSulfurDioxide = 6
+
+    Density = 7
+
+    pH = 8
+
+    Sulphates = 9
+
+    Alcohol = 10
+
+    Quality = 11
 
     def ClassToClassPropertiesList(self):
         return [self.FixedAcidity, self.VolatileAcidity, self.CitricAcid, self.ResidualSugar, self.Chlorides, self.FreeSulfurDioxide, self.TotalSulfurDioxide, self.Density, self.pH, self.Sulphates, self.Alcohol, self.Quality]

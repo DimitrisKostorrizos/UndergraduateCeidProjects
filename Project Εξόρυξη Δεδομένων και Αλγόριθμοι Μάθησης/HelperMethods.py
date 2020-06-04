@@ -1,7 +1,5 @@
 import csv
 import logging
-from enum import Enum
-
 import WineQualityMetrics
 
 """
@@ -99,28 +97,4 @@ def ClassListToClassPropertiesList(classList, targetPropertyIndexList):
     # Return the list that contain the target properties lists
     return targetClassPropertiesList
 
-class WineQualityMetricsEnum(Enum):
 
-    FixedAcidity = 0
-
-    VolatileAcidity = 1
-
-    CitricAcid = 2
-
-    ResidualSugar = 3
-
-    Chlorides = 4
-
-    FreeSulfurDioxide = 5
-
-    TotalSulfurDioxide = 6
-
-    Density = 7
-
-    pH = 8
-
-    Sulphates = 9
-
-    Alcohol = 10
-
-    Quality = 11

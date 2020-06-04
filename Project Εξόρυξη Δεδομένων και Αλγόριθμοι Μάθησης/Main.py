@@ -3,10 +3,11 @@ import random
 from sklearn.model_selection import StratifiedKFold, GridSearchCV
 
 import HelperMethods
+from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import f1_score, precision_score
 from sklearn.metrics import recall_score
 from sklearn.svm import SVC
-from HelperMethods import WineQualityMetricsEnum
+from WineQualityMetrics import WineQualityMetricsEnum
 import numpy
 
 # Initialise the list that contains the rows that will be ignored during the import
@@ -196,6 +197,73 @@ wineQualityPredictionRecall = recall_score(wineQualityPrediction, wineQualityVal
 wineQualityPredictionPrecision = precision_score(wineQualityPrediction, wineQualityValues, average=None)
 
 print("\nScores for the average ph column\n")
+print("F1 Score: ", wineQualityPredictionF1Score)
+print("Recall: ", wineQualityPredictionRecall)
+print("Precision: ", wineQualityPredictionPrecision)
+
+# Part 3
+
+# For every edited test sample in the first one third of the list...
+for index in range(testSampleListOneThirdLength):
+
+    # Remove the pH value
+    editedTestSampleList[index][WineQualityMetricsEnum.pH.value] = None
+
+# Transform the test class set to a list of list objects
+testSampleList = HelperMethods.ClassListToClassPropertiesList(testSampleList,
+                                                              [WineQualityMetricsEnum.FixedAcidity.value,
+                                                               WineQualityMetricsEnum.VolatileAcidity.value,
+                                                               WineQualityMetricsEnum.CitricAcid.value,
+                                                               WineQualityMetricsEnum.ResidualSugar.value,
+                                                               WineQualityMetricsEnum.Chlorides.value,
+                                                               WineQualityMetricsEnum.FreeSulfurDioxide.value,
+                                                               WineQualityMetricsEnum.TotalSulfurDioxide.value,
+                                                               WineQualityMetricsEnum.Density.value,
+                                                               WineQualityMetricsEnum.Sulphates.value,
+                                                               WineQualityMetricsEnum.Alcohol.value])
+
+# Transform the training class set to a list of list object
+trainingTargetSampleList = numpy.ravel(
+    HelperMethods.ClassListToClassPropertiesList(trainingSampleList, [WineQualityMetricsEnum.pH.value]))
+
+# Transform the training class set to a list of list object
+trainingSampleList = HelperMethods.ClassListToClassPropertiesList(trainingSampleList,
+                                                                  [WineQualityMetricsEnum.FixedAcidity.value,
+                                                                   WineQualityMetricsEnum.VolatileAcidity.value,
+                                                                   WineQualityMetricsEnum.CitricAcid.value,
+                                                                   WineQualityMetricsEnum.ResidualSugar.value,
+                                                                   WineQualityMetricsEnum.Chlorides.value,
+                                                                   WineQualityMetricsEnum.FreeSulfurDioxide.value,
+                                                                   WineQualityMetricsEnum.TotalSulfurDioxide.value,
+                                                                   WineQualityMetricsEnum.Density.value,
+                                                                   WineQualityMetricsEnum.Sulphates.value,
+                                                                   WineQualityMetricsEnum.Alcohol.value])
+
+# Initialise a logistic regression object
+logisticRegression = LogisticRegression()
+
+# Fit the logisticRegression using the training sample lists
+logisticRegression.fit(trainingSampleList, trainingTargetSampleList)
+
+# Predict the target property values of the test sample set
+winePHPrediction = supportVectorClassifier.predict(testSampleList)
+
+# Fit the supportVectorClassifier using the training sample lists
+supportVectorClassifier.fit(trainingSampleList, trainingTargetSampleList)
+
+# Predict the target property values of the test sample set
+wineQualityPrediction = supportVectorClassifier.predict(testSampleList)
+
+# Calculate f1 score
+wineQualityPredictionF1Score = f1_score(wineQualityPrediction, wineQualityValues, average=None)
+
+# Calculate recall score
+wineQualityPredictionRecall = recall_score(wineQualityPrediction, wineQualityValues, average=None, zero_division=1)
+
+# Calculate precision score
+wineQualityPredictionPrecision = precision_score(wineQualityPrediction, wineQualityValues, average=None)
+
+print("\nScores for the Logistic Regression ph column\n")
 print("F1 Score: ", wineQualityPredictionF1Score)
 print("Recall: ", wineQualityPredictionRecall)
 print("Precision: ", wineQualityPredictionPrecision)
