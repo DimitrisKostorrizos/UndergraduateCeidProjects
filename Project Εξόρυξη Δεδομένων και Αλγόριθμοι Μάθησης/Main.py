@@ -125,7 +125,59 @@ print("Zero counter: ", zeroCounter, "One counter: ", oneCounter)
 
 ##########################################################################
 
-for index in range(round(len(testSampleList) / 3)):
-    testSampleList[index][WineQualityMetricsEnum.pH.value] = None
+# Copy the test sample list
+editedTestSampleList = testSampleList.copy()
 
-#part 1
+# Part 1
+
+# For every training sample...
+for index in range(len(trainingSampleList)):
+
+    # Remove the ph values
+    trainingSampleList[index].pop(WineQualityMetricsEnum.pH.value)
+
+# For every test sample...
+for index in range(len(testSampleList)):
+
+    # Remove the ph values
+    testSampleList[index].pop(WineQualityMetricsEnum.pH.value)
+
+# Fit the supportVectorClassifier using the training sample lists
+supportVectorClassifier.fit(trainingSampleList, trainingTargetSampleList)
+
+# Predict the target property values of the test sample set
+wineQualityPrediction = supportVectorClassifier.predict(testSampleList)
+
+# Calculate f1 score
+wineQualityPredictionF1Score = f1_score(wineQualityPrediction, wineQualityValues, average=None)
+
+# Calculate recall score
+wineQualityPredictionRecall = recall_score(wineQualityPrediction, wineQualityValues, average=None, zero_division=1)
+
+# Calculate precision score
+wineQualityPredictionPrecision = precision_score(wineQualityPrediction, wineQualityValues, average=None)
+
+print("F1 Score: ", wineQualityPredictionF1Score)
+print("Recall: ", wineQualityPredictionRecall)
+print("Precision: ", wineQualityPredictionPrecision)
+
+# Part 2
+
+# Get the length of the first one third slice of the list
+testSampleListOneThirdLength = round(len(editedTestSampleList) / 3)
+
+# Get the length of the two third slices of the list
+testSampleListTwoThirdLength = len(editedTestSampleList) - testSampleListOneThirdLength
+
+# For every edited test sample in the first one third of the list...
+for index in range(testSampleListOneThirdLength):
+
+    # Remove the pH value
+    editedTestSampleList[index][WineQualityMetricsEnum.pH.value] = None
+
+Sum = 0
+for sampleList in editedTestSampleList[testSampleListTwoThirdLength::-1]:
+    Sum += type(int(sampleList[WineQualityMetricsEnum.pH.value]))
+
+
+print("f")
