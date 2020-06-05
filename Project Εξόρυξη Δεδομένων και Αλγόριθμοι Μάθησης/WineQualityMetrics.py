@@ -42,6 +42,9 @@ class WineQualityMetrics:
         # Wine quality property
         self.Quality = float(quality)
 
+    def ClassToClassPropertiesList(self):
+        return [self.FixedAcidity, self.VolatileAcidity, self.CitricAcid, self.ResidualSugar, self.Chlorides, self.FreeSulfurDioxide, self.TotalSulfurDioxide, self.Density, self.pH, self.Sulphates, self.Alcohol, self.Quality]
+
 class WineQualityMetricsEnum(Enum):
     FixedAcidity = 0
 
@@ -66,6 +69,3 @@ class WineQualityMetricsEnum(Enum):
     Alcohol = 10
 
     Quality = 11
-
-    def ClassToClassPropertiesList(self):
-        return [self.FixedAcidity, self.VolatileAcidity, self.CitricAcid, self.ResidualSugar, self.Chlorides, self.FreeSulfurDioxide, self.TotalSulfurDioxide, self.Density, self.pH, self.Sulphates, self.Alcohol, self.Quality]

@@ -34,11 +34,11 @@ for removeInstance in testSampleList:
     trainingSampleList.remove(removeInstance)
 
 # Get the wine quality values
-wineQualityValues = numpy.ravel(
-    HelperMethods.ClassListToClassPropertiesList(testSampleList, [WineQualityMetricsEnum.Quality.value]))
+wineQualityValues = numpy.ravel(HelperMethods.ClassListToClassPropertiesList(testSampleList, [WineQualityMetricsEnum.Quality.value]))
 
 # For the every instance in the test sample
 for testSample in testSampleList:
+
     #  Clear the wineQualityValues property of the instance
     testSample.WineQualityValues = None
 
@@ -57,8 +57,7 @@ testSampleList = HelperMethods.ClassListToClassPropertiesList(testSampleList,
                                                                WineQualityMetricsEnum.Alcohol.value])
 
 # Transform the training class set to a list of list object
-trainingTargetSampleList = numpy.ravel(
-    HelperMethods.ClassListToClassPropertiesList(trainingSampleList, [WineQualityMetricsEnum.Quality.value]))
+trainingTargetSampleList = numpy.ravel(HelperMethods.ClassListToClassPropertiesList(trainingSampleList, [WineQualityMetricsEnum.Quality.value]))
 
 # Transform the training class set to a list of list object
 trainingSampleList = HelperMethods.ClassListToClassPropertiesList(trainingSampleList,
@@ -124,28 +123,14 @@ print("Zero counter: ", zeroCounter, "One counter: ", oneCounter)
 
 ##########################################################################
 
-# Copy the test sample list
-editedTestSampleList = testSampleList.copy()
+# Get the length of the first one third slice of the list
+editedTestSampleListLength = round(len(testSampleList) / 3)
+
+# # Get the length of the two third slices of the list
+# testSampleListTwoThirdLength = len(editedTestSampleList) - testSampleListOneThirdLength
 
 # Part 1
-
-# For every training sample...
-for index in range(len(trainingSampleList)):
-
-    # Remove the ph values
-    trainingSampleList[index].pop(WineQualityMetricsEnum.pH.value)
-
-# For every test sample...
-for index in range(len(testSampleList)):
-
-    # Remove the ph values
-    testSampleList[index].pop(WineQualityMetricsEnum.pH.value)
-
-# Fit the supportVectorClassifier using the training sample lists
-supportVectorClassifier.fit(trainingSampleList, trainingTargetSampleList)
-
-# Predict the target property values of the test sample set
-wineQualityPrediction = supportVectorClassifier.predict(testSampleList)
+wineQualityPrediction = HelperMethods.RemovePHColumn(trainingSampleList.copy(), trainingTargetSampleList, testSampleList, supportVectorClassifier)
 
 # Calculate f1 score
 wineQualityPredictionF1Score = f1_score(wineQualityPrediction, wineQualityValues, average=None)
@@ -163,29 +148,7 @@ print("Precision: ", wineQualityPredictionPrecision)
 
 # Part 2
 
-# Get the length of the first one third slice of the list
-testSampleListOneThirdLength = round(len(editedTestSampleList) / 3)
-
-# Get the length of the two third slices of the list
-testSampleListTwoThirdLength = len(editedTestSampleList) - testSampleListOneThirdLength
-
-Average = 0
-for sampleList in editedTestSampleList[testSampleListOneThirdLength + 1:]:
-    Average += sampleList[WineQualityMetricsEnum.pH.value]
-
-Average /= testSampleListTwoThirdLength
-
-# For every edited test sample in the first one third of the list...
-for index in range(testSampleListOneThirdLength):
-
-    # Remove the pH value
-    editedTestSampleList[index][WineQualityMetricsEnum.pH.value] = Average
-
-# Fit the supportVectorClassifier using the training sample lists
-supportVectorClassifier.fit(trainingSampleList, trainingTargetSampleList)
-
-# Predict the target property values of the test sample set
-wineQualityPrediction = supportVectorClassifier.predict(testSampleList)
+HelperMethods.AveragePHColumn(trainingSampleList.copy(), trainingTargetSampleList, testSampleList, supportVectorClassifier, editedTestSampleListLength)
 
 # Calculate f1 score
 wineQualityPredictionF1Score = f1_score(wineQualityPrediction, wineQualityValues, average=None)
@@ -203,50 +166,41 @@ print("Precision: ", wineQualityPredictionPrecision)
 
 # Part 3
 
-# For every edited test sample in the first one third of the list...
-for index in range(testSampleListOneThirdLength):
-
-    # Remove the pH value
-    editedTestSampleList[index][WineQualityMetricsEnum.pH.value] = None
-
 # Transform the test class set to a list of list objects
-testSampleList = HelperMethods.ClassListToClassPropertiesList(testSampleList,
-                                                              [WineQualityMetricsEnum.FixedAcidity.value,
-                                                               WineQualityMetricsEnum.VolatileAcidity.value,
-                                                               WineQualityMetricsEnum.CitricAcid.value,
-                                                               WineQualityMetricsEnum.ResidualSugar.value,
-                                                               WineQualityMetricsEnum.Chlorides.value,
-                                                               WineQualityMetricsEnum.FreeSulfurDioxide.value,
-                                                               WineQualityMetricsEnum.TotalSulfurDioxide.value,
-                                                               WineQualityMetricsEnum.Density.value,
-                                                               WineQualityMetricsEnum.Sulphates.value,
-                                                               WineQualityMetricsEnum.Alcohol.value])
+logisticRegressionTestSampleList = testSampleList.copy()
+
+# For every test sample...
+for index in range(len(logisticRegressionTestSampleList)):
+    # Remove the ph values
+    testSampleList[index].pop(WineQualityMetricsEnum.pH.value)
 
 # Transform the training class set to a list of list object
-trainingTargetSampleList = numpy.ravel(
-    HelperMethods.ClassListToClassPropertiesList(trainingSampleList, [WineQualityMetricsEnum.pH.value]))
+logisticRegressionTrainingTargetSampleList = numpy.ravel(
+    HelperMethods.ClassListToClassPropertiesList(trainingSampleList[testSampleListTwoThirdLength:],
+                                                 [WineQualityMetricsEnum.pH.value]))
 
 # Transform the training class set to a list of list object
-trainingSampleList = HelperMethods.ClassListToClassPropertiesList(trainingSampleList,
-                                                                  [WineQualityMetricsEnum.FixedAcidity.value,
-                                                                   WineQualityMetricsEnum.VolatileAcidity.value,
-                                                                   WineQualityMetricsEnum.CitricAcid.value,
-                                                                   WineQualityMetricsEnum.ResidualSugar.value,
-                                                                   WineQualityMetricsEnum.Chlorides.value,
-                                                                   WineQualityMetricsEnum.FreeSulfurDioxide.value,
-                                                                   WineQualityMetricsEnum.TotalSulfurDioxide.value,
-                                                                   WineQualityMetricsEnum.Density.value,
-                                                                   WineQualityMetricsEnum.Sulphates.value,
-                                                                   WineQualityMetricsEnum.Alcohol.value])
+logisticRegressionTrainingSampleList = HelperMethods.ClassListToClassPropertiesList(
+    trainingSampleList[:testSampleListOneThirdLength],
+    [WineQualityMetricsEnum.FixedAcidity.value,
+     WineQualityMetricsEnum.VolatileAcidity.value,
+     WineQualityMetricsEnum.CitricAcid.value,
+     WineQualityMetricsEnum.ResidualSugar.value,
+     WineQualityMetricsEnum.Chlorides.value,
+     WineQualityMetricsEnum.FreeSulfurDioxide.value,
+     WineQualityMetricsEnum.TotalSulfurDioxide.value,
+     WineQualityMetricsEnum.Density.value,
+     WineQualityMetricsEnum.Sulphates.value,
+     WineQualityMetricsEnum.Alcohol.value])
 
 # Initialise a logistic regression object
 logisticRegression = LogisticRegression()
 
 # Fit the logisticRegression using the training sample lists
-logisticRegression.fit(trainingSampleList, trainingTargetSampleList)
+logisticRegression.fit(logisticRegressionTestSampleList, logisticRegressionTrainingTargetSampleList)
 
 # Predict the target property values of the test sample set
-winePHPrediction = supportVectorClassifier.predict(testSampleList)
+winePHPrediction = supportVectorClassifier.predict(logisticRegressionTrainingSampleList)
 
 # Fit the supportVectorClassifier using the training sample lists
 supportVectorClassifier.fit(trainingSampleList, trainingTargetSampleList)

@@ -1,6 +1,7 @@
 import csv
 import logging
 import WineQualityMetrics
+from WineQualityMetrics import WineQualityMetricsEnum
 
 """
 Returns a list that contain the imported, from a csv file rows, as class instances
@@ -64,6 +65,7 @@ def CsvImporter(fileName, delimiter, ignoredRows):
 
 
 def ClassListToClassPropertiesList(classList, targetPropertyIndexList):
+
     # Initialise a list that will contain the class properties lists
     targetClassPropertiesList = []
 
@@ -97,4 +99,37 @@ def ClassListToClassPropertiesList(classList, targetPropertyIndexList):
     # Return the list that contain the target properties lists
     return targetClassPropertiesList
 
+def RemovePHColumn(trainingSampleList, trainingTargetSampleList, testSampleList, supportVectorClassifier):
 
+    # For every training sample...
+    for sampleList in trainingSampleList:
+
+        # Remove the ph values
+        sampleList.pop(WineQualityMetricsEnum.pH.value)
+
+    # Fit the supportVectorClassifier using the training sample lists
+    supportVectorClassifier.fit(trainingSampleList, trainingTargetSampleList)
+
+    # Predict the target property values of the test sample set
+    return supportVectorClassifier.predict(testSampleList)
+
+def AveragePHColumn(trainingSampleList, trainingTargetSampleList, testSampleList, supportVectorClassifier, editedTestSampleListLength):
+
+    Average = 0
+
+    for sampleList in trainingSampleList[editedTestSampleListLength + 1:]:
+        Average += sampleList[WineQualityMetricsEnum.pH.value]
+
+    Average /= len(trainingSampleList) - editedTestSampleListLength
+
+    # For every edited test sample in the first one third of the list...
+    for sampleList in trainingSampleList[:editedTestSampleListLength]:
+
+        # Remove the pH value
+        sampleList[WineQualityMetricsEnum.pH.value] = Average
+
+    # Fit the supportVectorClassifier using the training sample lists
+    supportVectorClassifier.fit(trainingSampleList, trainingTargetSampleList)
+
+    # Predict the target property values of the test sample set
+    return supportVectorClassifier.predict(testSampleList)
