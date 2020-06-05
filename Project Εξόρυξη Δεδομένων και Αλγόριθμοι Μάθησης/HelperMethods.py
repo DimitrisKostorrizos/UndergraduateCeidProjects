@@ -2,6 +2,7 @@ import csv
 import logging
 import WineQualityMetrics
 from WineQualityMetrics import WineQualityMetricsEnum
+from sklearn.linear_model import LogisticRegression
 
 """
 Returns a list that contain the imported, from a csv file rows, as class instances
@@ -115,11 +116,16 @@ def RemovePHColumn(trainingSampleList, trainingTargetSampleList, testSampleList,
 
 def AveragePHColumn(trainingSampleList, trainingTargetSampleList, testSampleList, supportVectorClassifier, editedTestSampleListLength):
 
+    # Initialise a sum to 0
     Average = 0
 
+    # For every sample list in the non edited training sample list...
     for sampleList in trainingSampleList[editedTestSampleListLength + 1:]:
+
+        # Add the pH value to the sum
         Average += sampleList[WineQualityMetricsEnum.pH.value]
 
+    # Get the average pH in the non edited training sample list
     Average /= len(trainingSampleList) - editedTestSampleListLength
 
     # For every edited test sample in the first one third of the list...
@@ -127,6 +133,29 @@ def AveragePHColumn(trainingSampleList, trainingTargetSampleList, testSampleList
 
         # Remove the pH value
         sampleList[WineQualityMetricsEnum.pH.value] = Average
+
+    # Fit the supportVectorClassifier using the training sample lists
+    supportVectorClassifier.fit(trainingSampleList, trainingTargetSampleList)
+
+    # Predict the target property values of the test sample set
+    return supportVectorClassifier.predict(testSampleList)
+
+def LogisticRegressionPHColumn(trainingSampleList, trainingTargetSampleList, testSampleList, supportVectorClassifier, editedTestSampleListLength):
+
+    # Initialise a logistic regression object
+    logisticRegression = LogisticRegression()
+
+    # For every training sample...
+    for sampleList in trainingSampleList[:editedTestSampleListLength]:
+
+        # Remove the pH values
+        sampleList.pop(WineQualityMetricsEnum.pH.value)
+
+    # Fit the logisticRegression using the training sample lists
+    logisticRegression.fit(trainingSampleList[editedTestSampleListLength + 1:], trainingTargetSampleList[editedTestSampleListLength + 1:])
+
+    # Predict the target property values of the test sample set
+    winePHPrediction = logisticRegression.predict(logisticRegressionTrainingSampleList)
 
     # Fit the supportVectorClassifier using the training sample lists
     supportVectorClassifier.fit(trainingSampleList, trainingTargetSampleList)
