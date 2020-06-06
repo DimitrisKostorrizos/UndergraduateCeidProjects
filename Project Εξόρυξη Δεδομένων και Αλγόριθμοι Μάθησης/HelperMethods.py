@@ -1,5 +1,8 @@
 import csv
 import logging
+
+from sklearn import preprocessing
+
 import WineQualityMetrics
 from WineQualityMetrics import WineQualityMetricsEnum
 from sklearn.linear_model import LogisticRegression
@@ -171,11 +174,16 @@ def LogisticRegressionPHColumn(trainingSampleList, trainingTargetSampleList, tes
         # Remove the pH values
         logisticRegressionTrainingTargetSampleList.append(sampleList.pop(WineQualityMetricsEnum.pH.value))
 
+    labelEncoder = preprocessing.LabelEncoder()
+    en = labelEncoder.fit_transform(logisticRegressionTrainingTargetSampleList)
+
     # Fit the logisticRegression using the training sample lists
-    logisticRegression.fit(logisticRegressionTrainingSampleList, logisticRegressionTrainingTargetSampleList)
+    logisticRegression.fit(logisticRegressionTrainingSampleList, en)
 
     # Predict the target property values of the test sample set
     winePHPrediction = logisticRegression.predict(logisticRegressionTestSampleList)
+
+    winePHPrediction = labelEncoder.inverse_transform(winePHPrediction)
 
     # For every training sample...
     for index in range(len(trainingSampleList[:editedTrainingSampleListLength])):

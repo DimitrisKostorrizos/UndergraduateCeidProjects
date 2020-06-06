@@ -1,5 +1,7 @@
 from enum import Enum
 
+from numpy import float64
+
 """ A class that represents the wine quality metrics"""
 class WineQualityMetrics:
 
