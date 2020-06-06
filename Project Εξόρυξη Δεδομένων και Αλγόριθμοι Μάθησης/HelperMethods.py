@@ -108,28 +108,34 @@ def RemovePHColumn(trainingSampleList, trainingTargetSampleList, testSampleList,
         # Remove the ph values
         sampleList.pop(WineQualityMetricsEnum.pH.value)
 
+    # For every training sample...
+    for sampleList in testSampleList:
+
+        # Remove the ph values
+        sampleList.pop(WineQualityMetricsEnum.pH.value)
+
     # Fit the supportVectorClassifier using the training sample lists
     supportVectorClassifier.fit(trainingSampleList, trainingTargetSampleList)
 
     # Predict the target property values of the test sample set
     return supportVectorClassifier.predict(testSampleList)
 
-def AveragePHColumn(trainingSampleList, trainingTargetSampleList, testSampleList, supportVectorClassifier, editedTestSampleListLength):
+def AveragePHColumn(trainingSampleList, trainingTargetSampleList, testSampleList, supportVectorClassifier, editedTrainingSampleListLength):
 
     # Initialise a sum to 0
     Average = 0
 
     # For every sample list in the non edited training sample list...
-    for sampleList in trainingSampleList[editedTestSampleListLength + 1:]:
+    for sampleList in trainingSampleList[editedTrainingSampleListLength + 1:]:
 
         # Add the pH value to the sum
         Average += sampleList[WineQualityMetricsEnum.pH.value]
 
     # Get the average pH in the non edited training sample list
-    Average /= len(trainingSampleList) - editedTestSampleListLength
+    Average /= len(trainingSampleList) - editedTrainingSampleListLength
 
     # For every edited test sample in the first one third of the list...
-    for sampleList in trainingSampleList[:editedTestSampleListLength]:
+    for sampleList in trainingSampleList[:editedTrainingSampleListLength]:
 
         # Remove the pH value
         sampleList[WineQualityMetricsEnum.pH.value] = Average
@@ -140,22 +146,42 @@ def AveragePHColumn(trainingSampleList, trainingTargetSampleList, testSampleList
     # Predict the target property values of the test sample set
     return supportVectorClassifier.predict(testSampleList)
 
-def LogisticRegressionPHColumn(trainingSampleList, trainingTargetSampleList, testSampleList, supportVectorClassifier, editedTestSampleListLength):
+def LogisticRegressionPHColumn(trainingSampleList, trainingTargetSampleList, testSampleList, supportVectorClassifier, editedTrainingSampleListLength):
 
     # Initialise a logistic regression object
     logisticRegression = LogisticRegression()
 
+    # Copy the training sample list to the logistic regression training sample list
+    logisticRegressionTrainingSampleList = trainingSampleList[editedTrainingSampleListLength + 1:].copy()
+
+    logisticRegressionTestSampleList = trainingSampleList[:editedTrainingSampleListLength].copy()
+
     # For every training sample...
-    for sampleList in trainingSampleList[:editedTestSampleListLength]:
+    for sampleList in logisticRegressionTestSampleList:
 
         # Remove the pH values
         sampleList.pop(WineQualityMetricsEnum.pH.value)
 
+    # Declare a training target sample list for the logistic regression
+    logisticRegressionTrainingTargetSampleList = []
+
+    # For every training sample...
+    for sampleList in logisticRegressionTrainingSampleList:
+
+        # Remove the pH values
+        logisticRegressionTrainingTargetSampleList.append(sampleList.pop(WineQualityMetricsEnum.pH.value))
+
     # Fit the logisticRegression using the training sample lists
-    logisticRegression.fit(trainingSampleList[editedTestSampleListLength + 1:], trainingTargetSampleList[editedTestSampleListLength + 1:])
+    logisticRegression.fit(logisticRegressionTrainingSampleList, logisticRegressionTrainingTargetSampleList)
 
     # Predict the target property values of the test sample set
-    winePHPrediction = logisticRegression.predict(logisticRegressionTrainingSampleList)
+    winePHPrediction = logisticRegression.predict(logisticRegressionTestSampleList)
+
+    # For every training sample...
+    for index in range(len(trainingSampleList[:editedTrainingSampleListLength])):
+
+        # Remove the pH values
+        trainingSampleList[index].insert(WineQualityMetricsEnum.pH.value, winePHPrediction[index])
 
     # Fit the supportVectorClassifier using the training sample lists
     supportVectorClassifier.fit(trainingSampleList, trainingTargetSampleList)

@@ -123,7 +123,7 @@ print("Zero counter: ", zeroCounter, "One counter: ", oneCounter)
 ##########################################################################
 
 # Get the length of the first one third slice of the list
-editedTestSampleListLength = round(len(testSampleList) / 3)
+editedTrainingSampleListLength = round(len(trainingSampleList) / 3)
 
 # # Get the length of the two third slices of the list
 # testSampleListTwoThirdLength = len(editedTestSampleList) - testSampleListOneThirdLength
@@ -147,7 +147,7 @@ print("Precision: ", wineQualityPredictionPrecision)
 
 # Part 2
 
-wineQualityPrediction = HelperMethods.AveragePHColumn(trainingSampleList.copy(), trainingTargetSampleList, testSampleList, supportVectorClassifier, editedTestSampleListLength)
+wineQualityPrediction = HelperMethods.AveragePHColumn(trainingSampleList.copy(), trainingTargetSampleList, testSampleList, supportVectorClassifier, editedTrainingSampleListLength)
 
 # Calculate f1 score
 wineQualityPredictionF1Score = f1_score(wineQualityPrediction, wineQualityValues, average=None)
@@ -164,7 +164,7 @@ print("Recall: ", wineQualityPredictionRecall)
 print("Precision: ", wineQualityPredictionPrecision)
 
 # Part 3
-wineQualityPrediction = HelperMethods.LogisticRegressionPHColumn(trainingSampleList.copy(), trainingTargetSampleList, testSampleList, supportVectorClassifier, editedTestSampleListLength)
+wineQualityPrediction = HelperMethods.LogisticRegressionPHColumn(trainingSampleList.copy(), trainingTargetSampleList, testSampleList, supportVectorClassifier, editedTrainingSampleListLength)
 
 # Calculate f1 score
 wineQualityPredictionF1Score = f1_score(wineQualityPrediction, wineQualityValues, average=None)
