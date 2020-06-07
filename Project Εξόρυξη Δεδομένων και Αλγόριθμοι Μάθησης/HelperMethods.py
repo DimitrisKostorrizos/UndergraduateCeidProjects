@@ -221,15 +221,23 @@ def KMeansPHColumn(trainingSampleList, trainingTargetSampleList, testSampleList,
     kMeansPHTestSampleList = deepcopy(trainingSampleList[:editedTrainingSampleListLength])
 
     # For every training sample...
+    for sampleList in kMeansPHTrainingSampleList:
+
+        # Remove the pH values
+        sampleList.pop(WineQualityMetricsEnum.pH.value)
+
+    # For every training sample...
     for sampleList in kMeansPHTestSampleList:
 
         # Remove the pH values
         sampleList.pop(WineQualityMetricsEnum.pH.value)
 
     # Calculate the K-Means clustering
-    kMeansClustering = KMeans().fit(kMeansPHTrainingSampleList)
+    kMeansClustering = KMeans()
 
-    kMeansClustering
+    kMeansClustering.fit(kMeansPHTrainingSampleList)
+
+    pre = kMeansClustering.predict(kMeansPHTestSampleList)
 
     # For every edited test sample in the first one third of the list...
     for sampleList in trainingSampleList[:editedTrainingSampleListLength]:
