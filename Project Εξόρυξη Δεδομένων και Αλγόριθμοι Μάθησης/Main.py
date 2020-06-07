@@ -146,7 +146,6 @@ print("Recall: ", wineQualityPredictionRecall)
 print("Precision: ", wineQualityPredictionPrecision)
 
 # Part 2
-
 wineQualityPrediction = HelperMethods.AveragePHColumn(trainingSampleList, trainingTargetSampleList, testSampleList, supportVectorClassifier, editedTrainingSampleListLength)
 
 # Calculate f1 score
@@ -165,6 +164,23 @@ print("Precision: ", wineQualityPredictionPrecision)
 
 # Part 3
 wineQualityPrediction = HelperMethods.LogisticRegressionPHColumn(trainingSampleList, trainingTargetSampleList, testSampleList, supportVectorClassifier, editedTrainingSampleListLength)
+
+# Calculate f1 score
+wineQualityPredictionF1Score = f1_score(wineQualityPrediction, wineQualityValues, average=None)
+
+# Calculate recall score
+wineQualityPredictionRecall = recall_score(wineQualityPrediction, wineQualityValues, average=None, zero_division=1)
+
+# Calculate precision score
+wineQualityPredictionPrecision = precision_score(wineQualityPrediction, wineQualityValues, average=None)
+
+print("\nScores for the K-means ph column\n")
+print("F1 Score: ", wineQualityPredictionF1Score)
+print("Recall: ", wineQualityPredictionRecall)
+print("Precision: ", wineQualityPredictionPrecision)
+
+# Part 4
+wineQualityPrediction = HelperMethods.KMeansPHColumn(trainingSampleList, trainingTargetSampleList, testSampleList, supportVectorClassifier, editedTrainingSampleListLength)
 
 # Calculate f1 score
 wineQualityPredictionF1Score = f1_score(wineQualityPrediction, wineQualityValues, average=None)

@@ -1,10 +1,10 @@
 import csv
 import logging
+import WineQualityMetrics
 
+from sklearn.cluster import KMeans
 from sklearn import preprocessing
 from copy import deepcopy
-
-import WineQualityMetrics
 from WineQualityMetrics import WineQualityMetricsEnum
 from sklearn.linear_model import LogisticRegression
 
@@ -132,26 +132,29 @@ def RemovePHColumn(trainingSampleList, trainingTargetSampleList, testSampleList,
 
 def AveragePHColumn(trainingSampleList, trainingTargetSampleList, testSampleList, supportVectorClassifier, editedTrainingSampleListLength):
 
+    # Deep copy part of the training sample list to the average pH training sample list
+    averagePHTrainingSampleList = deepcopy(trainingSampleList)
+
     # Initialise a sum to 0
     Average = 0
 
     # For every sample list in the non edited training sample list...
-    for sampleList in trainingSampleList[editedTrainingSampleListLength:]:
+    for sampleList in averagePHTrainingSampleList[editedTrainingSampleListLength:]:
 
         # Add the pH value to the sum
         Average += sampleList[WineQualityMetricsEnum.pH.value]
 
     # Get the average pH in the non edited training sample list
-    Average /= len(trainingSampleList) - editedTrainingSampleListLength
+    Average /= len(averagePHTrainingSampleList) - editedTrainingSampleListLength
 
     # For every edited test sample in the first one third of the list...
-    for sampleList in trainingSampleList[:editedTrainingSampleListLength]:
+    for sampleList in averagePHTrainingSampleList[:editedTrainingSampleListLength]:
 
         # Remove the pH value
         sampleList[WineQualityMetricsEnum.pH.value] = Average
 
     # Fit the supportVectorClassifier using the training sample lists
-    supportVectorClassifier.fit(trainingSampleList, trainingTargetSampleList)
+    supportVectorClassifier.fit(averagePHTrainingSampleList, trainingTargetSampleList)
 
     # Predict the target property values of the test sample set
     return supportVectorClassifier.predict(testSampleList)
@@ -186,10 +189,10 @@ def LogisticRegressionPHColumn(trainingSampleList, trainingTargetSampleList, tes
     labelEncoder = preprocessing.LabelEncoder()
 
     # Transform the continuous float values to mutliclass int values
-    en = labelEncoder.fit_transform(logisticRegressionTrainingTargetSampleList)
+    transformedTargetSamplesValues = labelEncoder.fit_transform(logisticRegressionTrainingTargetSampleList)
 
     # Fit the logisticRegression using the training sample lists
-    logisticRegression.fit(logisticRegressionTrainingSampleList, en)
+    logisticRegression.fit(logisticRegressionTrainingSampleList, transformedTargetSamplesValues)
 
     # Predict the target property values of the test sample set
     winePHPrediction = logisticRegression.predict(logisticRegressionTestSampleList)
@@ -202,6 +205,37 @@ def LogisticRegressionPHColumn(trainingSampleList, trainingTargetSampleList, tes
 
         # Remove the pH values
         trainingSampleList[index][WineQualityMetricsEnum.pH.value] = winePHPrediction[index]
+
+    # Fit the supportVectorClassifier using the training sample lists
+    supportVectorClassifier.fit(trainingSampleList, trainingTargetSampleList)
+
+    # Predict the target property values of the test sample set
+    return supportVectorClassifier.predict(testSampleList)
+
+def KMeansPHColumn(trainingSampleList, trainingTargetSampleList, testSampleList, supportVectorClassifier, editedTrainingSampleListLength):
+
+    # Deep copy part of the training sample list to the logistic regression training sample list
+    kMeansPHTrainingSampleList = deepcopy(trainingSampleList[editedTrainingSampleListLength:])
+
+    # Deep copy part of the training sample list to the logistic regression test sample list
+    kMeansPHTestSampleList = deepcopy(trainingSampleList[:editedTrainingSampleListLength])
+
+    # For every training sample...
+    for sampleList in kMeansPHTestSampleList:
+
+        # Remove the pH values
+        sampleList.pop(WineQualityMetricsEnum.pH.value)
+
+    # Calculate the K-Means clustering
+    kMeansClustering = KMeans().fit(kMeansPHTrainingSampleList)
+
+    kMeansClustering
+
+    # For every edited test sample in the first one third of the list...
+    for sampleList in trainingSampleList[:editedTrainingSampleListLength]:
+
+        # Remove the pH value
+        sampleList[WineQualityMetricsEnum.pH.value] = 0
 
     # Fit the supportVectorClassifier using the training sample lists
     supportVectorClassifier.fit(trainingSampleList, trainingTargetSampleList)
