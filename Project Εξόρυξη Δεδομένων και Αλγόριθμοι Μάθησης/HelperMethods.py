@@ -2,6 +2,7 @@ import csv
 import logging
 
 from sklearn import preprocessing
+from copy import deepcopy
 
 import WineQualityMetrics
 from WineQualityMetrics import WineQualityMetricsEnum
@@ -105,23 +106,29 @@ def ClassListToClassPropertiesList(classList, targetPropertyIndexList):
 
 def RemovePHColumn(trainingSampleList, trainingTargetSampleList, testSampleList, supportVectorClassifier):
 
+    # Deep copy the training sample list to the removed pH training sample list
+    removedPHTrainingSampleList = deepcopy(trainingSampleList)
+
+    # Deep copy the test sample list to the removed pH test sample list
+    removedPHTestSampleList = deepcopy(testSampleList)
+
     # For every training sample...
-    for sampleList in trainingSampleList:
+    for sampleList in removedPHTrainingSampleList:
 
         # Remove the ph values
         sampleList.pop(WineQualityMetricsEnum.pH.value)
 
     # For every training sample...
-    for sampleList in testSampleList:
+    for sampleList in removedPHTestSampleList:
 
         # Remove the ph values
         sampleList.pop(WineQualityMetricsEnum.pH.value)
 
     # Fit the supportVectorClassifier using the training sample lists
-    supportVectorClassifier.fit(trainingSampleList, trainingTargetSampleList)
+    supportVectorClassifier.fit(removedPHTrainingSampleList, trainingTargetSampleList)
 
     # Predict the target property values of the test sample set
-    return supportVectorClassifier.predict(testSampleList)
+    return supportVectorClassifier.predict(removedPHTestSampleList)
 
 def AveragePHColumn(trainingSampleList, trainingTargetSampleList, testSampleList, supportVectorClassifier, editedTrainingSampleListLength):
 
@@ -129,7 +136,7 @@ def AveragePHColumn(trainingSampleList, trainingTargetSampleList, testSampleList
     Average = 0
 
     # For every sample list in the non edited training sample list...
-    for sampleList in trainingSampleList[editedTrainingSampleListLength + 1:]:
+    for sampleList in trainingSampleList[editedTrainingSampleListLength:]:
 
         # Add the pH value to the sum
         Average += sampleList[WineQualityMetricsEnum.pH.value]
@@ -154,10 +161,11 @@ def LogisticRegressionPHColumn(trainingSampleList, trainingTargetSampleList, tes
     # Initialise a logistic regression object
     logisticRegression = LogisticRegression()
 
-    # Copy the training sample list to the logistic regression training sample list
-    logisticRegressionTrainingSampleList = trainingSampleList[editedTrainingSampleListLength + 1:].copy()
+    # Deep copy part of the training sample list to the logistic regression training sample list
+    logisticRegressionTrainingSampleList = deepcopy(trainingSampleList[editedTrainingSampleListLength:])
 
-    logisticRegressionTestSampleList = trainingSampleList[:editedTrainingSampleListLength].copy()
+    # Deep copy part of the training sample list to the logistic regression test sample list
+    logisticRegressionTestSampleList = deepcopy(trainingSampleList[:editedTrainingSampleListLength])
 
     # For every training sample...
     for sampleList in logisticRegressionTestSampleList:
@@ -174,7 +182,10 @@ def LogisticRegressionPHColumn(trainingSampleList, trainingTargetSampleList, tes
         # Remove the pH values
         logisticRegressionTrainingTargetSampleList.append(sampleList.pop(WineQualityMetricsEnum.pH.value))
 
+    # Initialise a label encoder
     labelEncoder = preprocessing.LabelEncoder()
+
+    # Transform the continuous float values to mutliclass int values
     en = labelEncoder.fit_transform(logisticRegressionTrainingTargetSampleList)
 
     # Fit the logisticRegression using the training sample lists
@@ -183,13 +194,14 @@ def LogisticRegressionPHColumn(trainingSampleList, trainingTargetSampleList, tes
     # Predict the target property values of the test sample set
     winePHPrediction = logisticRegression.predict(logisticRegressionTestSampleList)
 
+    # Inverse transform the mutliclass int values to continuous float values
     winePHPrediction = labelEncoder.inverse_transform(winePHPrediction)
 
     # For every training sample...
     for index in range(len(trainingSampleList[:editedTrainingSampleListLength])):
 
         # Remove the pH values
-        trainingSampleList[index].insert(WineQualityMetricsEnum.pH.value, winePHPrediction[index])
+        trainingSampleList[index][WineQualityMetricsEnum.pH.value] = winePHPrediction[index]
 
     # Fit the supportVectorClassifier using the training sample lists
     supportVectorClassifier.fit(trainingSampleList, trainingTargetSampleList)

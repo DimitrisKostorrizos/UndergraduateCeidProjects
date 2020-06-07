@@ -129,7 +129,7 @@ editedTrainingSampleListLength = round(len(trainingSampleList) / 3)
 # testSampleListTwoThirdLength = len(editedTestSampleList) - testSampleListOneThirdLength
 
 # Part 1
-wineQualityPrediction = HelperMethods.RemovePHColumn(trainingSampleList.copy(), trainingTargetSampleList, testSampleList, supportVectorClassifier)
+wineQualityPrediction = HelperMethods.RemovePHColumn(trainingSampleList, trainingTargetSampleList, testSampleList, supportVectorClassifier)
 
 # Calculate f1 score
 wineQualityPredictionF1Score = f1_score(wineQualityPrediction, wineQualityValues, average=None)
@@ -147,7 +147,7 @@ print("Precision: ", wineQualityPredictionPrecision)
 
 # Part 2
 
-wineQualityPrediction = HelperMethods.AveragePHColumn(trainingSampleList.copy(), trainingTargetSampleList, testSampleList, supportVectorClassifier, editedTrainingSampleListLength)
+wineQualityPrediction = HelperMethods.AveragePHColumn(trainingSampleList, trainingTargetSampleList, testSampleList, supportVectorClassifier, editedTrainingSampleListLength)
 
 # Calculate f1 score
 wineQualityPredictionF1Score = f1_score(wineQualityPrediction, wineQualityValues, average=None)
@@ -164,7 +164,7 @@ print("Recall: ", wineQualityPredictionRecall)
 print("Precision: ", wineQualityPredictionPrecision)
 
 # Part 3
-wineQualityPrediction = HelperMethods.LogisticRegressionPHColumn(trainingSampleList.copy(), trainingTargetSampleList, testSampleList, supportVectorClassifier, editedTrainingSampleListLength)
+wineQualityPrediction = HelperMethods.LogisticRegressionPHColumn(trainingSampleList, trainingTargetSampleList, testSampleList, supportVectorClassifier, editedTrainingSampleListLength)
 
 # Calculate f1 score
 wineQualityPredictionF1Score = f1_score(wineQualityPrediction, wineQualityValues, average=None)
