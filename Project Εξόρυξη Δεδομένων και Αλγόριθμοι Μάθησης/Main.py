@@ -1,13 +1,11 @@
+import numpy
 import random
-
-from sklearn.model_selection import StratifiedKFold, GridSearchCV
-
 import HelperMethods
 from sklearn.metrics import f1_score, precision_score
 from sklearn.metrics import recall_score
 from sklearn.svm import SVC
 from WineQualityMetrics import WineQualityMetricsEnum
-import numpy
+from sklearn.model_selection import StratifiedKFold, GridSearchCV
 
 # Initialise the list that contains the rows that will be ignored during the import
 ignoredRowsList = [0]
@@ -120,15 +118,11 @@ print("Zero counter: ", zeroCounter, "One counter: ", oneCounter)
 #
 # print("The best classifier is: ", grid.best_estimator_)
 
-##########################################################################
-
 # Get the length of the first one third slice of the list
 editedTrainingSampleListLength = round(len(trainingSampleList) / 3)
 
-# # Get the length of the two third slices of the list
-# testSampleListTwoThirdLength = len(editedTestSampleList) - testSampleListOneThirdLength
+# region Removed Column
 
-# Part 1
 wineQualityPrediction = HelperMethods.RemovePHColumn(trainingSampleList, trainingTargetSampleList, testSampleList, supportVectorClassifier)
 
 # Calculate f1 score
@@ -140,12 +134,15 @@ wineQualityPredictionRecall = recall_score(wineQualityPrediction, wineQualityVal
 # Calculate precision score
 wineQualityPredictionPrecision = precision_score(wineQualityPrediction, wineQualityValues, average=None)
 
-print("\nScores for the delete ph column\n")
+print("\nScores for the delete pH column\n")
 print("F1 Score: ", wineQualityPredictionF1Score)
 print("Recall: ", wineQualityPredictionRecall)
 print("Precision: ", wineQualityPredictionPrecision)
 
-# Part 2
+# endregion
+
+# region Average pH Column
+
 wineQualityPrediction = HelperMethods.AveragePHColumn(trainingSampleList, trainingTargetSampleList, testSampleList, supportVectorClassifier, editedTrainingSampleListLength)
 
 # Calculate f1 score
@@ -157,12 +154,15 @@ wineQualityPredictionRecall = recall_score(wineQualityPrediction, wineQualityVal
 # Calculate precision score
 wineQualityPredictionPrecision = precision_score(wineQualityPrediction, wineQualityValues, average=None)
 
-print("\nScores for the average ph column\n")
+print("\nScores for the average pH column\n")
 print("F1 Score: ", wineQualityPredictionF1Score)
 print("Recall: ", wineQualityPredictionRecall)
 print("Precision: ", wineQualityPredictionPrecision)
 
-# Part 3
+# endregion
+
+# region Logistic Regression pH Column
+
 wineQualityPrediction = HelperMethods.LogisticRegressionPHColumn(trainingSampleList, trainingTargetSampleList, testSampleList, supportVectorClassifier, editedTrainingSampleListLength)
 
 # Calculate f1 score
@@ -174,12 +174,15 @@ wineQualityPredictionRecall = recall_score(wineQualityPrediction, wineQualityVal
 # Calculate precision score
 wineQualityPredictionPrecision = precision_score(wineQualityPrediction, wineQualityValues, average=None)
 
-print("\nScores for the K-means ph column\n")
+print("\nScores for the Logistic Regression pH column\n")
 print("F1 Score: ", wineQualityPredictionF1Score)
 print("Recall: ", wineQualityPredictionRecall)
 print("Precision: ", wineQualityPredictionPrecision)
 
-# Part 4
+# endregion
+
+# region K-Means pH Column
+
 wineQualityPrediction = HelperMethods.KMeansPHColumn(trainingSampleList, trainingTargetSampleList, testSampleList, supportVectorClassifier, editedTrainingSampleListLength)
 
 # Calculate f1 score
@@ -191,7 +194,9 @@ wineQualityPredictionRecall = recall_score(wineQualityPrediction, wineQualityVal
 # Calculate precision score
 wineQualityPredictionPrecision = precision_score(wineQualityPrediction, wineQualityValues, average=None)
 
-print("\nScores for the Logistic Regression ph column\n")
+print("\nScores for the K-Means pH column\n")
 print("F1 Score: ", wineQualityPredictionF1Score)
 print("Recall: ", wineQualityPredictionRecall)
 print("Precision: ", wineQualityPredictionPrecision)
+
+# endregion

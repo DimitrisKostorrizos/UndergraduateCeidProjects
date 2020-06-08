@@ -22,12 +22,7 @@ Attributes
         
     ignoredRows : list<int>
         A list containing the index of the csv file rows that will be ignored
-        
-    ignoredColumns : list<int>
-        A list containing the index of the csv file columns that will be ignored
 """
-
-
 def CsvImporter(fileName, delimiter, ignoredRows):
     # Try to open the csv file
     try:
@@ -70,6 +65,17 @@ def CsvImporter(fileName, delimiter, ignoredRows):
         logging.exception("Csv file cannot be opened.")
 
 
+"""
+Returns a list that contain lists. Each subsequent list contains the selected properties of the class instances
+
+Attributes
+    ----------
+    classList : list<object>
+        The list that contain the class instances
+
+    targetPropertyIndexList : list<int>
+        The list that contains the indexes of the class attributes
+"""
 def ClassListToClassPropertiesList(classList, targetPropertyIndexList):
 
     # Initialise a list that will contain the class properties lists
@@ -105,6 +111,24 @@ def ClassListToClassPropertiesList(classList, targetPropertyIndexList):
     # Return the list that contain the target properties lists
     return targetClassPropertiesList
 
+
+"""
+Returns the SVM prediction, after removing the pH column from the training and test samples
+
+Attributes
+    ----------
+    trainingSampleList : list<list<object>>
+        The list that contains the training samples for the SVM
+
+    trainingTargetSampleList : list<object>
+        The list that contains the target training value samples for the SVM
+        
+    testSampleList : list<int>
+        The list that contains the test value samples for the SVM
+    
+    supportVectorClassifier : SVM
+        The support vector machine object
+"""
 def RemovePHColumn(trainingSampleList, trainingTargetSampleList, testSampleList, supportVectorClassifier):
 
     # Deep copy the training sample list to the removed pH training sample list
@@ -131,6 +155,27 @@ def RemovePHColumn(trainingSampleList, trainingTargetSampleList, testSampleList,
     # Predict the target property values of the test sample set
     return supportVectorClassifier.predict(removedPHTestSampleList)
 
+
+"""
+Returns the SVM prediction, after replacing one third of the pH column from the training samples, with the average pH of the rest of the training samples
+
+Attributes
+    ----------
+    trainingSampleList : list<list<object>>
+        The list that contains the training samples for the SVM
+
+    trainingTargetSampleList : list<object>
+        The list that contains the target training value samples for the SVM
+
+    testSampleList : list<int>
+        The list that contains the test value samples for the SVM
+
+    supportVectorClassifier : SVM
+        The support vector machine object
+        
+    editedTrainingSampleListLength : int
+        The length of the one third of the training samples
+"""
 def AveragePHColumn(trainingSampleList, trainingTargetSampleList, testSampleList, supportVectorClassifier, editedTrainingSampleListLength):
 
     # Deep copy part of the training sample list to the average pH training sample list
@@ -160,6 +205,27 @@ def AveragePHColumn(trainingSampleList, trainingTargetSampleList, testSampleList
     # Predict the target property values of the test sample set
     return supportVectorClassifier.predict(testSampleList)
 
+
+"""
+Returns the SVM prediction, after applying Logistic Regression to the pH column of the training samples
+
+Attributes
+    ----------
+    trainingSampleList : list<list<object>>
+        The list that contains the training samples for the SVM
+
+    trainingTargetSampleList : list<object>
+        The list that contains the target training value samples for the SVM
+
+    testSampleList : list<int>
+        The list that contains the test value samples for the SVM
+
+    supportVectorClassifier : SVM
+        The support vector machine object
+        
+    editedTrainingSampleListLength : int
+        The length of the one third of the training samples
+"""
 def LogisticRegressionPHColumn(trainingSampleList, trainingTargetSampleList, testSampleList, supportVectorClassifier, editedTrainingSampleListLength):
 
     # Initialise a logistic regression object
@@ -213,6 +279,27 @@ def LogisticRegressionPHColumn(trainingSampleList, trainingTargetSampleList, tes
     # Predict the target property values of the test sample set
     return supportVectorClassifier.predict(testSampleList)
 
+
+"""
+Returns the SVM prediction, after applying K-Means to the training samples and replacing the pH with average pH of the clustered samples
+
+Attributes
+    ----------
+    trainingSampleList : list<list<object>>
+        The list that contains the training samples for the SVM
+
+    trainingTargetSampleList : list<object>
+        The list that contains the target training value samples for the SVM
+
+    testSampleList : list<int>
+        The list that contains the test value samples for the SVM
+
+    supportVectorClassifier : SVM
+        The support vector machine object
+
+    editedTrainingSampleListLength : int
+        The length of the one third of the training samples
+"""
 def KMeansPHColumn(trainingSampleList, trainingTargetSampleList, testSampleList, supportVectorClassifier, editedTrainingSampleListLength):
 
     # Deep copy part of the training sample list to the logistic regression training sample list
@@ -257,21 +344,23 @@ def KMeansPHColumn(trainingSampleList, trainingTargetSampleList, testSampleList,
     # For every clustering label...
     for index in range(len(trainingSampleClusteringLabels)):
 
-        #
+        # Sum the pH values of the training samples that belong in the same cluster
         ClusterPHDictionary[trainingSampleClusteringLabels[index]] += kMeansPHTrainingSampleList[index][WineQualityMetricsEnum.pH.value]
 
+    # Initialise a Counter object to count the number of samples that belong to each cluster
     clusterNumberOfOccurrencesCounter = Counter(trainingSampleClusteringLabels)
 
+    # For every cluster...
     for clusterEntry in ClusterPHDictionary.keys():
 
-        #
+        # Get the average pH of the samples that belong to the cluster
         ClusterPHDictionary[clusterEntry] /= clusterNumberOfOccurrencesCounter[clusterEntry]
 
     # For every edited test sample in the first one third of the list...
-    for sampleList in trainingSampleList[:editedTrainingSampleListLength]:
+    for index in range(len(trainingSampleList[:editedTrainingSampleListLength])):
 
-        # Remove the pH value
-        sampleList[WineQualityMetricsEnum.pH.value] = ClusterPHDictionary.get()
+        # Update the pH value of the training sample
+        trainingSampleList[index][WineQualityMetricsEnum.pH.value] = ClusterPHDictionary.get(testSampleClusteringPrediction[index])
 
     # Fit the supportVectorClassifier using the training sample lists
     supportVectorClassifier.fit(trainingSampleList, trainingTargetSampleList)
