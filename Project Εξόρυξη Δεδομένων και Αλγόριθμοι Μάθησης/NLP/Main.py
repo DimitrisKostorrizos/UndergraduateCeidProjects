@@ -32,3 +32,13 @@ for title in titlesList:
 
     # Append the title's token to the list
     titleTokenList.append(nltk.word_tokenize(title))
+
+# Declare porter stemmer
+ps = nltk.PorterStemmer()
+
+# For every token list...
+for tokenList in titleTokenList:
+
+    # For every token...
+    for token in tokenList:
+        print(token, " : ", ps.stem(token))
