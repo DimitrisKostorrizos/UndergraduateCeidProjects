@@ -24,6 +24,7 @@ Attributes
         A list containing the index of the csv file rows that will be ignored
 """
 def CsvImporter(fileName, delimiter, ignoredRows):
+
     # Try to open the csv file
     try:
         with open(fileName) as csvFile:
