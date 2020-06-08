@@ -7,6 +7,7 @@ from sklearn import preprocessing
 from copy import deepcopy
 from WineQualityMetrics import WineQualityMetricsEnum
 from sklearn.linear_model import LogisticRegression
+from collections import Counter
 
 """
 Returns a list that contain the imported, from a csv file rows, as class instances
@@ -232,18 +233,45 @@ def KMeansPHColumn(trainingSampleList, trainingTargetSampleList, testSampleList,
         # Remove the pH values
         sampleList.pop(WineQualityMetricsEnum.pH.value)
 
-    # Calculate the K-Means clustering
+    # Initialise the K-Means clustering object
     kMeansClustering = KMeans()
 
+    # Fit the K-Means clustering object
     kMeansClustering.fit(kMeansPHTrainingSampleList)
 
-    pre = kMeansClustering.predict(kMeansPHTestSampleList)
+    # Get the training sample clustering labels
+    trainingSampleClusteringLabels = kMeansClustering.labels_
+
+    # Predict the clusters of the samples that miss the pH value
+    testSampleClusteringPrediction = kMeansClustering.predict(kMeansPHTestSampleList)
+
+    # Declare a dictionary for the clusters and the average pH values
+    ClusterPHDictionary = {}
+
+    # For every K-Means cluster
+    for index in range(kMeansClustering.n_clusters):
+
+        # Set the cluster's average pH value to 0
+        ClusterPHDictionary[index] = 0
+
+    # For every clustering label...
+    for index in range(len(trainingSampleClusteringLabels)):
+
+        #
+        ClusterPHDictionary[trainingSampleClusteringLabels[index]] += kMeansPHTrainingSampleList[index][WineQualityMetricsEnum.pH.value]
+
+    clusterNumberOfOccurrencesCounter = Counter(trainingSampleClusteringLabels)
+
+    for clusterEntry in ClusterPHDictionary.keys():
+
+        #
+        ClusterPHDictionary[clusterEntry] /= clusterNumberOfOccurrencesCounter[clusterEntry]
 
     # For every edited test sample in the first one third of the list...
     for sampleList in trainingSampleList[:editedTrainingSampleListLength]:
 
         # Remove the pH value
-        sampleList[WineQualityMetricsEnum.pH.value] = 0
+        sampleList[WineQualityMetricsEnum.pH.value] = ClusterPHDictionary.get()
 
     # Fit the supportVectorClassifier using the training sample lists
     supportVectorClassifier.fit(trainingSampleList, trainingTargetSampleList)
