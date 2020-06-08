@@ -1,18 +1,17 @@
 import numpy
 import random
-import HelperMethods
+from SVM import HelperMethods
 from sklearn.metrics import f1_score, precision_score
 from sklearn.metrics import recall_score
 from sklearn.svm import SVC
-from WineQualityMetrics import WineQualityMetricsEnum
-from sklearn.model_selection import StratifiedKFold, GridSearchCV
+from SVM.WineQualityMetrics import WineQualityMetricsEnum
 
 # Initialise the list that contains the rows that will be ignored during the import
 ignoredRowsList = [0]
 
 # Import the wine quality metrics from the csv file
 wineQualityMetricsInstanceList = HelperMethods.CsvImporter(
-    "Project Εξόρυξη Δεδομένων και Αλγόριθμοι Μάθησης/winequality-red.csv", ",", ignoredRowsList)
+    "Project Εξόρυξη Δεδομένων και Αλγόριθμοι Μάθησης/SVM/winequality-red.csv", ",", ignoredRowsList)
 
 # Get the imported instances count
 importedInstancesSize = len(wineQualityMetricsInstanceList)
@@ -31,7 +30,8 @@ for removeInstance in testSampleList:
     trainingSampleList.remove(removeInstance)
 
 # Get the wine quality values
-wineQualityValues = numpy.ravel(HelperMethods.ClassListToClassPropertiesList(testSampleList, [WineQualityMetricsEnum.Quality.value]))
+wineQualityValues = numpy.ravel(
+    HelperMethods.ClassListToClassPropertiesList(testSampleList, [WineQualityMetricsEnum.Quality.value]))
 
 # For the every instance in the test sample
 for testSample in testSampleList:
@@ -54,7 +54,8 @@ testSampleList = HelperMethods.ClassListToClassPropertiesList(testSampleList,
                                                                WineQualityMetricsEnum.Alcohol.value])
 
 # Transform the training class set to a list of list object
-trainingTargetSampleList = numpy.ravel(HelperMethods.ClassListToClassPropertiesList(trainingSampleList, [WineQualityMetricsEnum.Quality.value]))
+trainingTargetSampleList = numpy.ravel(
+    HelperMethods.ClassListToClassPropertiesList(trainingSampleList, [WineQualityMetricsEnum.Quality.value]))
 
 # Transform the training class set to a list of list object
 trainingSampleList = HelperMethods.ClassListToClassPropertiesList(trainingSampleList,

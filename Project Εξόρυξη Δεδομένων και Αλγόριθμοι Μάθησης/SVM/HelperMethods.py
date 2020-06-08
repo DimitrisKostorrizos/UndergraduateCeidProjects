@@ -1,11 +1,11 @@
 import csv
 import logging
-import WineQualityMetrics
+from SVM import WineQualityMetrics
 
 from sklearn.cluster import KMeans
 from sklearn import preprocessing
 from copy import deepcopy
-from WineQualityMetrics import WineQualityMetricsEnum
+from SVM.WineQualityMetrics import WineQualityMetricsEnum
 from sklearn.linear_model import LogisticRegression
 from collections import Counter
 
