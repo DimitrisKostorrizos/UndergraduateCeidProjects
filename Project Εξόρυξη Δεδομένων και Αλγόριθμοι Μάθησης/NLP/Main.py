@@ -1,6 +1,7 @@
 import nltk
+from nltk.corpus import stopwords
 from NLP import HelperMethods
-nltk.download('punkt')
+
 
 # Initialise the list that contains the rows that will be ignored during the import
 ignoredRowsList = [0]
@@ -36,9 +37,44 @@ for title in titlesList:
 # Declare porter stemmer
 ps = nltk.PorterStemmer()
 
+# Declare list for the stemmed tokens list
+stemTokensList = []
+
 # For every token list...
 for tokenList in titleTokenList:
 
+    # Declare a list that will contain the sentence tokens
+    sentenceTokenList = []
+
     # For every token...
     for token in tokenList:
-        print(token, " : ", ps.stem(token))
+
+        # Append the stemmed token
+        sentenceTokenList.append(ps.stem(token))
+
+    # Append the list to the stem tokens list
+    stemTokensList.append(sentenceTokenList)
+
+# Get the english stop words list
+stopWordsList = set(stopwords.words('english'))
+
+# Declare a list for filtered token list
+filteredTokenList = []
+
+# For the title token list...
+for titleToken in titleTokenList:
+
+    # Declare a list for the non stop word token
+    tokenList = []
+
+    # For every token in the list
+    for token in titleToken:
+
+        # If the token isn't a stop word...
+        if token not in stopWordsList:
+
+            # Add the token to the token sentence list
+            tokenList.append(token)
+
+    # Append the list to the token lists
+    filteredTokenList.append(tokenList)
