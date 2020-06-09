@@ -1,5 +1,7 @@
 import nltk
 from nltk.corpus import stopwords
+from sklearn.feature_extraction.text import TfidfVectorizer
+
 from NLP import HelperMethods
 
 
@@ -64,9 +66,6 @@ filteredTokenList = []
 # For the title token list...
 for titleToken in titleTokenList:
 
-    # Declare a list for the non stop word token
-    tokenList = []
-
     # For every token in the list
     for token in titleToken:
 
@@ -74,7 +73,12 @@ for titleToken in titleTokenList:
         if token not in stopWordsList:
 
             # Add the token to the token sentence list
-            tokenList.append(token)
+            filteredTokenList.append(token)
 
-    # Append the list to the token lists
-    filteredTokenList.append(tokenList)
+# Initialise a Tf-Idf vectorizer object
+vectorizer = TfidfVectorizer()
+
+#
+v = vectorizer.fit(filteredTokenList)
+
+print()
