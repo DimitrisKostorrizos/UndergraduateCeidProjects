@@ -1,6 +1,7 @@
 import nltk
 from nltk.corpus import stopwords
 from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.neural_network import MLPClassifier
 
 from NLP import HelperMethods
 
@@ -76,9 +77,10 @@ for titleToken in titleTokenList:
             filteredTokenList.append(token)
 
 # Initialise a Tf-Idf vectorizer object
-vectorizer = TfidfVectorizer()
+tfidfVectorizer = TfidfVectorizer(use_idf=True)
 
-#
-v = vectorizer.fit(filteredTokenList)
+# Fit and transform the transformer using the filtered word matrix
+vector = tfidfVectorizer.fit_transform(filteredTokenList)
+
 
 print()
