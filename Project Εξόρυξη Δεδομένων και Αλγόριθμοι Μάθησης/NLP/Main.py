@@ -1,3 +1,5 @@
+import random
+
 import nltk
 from nltk.corpus import stopwords
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -77,10 +79,62 @@ for titleToken in titleTokenList:
             filteredTokenList.append(token)
 
 # Initialise a Tf-Idf vectorizer object
-tfidfVectorizer = TfidfVectorizer(use_idf=True)
+tfidfVectorizer = TfidfVectorizer(use_idf=True, stop_words=stopWordsList)
 
 # Fit and transform the transformer using the filtered word matrix
-vector = tfidfVectorizer.fit_transform(filteredTokenList)
+tfidfFilteredTokenMatrix = tfidfVectorizer.fit_transform(filteredTokenList)
 
 
+f = tfidfVectorizer.get_feature_names()
+
+titleSamplesList = []
+#
+for titleTokens in titleTokenList:
+
+    tfidfTitleRepresentation = []
+
+    for token in titleTokens:
+        if token in filteredTokenList:
+
+            tfidfTitleRepresentation.append(f[token])
+
+        else:
+            tfidfTitleRepresentation.append(0)
+
+    titleSamplesList.append(tfidfTitleRepresentation)
+
+
+
+
+
+# Calculate the size of the test sample
+testSampleLength = round(len(titlesFlagList) / 4)
+
+# Get the test sample from all the instances
+testSampleList = random.sample(titlesFlagList, testSampleLength)
+
+# Copy the whole instance list
+trainingSampleList = titlesFlagList.copy()
+
+# Get the training sample from the remaining instances
+for removeInstance in testSampleList:
+    trainingSampleList.remove(removeInstance)
+
+# Declare a list for the scores
+trainingTargetSampleList = []
+
+# For every row in the title-scores list...
+for row in titlesFlagList:
+
+    # Add the title to the title list
+    titlesList.append(row[0])
+
+    # Add the flag to the title list
+    flagsList.append(row[1])
+
+#
+multiLayerPerceptronClassifier = MLPClassifier()
+
+#
+multiLayerPerceptronClassifier.fit(trainingSampleList, te)
 print()
