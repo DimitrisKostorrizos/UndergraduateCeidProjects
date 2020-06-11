@@ -141,5 +141,5 @@ titleSamplesList = []
 multiLayerPerceptronClassifier = MLPClassifier()
 
 #
-multiLayerPerceptronClassifier.fit(tfidfFilteredTokenMatrix, flagsList)
+multiLayerPerceptronClassifier.fit(tfidfFilteredTokenMatrix[:10], flagsList[:10])
 print("Last")
