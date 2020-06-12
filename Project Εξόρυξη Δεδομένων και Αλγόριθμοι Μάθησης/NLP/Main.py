@@ -1,13 +1,9 @@
-import random
-
 import nltk
-import numpy
 from nltk.corpus import stopwords
 from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.model_selection import train_test_split
 from sklearn.neural_network import MLPClassifier
-
 from NLP import HelperMethods
-
 
 # Initialise the list that contains the rows that will be ignored during the import
 ignoredRowsList = [0]
@@ -24,7 +20,6 @@ flagsList = []
 
 # For every row in the title-scores list...
 for row in titlesFlagList:
-
     # Add the title to the title list
     titlesList.append(row[0])
 
@@ -36,7 +31,6 @@ titleTokenList = []
 
 # For every title in the titles list
 for title in titlesList:
-
     # Append the title's token to the list
     titleTokenList.append(nltk.word_tokenize(title))
 
@@ -54,7 +48,6 @@ for tokenList in titleTokenList:
 
     # For every token...
     for token in tokenList:
-
         # Append the stemmed token
         sentenceTokenList.append(ps.stem(token))
 
@@ -70,7 +63,7 @@ filteredTokenList = []
 # For the title token list...
 for titleToken in titleTokenList:
 
-    #
+    # Declare a list token
     tokenList = []
 
     # For every token in the list
@@ -78,7 +71,6 @@ for titleToken in titleTokenList:
 
         # If the token isn't a stop word...
         if token not in stopWordsList:
-
             # Add the token to the token sentence list
             tokenList.append(token)
 
@@ -91,6 +83,10 @@ tfidfVectorizer = TfidfVectorizer(use_idf=True, stop_words=stopWordsList)
 # Fit and transform the transformer using the filtered word matrix
 tfidfFilteredTokenMatrix = tfidfVectorizer.fit_transform(filteredTokenList)
 
+tfidfFilteredTokenArray = tfidfFilteredTokenMatrix.toarray()
+
+x = tfidfFilteredTokenArray.tolist()
+
 # Declare a list that contain the sample tuples
 tfidfTitleRepresentationFlagSamplesList = []
 
@@ -98,8 +94,7 @@ tfidfTitleRepresentationFlagSamplesList = []
 index = 0
 
 # For every tfidf title representation...
-for tfidfTitleRepresentation in tfidfFilteredTokenMatrix:
-
+for tfidfTitleRepresentation in tfidfFilteredTokenArray:
     # Link the tfidf title representation and the flag
     tfidfTitleRepresentationFlagTuple = (tfidfTitleRepresentation, flagsList[index])
 
@@ -109,12 +104,16 @@ for tfidfTitleRepresentation in tfidfFilteredTokenMatrix:
     # Increase the index
     index += 1
 
-# Calculate the size of the test sample
-testSampleLength = round(len(tfidfTitleRepresentationFlagSamplesList) / 4)
+# Get the training sample from the remaining instances
+trainingSampleList, testSampleList, trainingTrainingSampleList, flagValues = train_test_split(tfidfTitleRepresentationFlagSamplesList, tfidfTitleRepresentationFlagSamplesList, test_size=0.25)
 
-#
+# Initialise a multilayer perceptron classifier
 multiLayerPerceptronClassifier = MLPClassifier()
 
-#
-multiLayerPerceptronClassifier.fit(tfidfFilteredTokenMatrix[:10], flagsList[:10])
-print("Last")
+# Fit the multilayer perceptron classifier
+multiLayerPerceptronClassifier.fit(trainingSampleList[:10][0], trainingTrainingSampleList[:10][1])
+
+# Predict the flag values for the test samples
+flagPrediction = multiLayerPerceptronClassifier.predict(testSampleList[0])
+
+print()
