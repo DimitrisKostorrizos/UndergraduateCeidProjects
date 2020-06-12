@@ -1,6 +1,7 @@
 import random
 
 import nltk
+import numpy
 from nltk.corpus import stopwords
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.neural_network import MLPClassifier
@@ -88,54 +89,28 @@ for titleToken in titleTokenList:
 tfidfVectorizer = TfidfVectorizer(use_idf=True, stop_words=stopWordsList)
 
 # Fit and transform the transformer using the filtered word matrix
-tfidfVectorizer.fit(filteredTokenList)
+tfidfFilteredTokenMatrix = tfidfVectorizer.fit_transform(filteredTokenList)
 
-tfidfFilteredTokenMatrix = tfidfVectorizer.transform(filteredTokenList)
+# Declare a list that contain the sample tuples
+tfidfTitleRepresentationFlagSamplesList = []
 
-titleSamplesList = []
-#
-# for titleTokens in titleTokenList:
-#
-#     tfidfTitleRepresentation = []
-#
-#     for token in titleTokens:
-#         if token in filteredTokenList:
-#
-#             tfidfTitleRepresentation.append(f[token])
-#
-#         else:
-#             tfidfTitleRepresentation.append(0)
-#
-#     titleSamplesList.append(tfidfTitleRepresentation)
-#
-#
-#
-#
-#
-# # Calculate the size of the test sample
-# testSampleLength = round(len(titlesFlagList) / 4)
-#
-# # Get the test sample from all the instances
-# testSampleList = random.sample(titlesFlagList, testSampleLength)
-#
-# # Copy the whole instance list
-# trainingSampleList = titlesFlagList.copy()
-#
-# # Get the training sample from the remaining instances
-# for removeInstance in testSampleList:
-#     trainingSampleList.remove(removeInstance)
-#
-# # Declare a list for the scores
-# trainingTargetSampleList = []
-#
-# # For every row in the title-scores list...
-# for row in titlesFlagList:
-#
-#     # Add the title to the title list
-#     titlesList.append(row[0])
-#
-#     # Add the flag to the title list
-#     flagsList.append(row[1])
+# Initialise an index to 0
+index = 0
+
+# For every tfidf title representation...
+for tfidfTitleRepresentation in tfidfFilteredTokenMatrix:
+
+    # Link the tfidf title representation and the flag
+    tfidfTitleRepresentationFlagTuple = (tfidfTitleRepresentation, flagsList[index])
+
+    # Add the tuple to the list
+    tfidfTitleRepresentationFlagSamplesList.append(tfidfTitleRepresentationFlagTuple)
+
+    # Increase the index
+    index += 1
+
+# Calculate the size of the test sample
+testSampleLength = round(len(tfidfTitleRepresentationFlagSamplesList) / 4)
 
 #
 multiLayerPerceptronClassifier = MLPClassifier()
