@@ -229,8 +229,8 @@ Attributes
 """
 def LogisticRegressionPHColumn(trainingSampleList, trainingTargetSampleList, testSampleList, supportVectorClassifier, editedTrainingSampleListLength):
 
-    # Initialise a logistic regression object
-    logisticRegression = LogisticRegression()
+    # Initialise a logistic regression classifier object
+    logisticRegressionClassifier = LogisticRegression(solver="liblinear")
 
     # Deep copy part of the training sample list to the logistic regression training sample list
     logisticRegressionTrainingSampleList = deepcopy(trainingSampleList[editedTrainingSampleListLength:])
@@ -260,10 +260,10 @@ def LogisticRegressionPHColumn(trainingSampleList, trainingTargetSampleList, tes
     transformedTargetSamplesValues = labelEncoder.fit_transform(logisticRegressionTrainingTargetSampleList)
 
     # Fit the logisticRegression using the training sample lists
-    logisticRegression.fit(logisticRegressionTrainingSampleList, transformedTargetSamplesValues)
+    logisticRegressionClassifier.fit(logisticRegressionTrainingSampleList, transformedTargetSamplesValues)
 
     # Predict the target property values of the test sample set
-    winePHPrediction = logisticRegression.predict(logisticRegressionTestSampleList)
+    winePHPrediction = logisticRegressionClassifier.predict(logisticRegressionTestSampleList)
 
     # Inverse transform the mutliclass int values to continuous float values
     winePHPrediction = labelEncoder.inverse_transform(winePHPrediction)

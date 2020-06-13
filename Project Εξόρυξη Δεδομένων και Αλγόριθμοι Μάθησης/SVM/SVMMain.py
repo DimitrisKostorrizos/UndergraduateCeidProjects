@@ -35,23 +35,22 @@ wineQualityValues = numpy.ravel(
 
 # For the every instance in the test sample
 for testSample in testSampleList:
-
     #  Clear the wineQualityValues property of the instance
     testSample.WineQualityValues = None
 
 # Transform the test class set to a list of list objects
 testSampleList = SVMHelperMethods.ClassListToClassPropertiesList(testSampleList,
                                                                  [WineQualityMetricsEnum.FixedAcidity.value,
-                                                               WineQualityMetricsEnum.VolatileAcidity.value,
-                                                               WineQualityMetricsEnum.CitricAcid.value,
-                                                               WineQualityMetricsEnum.ResidualSugar.value,
-                                                               WineQualityMetricsEnum.Chlorides.value,
-                                                               WineQualityMetricsEnum.FreeSulfurDioxide.value,
-                                                               WineQualityMetricsEnum.TotalSulfurDioxide.value,
-                                                               WineQualityMetricsEnum.Density.value,
-                                                               WineQualityMetricsEnum.pH.value,
-                                                               WineQualityMetricsEnum.Sulphates.value,
-                                                               WineQualityMetricsEnum.Alcohol.value])
+                                                                  WineQualityMetricsEnum.VolatileAcidity.value,
+                                                                  WineQualityMetricsEnum.CitricAcid.value,
+                                                                  WineQualityMetricsEnum.ResidualSugar.value,
+                                                                  WineQualityMetricsEnum.Chlorides.value,
+                                                                  WineQualityMetricsEnum.FreeSulfurDioxide.value,
+                                                                  WineQualityMetricsEnum.TotalSulfurDioxide.value,
+                                                                  WineQualityMetricsEnum.Density.value,
+                                                                  WineQualityMetricsEnum.pH.value,
+                                                                  WineQualityMetricsEnum.Sulphates.value,
+                                                                  WineQualityMetricsEnum.Alcohol.value])
 
 # Transform the training class set to a list of list object
 trainingTargetSampleList = numpy.ravel(
@@ -60,16 +59,16 @@ trainingTargetSampleList = numpy.ravel(
 # Transform the training class set to a list of list object
 trainingSampleList = SVMHelperMethods.ClassListToClassPropertiesList(trainingSampleList,
                                                                      [WineQualityMetricsEnum.FixedAcidity.value,
-                                                                   WineQualityMetricsEnum.VolatileAcidity.value,
-                                                                   WineQualityMetricsEnum.CitricAcid.value,
-                                                                   WineQualityMetricsEnum.ResidualSugar.value,
-                                                                   WineQualityMetricsEnum.Chlorides.value,
-                                                                   WineQualityMetricsEnum.FreeSulfurDioxide.value,
-                                                                   WineQualityMetricsEnum.TotalSulfurDioxide.value,
-                                                                   WineQualityMetricsEnum.Density.value,
-                                                                   WineQualityMetricsEnum.pH.value,
-                                                                   WineQualityMetricsEnum.Sulphates.value,
-                                                                   WineQualityMetricsEnum.Alcohol.value])
+                                                                      WineQualityMetricsEnum.VolatileAcidity.value,
+                                                                      WineQualityMetricsEnum.CitricAcid.value,
+                                                                      WineQualityMetricsEnum.ResidualSugar.value,
+                                                                      WineQualityMetricsEnum.Chlorides.value,
+                                                                      WineQualityMetricsEnum.FreeSulfurDioxide.value,
+                                                                      WineQualityMetricsEnum.TotalSulfurDioxide.value,
+                                                                      WineQualityMetricsEnum.Density.value,
+                                                                      WineQualityMetricsEnum.pH.value,
+                                                                      WineQualityMetricsEnum.Sulphates.value,
+                                                                      WineQualityMetricsEnum.Alcohol.value])
 
 # Initialize the support vector classifier
 supportVectorClassifier = SVC(kernel='linear')
@@ -89,42 +88,18 @@ wineQualityPredictionRecall = recall_score(wineQualityPrediction, wineQualityVal
 # Calculate precision score
 wineQualityPredictionPrecision = precision_score(wineQualityPrediction, wineQualityValues, average=None)
 
-# https://stackoverflow.com/questions/21393704/scikit-learn-svm-giving-me-zero-error-but-cant-predict
-# https://towardsdatascience.com/fine-tuning-a-classifier-in-scikit-learn-66e048c21e65
-resultList = []
-for index in range(len(wineQualityValues)):
-    resultList.append(int(wineQualityPrediction[index]) - int(wineQualityValues[index]))
-
-zeroCounter = 0
-oneCounter = 0
-for result in resultList:
-    if result == 0:
-        zeroCounter += 1
-    if abs(result) == 1:
-        oneCounter += 1
-
 print("\nScores for the unedited data\n")
 print("F1 Score: ", wineQualityPredictionF1Score)
 print("Recall: ", wineQualityPredictionRecall)
 print("Precision: ", wineQualityPredictionPrecision)
-print("Zero counter: ", zeroCounter, "One counter: ", oneCounter)
-
-# C_range = 10.0 ** numpy.arange(-2, 9)
-# gamma_range = 10.0 ** numpy.arange(-5, 4)
-# param_grid = dict(gamma=gamma_range, C=C_range)
-# cv = StratifiedKFold()
-#
-# grid = GridSearchCV(SVC(), param_grid=param_grid, cv=cv)
-# grid.fit(trainingSampleList, trainingTargetSampleList)
-#
-# print("The best classifier is: ", grid.best_estimator_)
 
 # Get the length of the first one third slice of the list
 editedTrainingSampleListLength = round(len(trainingSampleList) / 3)
 
 # region Removed Column
 
-wineQualityPrediction = SVMHelperMethods.RemovePHColumn(trainingSampleList, trainingTargetSampleList, testSampleList, supportVectorClassifier)
+wineQualityPrediction = SVMHelperMethods.RemovePHColumn(trainingSampleList, trainingTargetSampleList, testSampleList,
+                                                        supportVectorClassifier)
 
 # Calculate f1 score
 wineQualityPredictionF1Score = f1_score(wineQualityPrediction, wineQualityValues, average=None)
@@ -144,7 +119,8 @@ print("Precision: ", wineQualityPredictionPrecision)
 
 # region Average pH Column
 
-wineQualityPrediction = SVMHelperMethods.AveragePHColumn(trainingSampleList, trainingTargetSampleList, testSampleList, supportVectorClassifier, editedTrainingSampleListLength)
+wineQualityPrediction = SVMHelperMethods.AveragePHColumn(trainingSampleList, trainingTargetSampleList, testSampleList,
+                                                         supportVectorClassifier, editedTrainingSampleListLength)
 
 # Calculate f1 score
 wineQualityPredictionF1Score = f1_score(wineQualityPrediction, wineQualityValues, average=None)
@@ -164,7 +140,9 @@ print("Precision: ", wineQualityPredictionPrecision)
 
 # region Logistic Regression pH Column
 
-wineQualityPrediction = SVMHelperMethods.LogisticRegressionPHColumn(trainingSampleList, trainingTargetSampleList, testSampleList, supportVectorClassifier, editedTrainingSampleListLength)
+wineQualityPrediction = SVMHelperMethods.LogisticRegressionPHColumn(trainingSampleList, trainingTargetSampleList,
+                                                                    testSampleList, supportVectorClassifier,
+                                                                    editedTrainingSampleListLength)
 
 # Calculate f1 score
 wineQualityPredictionF1Score = f1_score(wineQualityPrediction, wineQualityValues, average=None)
@@ -184,7 +162,8 @@ print("Precision: ", wineQualityPredictionPrecision)
 
 # region K-Means pH Column
 
-wineQualityPrediction = SVMHelperMethods.KMeansPHColumn(trainingSampleList, trainingTargetSampleList, testSampleList, supportVectorClassifier, editedTrainingSampleListLength)
+wineQualityPrediction = SVMHelperMethods.KMeansPHColumn(trainingSampleList, trainingTargetSampleList, testSampleList,
+                                                        supportVectorClassifier, editedTrainingSampleListLength)
 
 # Calculate f1 score
 wineQualityPredictionF1Score = f1_score(wineQualityPrediction, wineQualityValues, average=None)

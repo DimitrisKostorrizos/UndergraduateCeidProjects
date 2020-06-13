@@ -80,25 +80,26 @@ for titleToken in titleTokenList:
 # Initialise a Tf-Idf vectorizer object
 tfidfVectorizer = TfidfVectorizer(use_idf=True, stop_words=stopWordsList)
 
-# Fit and transform the transformer using the filtered word matrix
-tfidfFilteredTokenMatrix = tfidfVectorizer.fit_transform(filteredTokenList)
+# Fit and transform the transformer using the filtered word sparse matrix
+tfidfFilteredTokenSparseMatrix = tfidfVectorizer.fit_transform(filteredTokenList)
 
-tfidfFilteredTokenArray = tfidfFilteredTokenMatrix.todense()
+# Transform the sparse matrix to a dense matrix
+tfidfFilteredTokenDenseMatrix = tfidfFilteredTokenSparseMatrix.todense()
 
 # Calculate the size of the test sample
 testSampleLength = round(len(flagsList) / 4)
 
-#
+# Calculate the size of the training sample
 trainingSampleLength = len(flagsList) - testSampleLength
 
 # Initialise a multilayer perceptron classifier
 multiLayerPerceptronClassifier = MLPClassifier(solver='lbfgs', hidden_layer_sizes=[100])
 
 # Fit the multilayer perceptron classifier
-multiLayerPerceptronClassifier.fit(tfidfFilteredTokenArray[:trainingSampleLength], flagsList[:trainingSampleLength])
+multiLayerPerceptronClassifier.fit(tfidfFilteredTokenDenseMatrix[:trainingSampleLength], flagsList[:trainingSampleLength])
 
 # Predict the flag values for the test samples
-flagPrediction = multiLayerPerceptronClassifier.predict(tfidfFilteredTokenArray[trainingSampleLength:])
+flagPrediction = multiLayerPerceptronClassifier.predict(tfidfFilteredTokenDenseMatrix[trainingSampleLength:])
 
 # Calculate f1 score
 wineQualityPredictionF1Score = f1_score(flagPrediction, flagsList[trainingSampleLength:], average=None)
