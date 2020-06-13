@@ -1,6 +1,6 @@
 import numpy
 import random
-from SVM import HelperMethods
+from SVM import SVMHelperMethods
 from sklearn.metrics import f1_score, precision_score
 from sklearn.metrics import recall_score
 from sklearn.svm import SVC
@@ -10,7 +10,7 @@ from SVM.WineQualityMetrics import WineQualityMetricsEnum
 ignoredRowsList = [0]
 
 # Import the wine quality metrics from the csv file
-wineQualityMetricsInstanceList = HelperMethods.CsvImporter(
+wineQualityMetricsInstanceList = SVMHelperMethods.CsvImporter(
     "Project Εξόρυξη Δεδομένων και Αλγόριθμοι Μάθησης/SVM/winequality-red.csv", ",", ignoredRowsList)
 
 # Get the imported instances count
@@ -31,7 +31,7 @@ for removeInstance in testSampleList:
 
 # Get the wine quality values
 wineQualityValues = numpy.ravel(
-    HelperMethods.ClassListToClassPropertiesList(testSampleList, [WineQualityMetricsEnum.Quality.value]))
+    SVMHelperMethods.ClassListToClassPropertiesList(testSampleList, [WineQualityMetricsEnum.Quality.value]))
 
 # For the every instance in the test sample
 for testSample in testSampleList:
@@ -40,8 +40,8 @@ for testSample in testSampleList:
     testSample.WineQualityValues = None
 
 # Transform the test class set to a list of list objects
-testSampleList = HelperMethods.ClassListToClassPropertiesList(testSampleList,
-                                                              [WineQualityMetricsEnum.FixedAcidity.value,
+testSampleList = SVMHelperMethods.ClassListToClassPropertiesList(testSampleList,
+                                                                 [WineQualityMetricsEnum.FixedAcidity.value,
                                                                WineQualityMetricsEnum.VolatileAcidity.value,
                                                                WineQualityMetricsEnum.CitricAcid.value,
                                                                WineQualityMetricsEnum.ResidualSugar.value,
@@ -55,11 +55,11 @@ testSampleList = HelperMethods.ClassListToClassPropertiesList(testSampleList,
 
 # Transform the training class set to a list of list object
 trainingTargetSampleList = numpy.ravel(
-    HelperMethods.ClassListToClassPropertiesList(trainingSampleList, [WineQualityMetricsEnum.Quality.value]))
+    SVMHelperMethods.ClassListToClassPropertiesList(trainingSampleList, [WineQualityMetricsEnum.Quality.value]))
 
 # Transform the training class set to a list of list object
-trainingSampleList = HelperMethods.ClassListToClassPropertiesList(trainingSampleList,
-                                                                  [WineQualityMetricsEnum.FixedAcidity.value,
+trainingSampleList = SVMHelperMethods.ClassListToClassPropertiesList(trainingSampleList,
+                                                                     [WineQualityMetricsEnum.FixedAcidity.value,
                                                                    WineQualityMetricsEnum.VolatileAcidity.value,
                                                                    WineQualityMetricsEnum.CitricAcid.value,
                                                                    WineQualityMetricsEnum.ResidualSugar.value,
@@ -124,7 +124,7 @@ editedTrainingSampleListLength = round(len(trainingSampleList) / 3)
 
 # region Removed Column
 
-wineQualityPrediction = HelperMethods.RemovePHColumn(trainingSampleList, trainingTargetSampleList, testSampleList, supportVectorClassifier)
+wineQualityPrediction = SVMHelperMethods.RemovePHColumn(trainingSampleList, trainingTargetSampleList, testSampleList, supportVectorClassifier)
 
 # Calculate f1 score
 wineQualityPredictionF1Score = f1_score(wineQualityPrediction, wineQualityValues, average=None)
@@ -144,7 +144,7 @@ print("Precision: ", wineQualityPredictionPrecision)
 
 # region Average pH Column
 
-wineQualityPrediction = HelperMethods.AveragePHColumn(trainingSampleList, trainingTargetSampleList, testSampleList, supportVectorClassifier, editedTrainingSampleListLength)
+wineQualityPrediction = SVMHelperMethods.AveragePHColumn(trainingSampleList, trainingTargetSampleList, testSampleList, supportVectorClassifier, editedTrainingSampleListLength)
 
 # Calculate f1 score
 wineQualityPredictionF1Score = f1_score(wineQualityPrediction, wineQualityValues, average=None)
@@ -164,7 +164,7 @@ print("Precision: ", wineQualityPredictionPrecision)
 
 # region Logistic Regression pH Column
 
-wineQualityPrediction = HelperMethods.LogisticRegressionPHColumn(trainingSampleList, trainingTargetSampleList, testSampleList, supportVectorClassifier, editedTrainingSampleListLength)
+wineQualityPrediction = SVMHelperMethods.LogisticRegressionPHColumn(trainingSampleList, trainingTargetSampleList, testSampleList, supportVectorClassifier, editedTrainingSampleListLength)
 
 # Calculate f1 score
 wineQualityPredictionF1Score = f1_score(wineQualityPrediction, wineQualityValues, average=None)
@@ -184,7 +184,7 @@ print("Precision: ", wineQualityPredictionPrecision)
 
 # region K-Means pH Column
 
-wineQualityPrediction = HelperMethods.KMeansPHColumn(trainingSampleList, trainingTargetSampleList, testSampleList, supportVectorClassifier, editedTrainingSampleListLength)
+wineQualityPrediction = SVMHelperMethods.KMeansPHColumn(trainingSampleList, trainingTargetSampleList, testSampleList, supportVectorClassifier, editedTrainingSampleListLength)
 
 # Calculate f1 score
 wineQualityPredictionF1Score = f1_score(wineQualityPrediction, wineQualityValues, average=None)

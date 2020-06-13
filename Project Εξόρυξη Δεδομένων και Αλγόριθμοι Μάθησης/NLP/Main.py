@@ -1,15 +1,15 @@
 import nltk
 from nltk.corpus import stopwords
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.model_selection import train_test_split
+from sklearn.metrics import f1_score, recall_score, precision_score
 from sklearn.neural_network import MLPClassifier
-from NLP import HelperMethods
+from NLP.NLPHelperMethod import CsvImporter
 
 # Initialise the list that contains the rows that will be ignored during the import
 ignoredRowsList = [0]
 
 # Import the wine quality metrics from the csv file
-titlesFlagList = HelperMethods.CsvImporter(
+titlesFlagList = CsvImporter(
     "Project Εξόρυξη Δεδομένων και Αλγόριθμοι Μάθησης/NLP/onion-or-not.csv", ",", ignoredRowsList)
 
 # Declare a list for the title
@@ -83,37 +83,33 @@ tfidfVectorizer = TfidfVectorizer(use_idf=True, stop_words=stopWordsList)
 # Fit and transform the transformer using the filtered word matrix
 tfidfFilteredTokenMatrix = tfidfVectorizer.fit_transform(filteredTokenList)
 
-tfidfFilteredTokenArray = tfidfFilteredTokenMatrix.toarray()
+tfidfFilteredTokenArray = tfidfFilteredTokenMatrix.todense()
 
-x = tfidfFilteredTokenArray.tolist()
+# Calculate the size of the test sample
+testSampleLength = round(len(flagsList) / 4)
 
-# Declare a list that contain the sample tuples
-tfidfTitleRepresentationFlagSamplesList = []
-
-# Initialise an index to 0
-index = 0
-
-# For every tfidf title representation...
-for tfidfTitleRepresentation in tfidfFilteredTokenArray:
-    # Link the tfidf title representation and the flag
-    tfidfTitleRepresentationFlagTuple = (tfidfTitleRepresentation, flagsList[index])
-
-    # Add the tuple to the list
-    tfidfTitleRepresentationFlagSamplesList.append(tfidfTitleRepresentationFlagTuple)
-
-    # Increase the index
-    index += 1
-
-# Get the training sample from the remaining instances
-trainingSampleList, testSampleList, trainingTrainingSampleList, flagValues = train_test_split(tfidfTitleRepresentationFlagSamplesList, tfidfTitleRepresentationFlagSamplesList, test_size=0.25)
+#
+trainingSampleLength = len(flagsList) - testSampleLength
 
 # Initialise a multilayer perceptron classifier
-multiLayerPerceptronClassifier = MLPClassifier()
+multiLayerPerceptronClassifier = MLPClassifier(solver='lbfgs', hidden_layer_sizes=[100])
 
 # Fit the multilayer perceptron classifier
-multiLayerPerceptronClassifier.fit(trainingSampleList[:10][0], trainingTrainingSampleList[:10][1])
+multiLayerPerceptronClassifier.fit(tfidfFilteredTokenArray[:trainingSampleLength], flagsList[:trainingSampleLength])
 
 # Predict the flag values for the test samples
-flagPrediction = multiLayerPerceptronClassifier.predict(testSampleList[0])
+flagPrediction = multiLayerPerceptronClassifier.predict(tfidfFilteredTokenArray[trainingSampleLength:])
 
-print()
+# Calculate f1 score
+wineQualityPredictionF1Score = f1_score(flagPrediction, flagsList[trainingSampleLength:], average=None)
+
+# Calculate recall score
+wineQualityPredictionRecall = recall_score(flagPrediction, flagsList[trainingSampleLength:], average=None, zero_division=1)
+
+# Calculate precision score
+wineQualityPredictionPrecision = precision_score(flagPrediction, flagsList[trainingSampleLength:], average=None)
+
+print("\nScores for multi-layer perceptron\n")
+print("F1 Score: ", wineQualityPredictionF1Score)
+print("Recall: ", wineQualityPredictionRecall)
+print("Precision: ", wineQualityPredictionPrecision)

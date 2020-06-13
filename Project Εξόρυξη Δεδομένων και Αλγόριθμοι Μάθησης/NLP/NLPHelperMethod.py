@@ -16,7 +16,6 @@ Attributes
         A list containing the index of the csv file rows that will be ignored
 """
 def CsvImporter(fileName, delimiter, ignoredRows):
-    
     # Try to open the csv file
     try:
         with open(fileName, encoding='utf-8') as csvFile:
@@ -35,7 +34,6 @@ def CsvImporter(fileName, delimiter, ignoredRows):
 
                 # If the row has to be imported...
                 if csvLineIndex not in ignoredRows:
-                    
                     # Add the row to the list
                     rowList.append(csvFileRow)
 
