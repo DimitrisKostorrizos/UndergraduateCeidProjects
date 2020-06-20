@@ -1,0 +1,55 @@
+void setup()
+{
+	Serial.begin(9600);
+	for(int n = 2; n <= 8; n++)
+    {
+    	pinMode(n, OUTPUT);
+  		digitalWrite(n, LOW);
+    }
+}
+
+int next = 100;
+void loop()
+{
+	char tmp;
+	if (Serial.available()) 
+	{
+		tmp = Serial.read();
+
+		if (tmp == 'd')
+		{
+			if(next >= 0)
+			{
+			next-=20;
+			}
+		}
+
+		if (tmp == 'u')
+		{
+			if(next <= 100)
+			{
+				next+=20;
+			}
+		}
+	}
+	else
+	{
+		for(int index = 0; index < 100; index++)
+		{
+			if(index < next)
+			{
+				for(int n = 2; n <= 8; n++)
+				{
+				   digitalWrite(n, LOW);
+				}
+			}
+			else
+			{
+				for(int n = 2; n <= 8; n++)
+				{
+				  digitalWrite(n, HIGH);
+				}
+			}
+		}
+	}
+}
