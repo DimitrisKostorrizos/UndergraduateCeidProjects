@@ -1,0 +1,175 @@
+//AT91 emulation code by Theodoros Simopoulos
+#define HIGH 0x1
+#define LOW 0x0
+
+//AT91 special
+#define BUT_IDLE 0
+#define BUT_PRESSED 1
+#define BUT_RELEASED 2
+#define LED_IDLE 0
+#define LED_FLASHING 1
+
+//Arduino special
+#define continue_count  0x01
+#define stop_count  0x02
+#define reset_and_start_count  0x05
+
+unsigned int PIOA_int, TC_int; //ομοίως int με πιθανές τιμές 0|1
+unsigned long clk_pulse_counter;
+unsigned int Channel_0_CCR;
+unsigned int previous_button_state;
+unsigned long Channel_0_RC;
+
+//Μεταβλητές και σταθερές εργαστηριακής άσκησης
+unsigned int button_state = BUT_IDLE;
+unsigned int led_state = LED_IDLE;
+int next =100;
+int flag = 0;
+int status = 0;
+
+void setup()
+{
+    pinMode(1, OUTPUT);	//ODR, PUER
+  	pinMode(2, OUTPUT);	//ODR, PUER
+    pinMode(3, OUTPUT);	//ODR, PUER
+    pinMode(4, OUTPUT);	//ODR, PUER
+    pinMode(5, OUTPUT);	//ODR, PUER
+    pinMode(6, OUTPUT);	//ODR, PUER
+    pinMode(7, OUTPUT);	//ODR, PUER
+	digitalWrite(1, LOW);
+	digitalWrite(2, LOW);
+	digitalWrite(3, LOW);
+	digitalWrite(4, LOW);
+	digitalWrite(5, LOW);
+	digitalWrite(6, LOW);
+	digitalWrite(7, LOW);
+  	pinMode(0, INPUT_PULLUP);
+	clk_pulse_counter=0;
+	Channel_0_CCR = stop_count;
+	previous_button_state = BUT_PRESSED;
+	Channel_0_RC = 100;
+	PIOA_int=LOW;
+	TC_int=LOW;
+}
+
+//main
+void loop()
+{
+  //Ενεργοποίηση διακοπής από τον timer/counter
+  if (Channel_0_CCR == reset_and_start_count)
+  {
+    clk_pulse_counter = 0;
+    Channel_0_CCR = continue_count;
+    }
+  
+  if (Channel_0_CCR == continue_count)
+  {
+    clk_pulse_counter = clk_pulse_counter+1;
+    if (clk_pulse_counter == Channel_0_RC)
+      {
+      	clk_pulse_counter =0;
+      	TC_int = HIGH;
+      }
+  }
+  
+  
+  //Ενεργοποίηση διακοπής από την παράλληλη Α (PIOA)
+  button_state = digitalRead(0);
+  if (button_state != previous_button_state)
+  {
+    previous_button_state = button_state;
+    PIOA_int = HIGH;
+  }
+  
+  if (PIOA_int | TC_int) //aic->ICCR
+  {
+    FIQ_handler();
+	PIOA_int = LOW;
+  }
+  if(flag == 1)
+  {
+	// Set next after every 100 clock pulse
+    if(status == 0 && (clk_pulse_counter % 100) == 0)
+	{
+		next-=1;
+	}
+    if(status == 1 && (clk_pulse_counter % 100) == 0)
+    {
+		next+=1;
+	}
+	
+	// Set the status to increase the next
+	if(next == 0)
+	{
+		status = 1;
+	}
+
+	// Set the status to decrease the next
+	if(next == 100)
+	{
+		status = 0;
+	}
+	
+	// Set the 7-segment display
+	if(clk_pulse_counter < next)
+	{
+		digitalWrite(1, LOW);
+		digitalWrite(2, LOW);
+		digitalWrite(3, LOW);
+		digitalWrite(4, LOW);
+		digitalWrite(5, LOW);
+		digitalWrite(6, LOW);
+		digitalWrite(7, LOW);
+	}
+	else
+	{
+		digitalWrite(1, HIGH);
+		digitalWrite(2, HIGH);
+		digitalWrite(3, HIGH);
+		digitalWrite(4, HIGH);
+		digitalWrite(5, HIGH);
+		digitalWrite(6, HIGH);
+		digitalWrite(7, HIGH);
+	}
+  }
+}
+
+void FIQ_handler(void)
+{
+  if (PIOA_int == HIGH)// Η διακοπή προκλήθηκε από την PIOA
+  {
+    PIOA_int = LOW;
+    if(button_state == BUT_IDLE){
+      button_state = BUT_PRESSED;
+      if( led_state == LED_IDLE ){
+        Channel_0_CCR = 0x05;
+        led_state = LED_FLASHING;
+      }
+      else{
+        Channel_0_CCR = 0x02;
+        led_state = LED_IDLE;
+        }
+      }
+    else
+	{
+      if(button_state == BUT_PRESSED)
+        button_state = BUT_IDLE;
+    }
+  }
+  
+  if (TC_int == HIGH)// Η διακοπή προκλήθηκε από τον timer/counter
+  {
+    TC_int = LOW;
+    PORTD = PORTD ^ 0x02;	//pioa->SODR = data_out | 0x02
+							//pioa->CODR = data_out & 0x02
+  }
+  // Set the flag to count descending or ascending
+  	if(flag == 1)
+	{
+		flag = 0;
+	}
+	else
+	{
+		flag = 1;
+	}
+}
