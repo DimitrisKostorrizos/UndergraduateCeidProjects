@@ -1,0 +1,15 @@
+Saving all output to "/home/user12/USER12Q4.csv". Enter "record" with no arguments to stop it.
+'NAMECOUNT','STATE'
+'28','AZ'
+'1','BW'
+'3','EDH'
+'1','HLD'
+'4','IL'
+'21','NC'
+'30','NV'
+'26','OH'
+'46','ON'
+'23','PA'
+'9','QC'
+'8','WI'
+12 rows selected (9.709 seconds)
