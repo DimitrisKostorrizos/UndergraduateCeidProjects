@@ -10,6 +10,9 @@ var filesystemModule = require('fs');
 // Get the MySQL driver module
 var mysqlModule = require('mysql');
 
+// Get the unique id generator module
+const { v4: uniqueIdGeneratorModule } = require('uuid');
+
 // Create the MySQL connection
 var MySQLConnection = mysqlModule.createConnection({
   host: "localhost",
@@ -34,6 +37,10 @@ const host = 'localhost';
 
 // Set the web server port
 const port = 8080;
+
+var code = uniqueIdGeneratorModule();
+
+var le = code.toString().length;
 
 // The server listening function
 const webServerListeningFunction = function (requestObject, responseObject)
