@@ -4,6 +4,28 @@ var httpModule = require('http');
 // Get the url module
 var urlModule = require('url');
 
+// Get the file system module
+var filesystemModule = require('fs');
+
+// Get the MySQL driver module
+var mysqlModule = require('mysql');
+
+// Create the MySQL connection
+var MySQLConnection = mysqlModule.createConnection({
+  host: "localhost",
+  user: "root",
+  password: "root"
+});
+
+// Try to connect to the MySQL database
+MySQLConnection.connect(function(err) 
+{
+  if (err != null) 
+    console.log("MySQL Connection Error.");
+  else
+    console.log("Successful MySQL Connection,");
+});
+
 // Get the querystring module
 var querystringModule = require('querystring');
 
@@ -18,6 +40,10 @@ const webServerListeningFunction = function (requestObject, responseObject)
 {
   // Set the response code to 200
   responseObject.statusCode = 200;
+
+  var fileData = filesystemModule.readFileSync('LH.json').toString();
+
+  var jsonData = JSON.parse(fileData);
 
   // Parse the url
   var parsedUrlObject = urlParserFunction(requestObject.url);
