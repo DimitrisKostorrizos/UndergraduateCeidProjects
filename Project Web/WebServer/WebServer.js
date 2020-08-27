@@ -17,7 +17,8 @@ const { v4: uniqueIdGeneratorModule } = require('uuid');
 var MySQLConnection = mysqlModule.createConnection({
   host: "localhost",
   user: "root",
-  password: "root"
+  password: "root",
+  database: "locationsdb"
 });
 
 // Try to connect to the MySQL database
@@ -26,7 +27,7 @@ MySQLConnection.connect(function(err)
   if (err != null) 
     console.log("MySQL Connection Error.");
   else
-    console.log("Successful MySQL Connection,");
+    console.log("Successful MySQL Connection.");
 });
 
 // Get the querystring module
@@ -38,9 +39,32 @@ const host = 'localhost';
 // Set the web server port
 const port = 8080;
 
-var code = uniqueIdGeneratorModule();
+// Declare the dictionary that will contain the endpoints
+const endpointDictionary = 
+{
+  "/login" : function(username)
+  {
+    MySQLConnection.query("SELECT HashedPassword FROM users where Username = ?", username, function (err, result, fields) 
+    {
+      if (err != null) 
+        throw err;
+      else
+        console.log(result);
+    });
 
-var le = code.toString().length;
+    // if(resultSet == password)
+    //   return "good";
+  },
+  "/user/info" : function(){},
+  "/user/data" : function(arguments){},
+  "/user/upload" : function(){},
+  "/admin/dashboard" : function(){},
+  "/admin/analysis" : function(arguments){},
+  "/admin/clear" : function(){},
+  "/admin/download" : function(arguments){},
+};
+
+var code = uniqueIdGeneratorModule();
 
 // The server listening function
 const webServerListeningFunction = function (requestObject, responseObject)
@@ -76,6 +100,10 @@ const endpointMapperFunction = function (urlObject)
 
   // Get the query arguments
   var queryArguments = urlObject.query;
+
+  var endpointFunction = endpointDictionary[pathname];
+
+  endpointFunction("test");
 };
 
 // The server endpoint response
