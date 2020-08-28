@@ -10,6 +10,12 @@ var filesystemModule = require('fs');
 // Get the MySQL driver module
 var mysqlModule = require('mysql');
 
+// Get the express module
+var expressModule = require('express');
+
+// Initialize the express service
+var expressService = expressModule();
+
 // Get the unique id generator module
 const { v4: uniqueIdGeneratorModule } = require('uuid');
 
@@ -103,20 +109,41 @@ const endpointMapperFunction = function (urlObject)
 
   var endpointFunction = endpointDictionary[pathname];
 
+  expressService.get("/login", (requestObject, responseObject) => 
+  {
+    requestObject.
+    MySQLConnection.query("SELECT HashedPassword FROM users where Username = ?", username, function (err, result, fields) 
+    {
+      if (err != null) 
+        throw err;
+      else
+        console.log(result);
+    });
+
+    // if(resultSet == password)
+    //   return "good";
+  });
   endpointFunction("test");
 };
 
-// The server endpoint response
-const endpointResponse = function ()
+// The service for the login page
+expressService.get("/login", (req, res) => 
 {
+  username = "test";
+  MySQLConnection.query("SELECT HashedPassword FROM users where Username = ?", username, function (err, result, fields) 
+  {
+    if (err != null) 
+      throw err;
+    else
+      console.log(result[0].HashedPassword);
+  });
 
-};
+  // if(resultSet == password)
+  //   return "good";
+});
 
 // Create the server
-var webServer = httpModule.createServer(webServerListeningFunction);
-
-// Set the server listening port
-webServer.listen(port, host, () => 
+var webServer = expressService.listen(port, function () 
 {
   console.log(`Server is running on http://${host}:${port}`);
 });
