@@ -16,8 +16,31 @@ var expressModule = require('express');
 // Initialize the express service
 var expressService = expressModule();
 
+// Get the querystring module
+var querystringModule = require('querystring');
+
 // Get the unique id generator module
 const { v4: uniqueIdGeneratorModule } = require('uuid');
+
+function executeDbQuery(dbQuery, queryParameters)
+{
+  return new Promise(data => 
+  {
+    MySQLConnection.query(dbQuery, queryParameters, function (err, result, fields) 
+    {
+      if (err != null) 
+        data(err);
+      else
+        data(result);
+    });
+  });
+}
+
+async function getQueryResult(dbQuery, queryParameters)
+{
+  return result = await executeDbQuery(dbQuery, queryParameters);
+}
+
 
 // Create the MySQL connection
 var MySQLConnection = mysqlModule.createConnection({
@@ -36,9 +59,6 @@ MySQLConnection.connect(function(err)
     console.log("Successful MySQL Connection.");
 });
 
-// Get the querystring module
-var querystringModule = require('querystring');
-
 // Set the host name
 const host = 'localhost';
 
@@ -48,19 +68,6 @@ const port = 8080;
 // Declare the dictionary that will contain the endpoints
 const endpointDictionary = 
 {
-  "/login" : function(username)
-  {
-    MySQLConnection.query("SELECT HashedPassword FROM users where Username = ?", username, function (err, result, fields) 
-    {
-      if (err != null) 
-        throw err;
-      else
-        console.log(result);
-    });
-
-    // if(resultSet == password)
-    //   return "good";
-  },
   "/user/info" : function(){},
   "/user/data" : function(arguments){},
   "/user/upload" : function(){},
@@ -81,65 +88,36 @@ const webServerListeningFunction = function (requestObject, responseObject)
   var fileData = filesystemModule.readFileSync('LH.json').toString();
 
   var jsonData = JSON.parse(fileData);
-
-  // Parse the url
-  var parsedUrlObject = urlParserFunction(requestObject.url);
-
-  // Get the selected endpoint
-  var selectedEndpoint = endpointMapperFunction(parsedUrlObject);
-
-  responseObject = endpointResponse();
 };
 
-// The url parser function
-const urlParserFunction = function (url) 
+// The service for the login page
+expressService.get("/login", (requestObject, responseObject) => 
 {
-  // Parse the url
-  return urlObject = urlModule.parse(url, true);
-};
-
-// The server endpoint mapper
-const endpointMapperFunction = function (urlObject)
-{
-  // Get the pathname
-  var pathname = urlObject.pathname;
+  // Get the url object
+  var urlObject = urlModule.parse(requestObject.url, true);
 
   // Get the query arguments
   var queryArguments = urlObject.query;
 
-  var endpointFunction = endpointDictionary[pathname];
+  // Get the username query argument
+  var username = queryArguments.username;
 
-  expressService.get("/login", (requestObject, responseObject) => 
-  {
-    requestObject.
-    MySQLConnection.query("SELECT HashedPassword FROM users where Username = ?", username, function (err, result, fields) 
-    {
-      if (err != null) 
-        throw err;
-      else
-        console.log(result);
-    });
+  // Get the password query argument
+  var password = queryArguments.password;
 
-    // if(resultSet == password)
-    //   return "good";
-  });
-  endpointFunction("test");
-};
+  // Get the query result
+  var result = getQueryResult("SELECT HashedPassword FROM users where Username = ?", [username]);
 
-// The service for the login page
-expressService.get("/login", (req, res) => 
-{
-  username = "test";
-  MySQLConnection.query("SELECT HashedPassword FROM users where Username = ?", username, function (err, result, fields) 
-  {
-    if (err != null) 
-      throw err;
-    else
-      console.log(result[0].HashedPassword);
-  });
-
-  // if(resultSet == password)
-  //   return "good";
+  // Get the hashed password form the result
+  var hashedPassword = result[0].HashedPassword;
+  
+  // Check if the password is correct...
+  if(hashedPassword == password)
+    // Set the status and the header of the response
+    responseObject.status(200);
+  else
+    // Set the status and the header of the response
+    responseObject.status(200);
 });
 
 // Create the server
