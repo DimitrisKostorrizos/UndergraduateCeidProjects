@@ -1,6 +1,3 @@
-// Get the http module
-var httpModule = require('http');
-
 // Get the url module
 var urlModule = require('url');
 
@@ -22,26 +19,6 @@ var querystringModule = require('querystring');
 // Get the unique id generator module
 const { v4: uniqueIdGeneratorModule } = require('uuid');
 
-function executeDbQuery(dbQuery, queryParameters)
-{
-  return new Promise(data => 
-  {
-    MySQLConnection.query(dbQuery, queryParameters, function (err, result, fields) 
-    {
-      if (err != null) 
-        data(err);
-      else
-        data(result);
-    });
-  });
-}
-
-async function getQueryResult(dbQuery, queryParameters)
-{
-  return result = await executeDbQuery(dbQuery, queryParameters);
-}
-
-
 // Create the MySQL connection
 var MySQLConnection = mysqlModule.createConnection({
   host: "localhost",
@@ -51,9 +28,9 @@ var MySQLConnection = mysqlModule.createConnection({
 });
 
 // Try to connect to the MySQL database
-MySQLConnection.connect(function(err) 
+MySQLConnection.connect(function(mySQLError) 
 {
-  if (err != null) 
+  if (mySQLError != null) 
     console.log("MySQL Connection Error.");
   else
     console.log("Successful MySQL Connection.");
@@ -82,9 +59,6 @@ var code = uniqueIdGeneratorModule();
 // The server listening function
 const webServerListeningFunction = function (requestObject, responseObject)
 {
-  // Set the response code to 200
-  responseObject.statusCode = 200;
-
   var fileData = filesystemModule.readFileSync('LH.json').toString();
 
   var jsonData = JSON.parse(fileData);
@@ -93,6 +67,9 @@ const webServerListeningFunction = function (requestObject, responseObject)
 // The service for the login page
 expressService.get("/login", (requestObject, responseObject) => 
 {
+  // Set the response status
+  responseObject.status(200);
+
   // Get the url object
   var urlObject = urlModule.parse(requestObject.url, true);
 
@@ -105,19 +82,72 @@ expressService.get("/login", (requestObject, responseObject) =>
   // Get the password query argument
   var password = queryArguments.password;
 
-  // Get the query result
-  var result = getQueryResult("SELECT HashedPassword FROM users where Username = ?", [username]);
+  // Execute the query
+  MySQLConnection.query("SELECT HashedPassword FROM users where Username = ?", username, function (mySQLError, result, fields) 
+  {
+    // If there was a MySQL error...
+    if (mySQLError != null) 
+      // Throw the error
+      throw mySQLError;
+    else
+    {
+      // Get the hashed password form the result
+      var hashedPassword = result[0].HashedPassword;
 
-  // Get the hashed password form the result
-  var hashedPassword = result[0].HashedPassword;
-  
-  // Check if the password is correct...
-  if(hashedPassword == password)
-    // Set the status and the header of the response
-    responseObject.status(200);
-  else
-    // Set the status and the header of the response
-    responseObject.status(200);
+      // Check if the password is correct...
+      if(hashedPassword == password)
+      {
+        // Set the body fof the response
+        responseObject.json({validation: "Success"});
+      }
+      else
+        // Set the body of the response
+        responseObject.json({validation: "Failure"});
+    }
+  });
+});
+
+// The service for the login page
+expressService.get("/user/info", (requestObject, responseObject) => 
+{
+  // Set the response status
+  responseObject.status(200);
+
+  // Get the url object
+  var urlObject = urlModule.parse(requestObject.url, true);
+
+  // Get the query arguments
+  var queryArguments = urlObject.query;
+
+  // Get the username query argument
+  var username = queryArguments.username;
+
+  // Get the password query argument
+  var password = queryArguments.password;
+
+  // Execute the query
+  MySQLConnection.query("SELECT HashedPassword FROM users where Username = ?", username, function (mySQLError, result, fields) 
+  {
+    // If there was a MySQL error...
+    if (mySQLError != null) 
+      // Throw the error
+      throw mySQLError;
+    else
+    {
+      // Get the hashed password form the result
+      var hashedPassword = result[0].HashedPassword;
+
+      // Check if the password is correct...
+      if(hashedPassword == password)
+      {
+        // Set the body fof the response
+        responseObject.json({validation: "Success"});
+      }
+      else
+        // Set the body of the response
+        responseObject.json({validation: "Failure"});
+    }
+  });
 });
 
 // Create the server
