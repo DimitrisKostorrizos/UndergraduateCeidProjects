@@ -56,14 +56,6 @@ const endpointDictionary =
 
 var code = uniqueIdGeneratorModule();
 
-// The server listening function
-const webServerListeningFunction = function (requestObject, responseObject)
-{
-  var fileData = filesystemModule.readFileSync('LH.json').toString();
-
-  var jsonData = JSON.parse(fileData);
-};
-
 // The service for the login page
 expressService.get("/login", (requestObject, responseObject) => 
 {
@@ -83,7 +75,7 @@ expressService.get("/login", (requestObject, responseObject) =>
   var password = queryArguments.password;
 
   // Execute the query
-  MySQLConnection.query("SELECT HashedPassword FROM users where Username = ?", username, function (mySQLError, result, fields) 
+  MySQLConnection.query("SELECT HashedPassword, UserId FROM users where Username = ?", username, function (mySQLError, result, fields) 
   {
     // If there was a MySQL error...
     if (mySQLError != null) 
@@ -91,18 +83,31 @@ expressService.get("/login", (requestObject, responseObject) =>
       throw mySQLError;
     else
     {
-      // Get the hashed password form the result
-      var hashedPassword = result[0].HashedPassword;
-
-      // Check if the password is correct...
-      if(hashedPassword == password)
+      if(result.length != 0)
       {
-        // Set the body fof the response
-        responseObject.json({validation: "Success"});
+        // Get the hashed password form the result
+        var hashedPassword = result[0].HashedPassword;
+
+        // Get the hashed password form the result
+        var userId = result[0].UserId;
+
+        // Check if the password is correct...
+        if(hashedPassword == password)
+        {
+          // Set the body fof the response
+          responseObject.json({validation: userId});
+        }
+        else
+        {
+          // Set the body of the response
+          responseObject.json({validation: ""});
+        }
       }
       else
+      {
         // Set the body of the response
-        responseObject.json({validation: "Failure"});
+        responseObject.json({validation: ""});
+      }
     }
   });
 });
@@ -110,6 +115,11 @@ expressService.get("/login", (requestObject, responseObject) =>
 // The service for the login page
 expressService.get("/user/info", (requestObject, responseObject) => 
 {
+  
+  var fileData = filesystemModule.readFileSync('LH.json').toString();
+
+  var jsonData = JSON.parse(fileData);
+
   // Set the response status
   responseObject.status(200);
 
@@ -119,14 +129,11 @@ expressService.get("/user/info", (requestObject, responseObject) =>
   // Get the query arguments
   var queryArguments = urlObject.query;
 
-  // Get the username query argument
-  var username = queryArguments.username;
-
-  // Get the password query argument
-  var password = queryArguments.password;
+  // Get the user id query argument
+  var userId = queryArguments.userId;
 
   // Execute the query
-  MySQLConnection.query("SELECT HashedPassword FROM users where Username = ?", username, function (mySQLError, result, fields) 
+  MySQLConnection.query("Select  where UserId = ?", userId, function (mySQLError, result, fields) 
   {
     // If there was a MySQL error...
     if (mySQLError != null) 
@@ -134,18 +141,20 @@ expressService.get("/user/info", (requestObject, responseObject) =>
       throw mySQLError;
     else
     {
-      // Get the hashed password form the result
-      var hashedPassword = result[0].HashedPassword;
 
-      // Check if the password is correct...
-      if(hashedPassword == password)
-      {
-        // Set the body fof the response
-        responseObject.json({validation: "Success"});
-      }
-      else
-        // Set the body of the response
-        responseObject.json({validation: "Failure"});
+    }
+  });
+
+  // Execute the query
+  MySQLConnection.query("SELECT UserId FROM users where Username = ?", username, function (mySQLError, result, fields) 
+  {
+    // If there was a MySQL error...
+    if (mySQLError != null) 
+      // Throw the error
+      throw mySQLError;
+    else
+    {
+
     }
   });
 });
