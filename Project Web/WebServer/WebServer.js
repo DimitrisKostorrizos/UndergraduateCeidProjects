@@ -211,15 +211,10 @@ expressService.get("/user/info", (requestObject, responseObject) =>
               firstTimestampMs = result[0].TimestampMs.toJSON().slice(0, 10);
             }
           }
-
-          responseBody["timespan"] = firstTimestampMs + " : " + lastTimestampMs;
           
           // Set the response body
           responseObject.json(responseBody);
         });
-        
-        // Set the response body
-        responseObject.json(responseBody);
       });
     });
   });
@@ -257,7 +252,7 @@ expressService.post("/user/upload", (requestObject, responseObject) =>
       {
         // Generate a unique id for the activity
         var activityId = uniqueIdGeneratorModule();
-        
+
         // Get the timestamp
         var timestampMs = TimestampMsToMySQLDate(activity.timestampMs);
   
