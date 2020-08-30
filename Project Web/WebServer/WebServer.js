@@ -144,7 +144,7 @@ expressService.get("/user/info", (requestObject, responseObject) =>
   };
 
   // Execute the query
-  MySQLConnection.query("SELECT UploadDate FROM locations Where LocationId = ? Order By TimestampMs DESC Limit 1;", locationsId, function (mySQLError, result, fields) 
+  MySQLConnection.query("SELECT UploadDate FROM locations Where LocationId = ? Order By TimestampMs DESC Limit 1", locationsId, function (mySQLError, result, fields) 
   {
     // If there was a MySQL error...
     if (mySQLError != null) 
@@ -163,7 +163,7 @@ expressService.get("/user/info", (requestObject, responseObject) =>
     var lastTimestampMs;
 
     // Execute the query
-    MySQLConnection.query("SELECT TimestampMs FROM locations Where LocationId = ? Order By TimestampMs DESC Limit 1;", locationsId, function (mySQLError, result, fields) 
+    MySQLConnection.query("SELECT TimestampMs FROM locations Where LocationId = ? Order By TimestampMs DESC Limit 1", locationsId, function (mySQLError, result, fields) 
     {
       // If there was a MySQL error...
       if (mySQLError != null) 
@@ -179,7 +179,7 @@ expressService.get("/user/info", (requestObject, responseObject) =>
       }
       
       // Execute the query
-      MySQLConnection.query("SELECT TimestampMs FROM locations Where LocationId = ? Order By TimestampMs ASC Limit 1;", locationsId, function (mySQLError, result, fields) 
+      MySQLConnection.query("SELECT TimestampMs FROM locations Where LocationId = ? Order By TimestampMs ASC Limit 1", locationsId, function (mySQLError, result, fields) 
       {
         // If there was a MySQL error...
         if (mySQLError != null) 
@@ -193,8 +193,30 @@ expressService.get("/user/info", (requestObject, responseObject) =>
             firstTimestampMs = result[0].TimestampMs.toJSON().slice(0, 10);
           }
         }
-
+        // 
         responseBody["timespan"] = firstTimestampMs + " : " + lastTimestampMs;
+
+        // Execute the query
+        MySQLConnection.query("SELECT ActivitiesId FROM locations Where LocationId = ?", locationsId, function (mySQLError, result, fields) 
+        {
+          // If there was a MySQL error...
+          if (mySQLError != null) 
+            // Throw the error
+            throw mySQLError;
+          else
+          {
+            if(result.length != 0)
+            {
+              // Get the date part
+              firstTimestampMs = result[0].TimestampMs.toJSON().slice(0, 10);
+            }
+          }
+
+          responseBody["timespan"] = firstTimestampMs + " : " + lastTimestampMs;
+          
+          // Set the response body
+          responseObject.json(responseBody);
+        });
         
         // Set the response body
         responseObject.json(responseBody);
@@ -224,14 +246,18 @@ expressService.post("/user/upload", (requestObject, responseObject) =>
   // For every location int the json...
   for(const location of jsonData.locations)
   {
+    // Initialize the activity id
+    var activityId = null;
+
     // If the type is a key in the dictionary...
     if(location.hasOwnProperty("activity"))
     {
+      // For every activity...
       for(const activity of location.activity) 
       {
         // Generate a unique id for the activity
         var activityId = uniqueIdGeneratorModule();
-  
+        
         // Get the timestamp
         var timestampMs = TimestampMsToMySQLDate(activity.timestampMs);
   
