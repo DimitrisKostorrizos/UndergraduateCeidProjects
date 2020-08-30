@@ -195,6 +195,7 @@ expressService.get("/user/info", (requestObject, responseObject) =>
         }
 
         responseBody["timespan"] = firstTimestampMs + " : " + lastTimestampMs;
+        
         // Set the response body
         responseObject.json(responseBody);
       });
