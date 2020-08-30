@@ -1,9 +1,6 @@
 // Get the url module
 var urlModule = require('url');
 
-// Get the file system module
-var filesystemModule = require('fs');
-
 // Get the MySQL driver module
 var mysqlModule = require('mysql');
 
@@ -13,12 +10,11 @@ var expressModule = require('express');
 // Initialize the express service
 var expressService = expressModule();
 
-// Get the querystring module
-var querystringModule = require('querystring');
+// Use the express json body parser
+expressService.use(expressModule.json());
 
 // Get the unique id generator module
 const { v4: uniqueIdGeneratorModule } = require('uuid');
-const { type } = require('os');
 
 // Create the MySQL connection
 var MySQLConnection = mysqlModule.createConnection({
@@ -37,14 +33,24 @@ MySQLConnection.connect(function(mySQLError)
     console.log("Successful MySQL Connection.");
 });
 
+// Formats the timestampMs to MySQL date
+function TimestampMsToMySQLDate(timestampMs)
+{
+  // Get the unformatted date representation of the timestampMs
+  var unformattedDate = new Date(Number(timestampMs));
+
+  // Format the date part to MySQL date
+  var formattedDatePart = unformattedDate.toJSON().slice(0, 10);
+
+  // Return the MySQL date
+  return formattedDatePart;
+}
+
 // Set the host name
 const host = 'localhost';
 
 // Set the web server port
 const port = 8080;
-
-// Set the activities names
-const activitiesNames = ["InVehicle", "OnBicycle", "OnFoot", "Running", "Still", "Tilting", "Unknown",  "Walking"];
 
 // Declare the dictionary that will contain the endpoints
 const endpointDictionary = 
@@ -115,10 +121,6 @@ expressService.get("/login", (requestObject, responseObject) =>
 // The service for the user info page
 expressService.get("/user/info", (requestObject, responseObject) => 
 {
-  var fileData = filesystemModule.readFileSync('LH.json').toString();
-
-  var jsonData = JSON.parse(fileData);
-
   // Set the response status
   responseObject.status(200);
 
@@ -129,7 +131,7 @@ expressService.get("/user/info", (requestObject, responseObject) =>
   var queryArguments = urlObject.query;
 
   // Get the user id query argument
-  var userId = queryArguments.userId;
+  var locationsId = queryArguments.locationsId;
 
   // Execute the query
   MySQLConnection.query("Select  where UserId = ?", userId, function (mySQLError, result, fields) 
@@ -158,7 +160,7 @@ expressService.get("/user/info", (requestObject, responseObject) =>
   });
 });
 
-// The service for the user info page
+// The service for the user upload page
 expressService.post("/user/upload", (requestObject, responseObject) => 
 {
   // Set the response status
@@ -173,13 +175,8 @@ expressService.post("/user/upload", (requestObject, responseObject) =>
   // Get the user id query argument
   var locationsId = queryArguments.locationsId;
 
-  var test = requestObject.body;
-
-  // TODO: Delete
-  var fileData = filesystemModule.readFileSync('LH.json').toString();
-
   // Parse the the json file
-  var jsonData = JSON.parse(fileData);
+  var jsonData = requestObject.body;
 
   // For every location int the json...
   for(const location of jsonData.locations)
@@ -193,7 +190,7 @@ expressService.post("/user/upload", (requestObject, responseObject) =>
         var activityId = uniqueIdGeneratorModule();
   
         // Get the timestamp
-        var timestampMs = activity.timestampMs;
+        var timestampMs = TimestampMsToMySQLDate(activity.timestampMs);
   
         // Initialize the dictionary for the activity types
         var activitiesDictionary = 
@@ -246,7 +243,7 @@ expressService.post("/user/upload", (requestObject, responseObject) =>
     var longitudeE7 = location.longitudeE7;
 
     // Get the location timestampMs
-    var timestampMs = location.timestampMs;
+    var timestampMs = TimestampMsToMySQLDate(location.timestampMs);
 
     // Get the MySQL values
     var locationValues = [activityId, locationsId, accuracy, latitudeE7, longitudeE7, timestampMs];
@@ -261,18 +258,12 @@ expressService.post("/user/upload", (requestObject, responseObject) =>
     });
   }
 
+  // Set the response body
   responseObject.json({validation: "Success"});
 });
 
-// Use the body parser module
-//expressService.use(expressModule.json());
-
-var bodyParser = require('body-parser');
-//expressService.use(bodyParser.urlencoded({ extended: true }));
-expressService.use(bodyParser.json());
-
-// Create the server
-var webServer = expressService.listen(port, function () 
+// Start the express service
+expressService.listen(port, function () 
 {
   console.log(`Server is running on http://${host}:${port}`);
 });
