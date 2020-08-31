@@ -196,8 +196,9 @@ expressService.get("/user/info", (requestObject, responseObject) =>
         // 
         responseBody["timespan"] = firstTimestampMs + " : " + lastTimestampMs;
 
+        //// real command: select InVehicle, OnBicycle, OnFoot, Running, Still, Tilting, Unknown, Walking from activities where ActivitiesId in(SELECT ActivitiesId FROM locations Where LocationId = "704d432a-142c-469e-b7c3-3b1b4e57ba10" AND ActivitiesId IS NOT null AND datediff(TimestampMs, CURDATE()) >= 0);
         // Execute the query
-        MySQLConnection.query("SELECT ActivitiesId FROM locations Where LocationId = ?", locationsId, function (mySQLError, result, fields) 
+        MySQLConnection.query("select InVehicle, OnBicycle, OnFoot, Running, Still, Tilting, Unknown, Walking from activities where ActivitiesId in(SELECT ActivitiesId FROM locations Where LocationId = ? AND ActivitiesId IS NOT null AND datediff(TimestampMs, CURDATE()) <= 0)", locationsId, function (mySQLError, result, fields) 
         {
           // If there was a MySQL error...
           if (mySQLError != null) 
