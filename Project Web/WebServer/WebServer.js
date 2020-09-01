@@ -69,17 +69,14 @@ expressService.get("/login", (requestObject, responseObject) =>
   // Set the response status
   responseObject.status(200);
 
-  // Get the url object
-  var urlObject = urlModule.parse(requestObject.url, true);
-
-  // Get the query arguments
-  var queryArguments = urlObject.query;
+  // Parse the the json file
+  var userInfo = requestObject.body;
 
   // Get the username query argument
-  var username = queryArguments.username;
+  var username = userInfo.username;
 
   // Get the password query argument
-  var password = queryArguments.password;
+  var password = userInfo.password;
 
   // Execute the query
   MySQLConnection.query("SELECT HashedPassword, UserId, LocationsId FROM users where Username = ?", username, function (mySQLError, result, fields) 
@@ -90,6 +87,7 @@ expressService.get("/login", (requestObject, responseObject) =>
       throw mySQLError;
     else
     {
+      // If the result is not empty...
       if(result.length != 0)
       {
         // Get the hashed password form the result
@@ -119,6 +117,46 @@ expressService.get("/login", (requestObject, responseObject) =>
   });
 });
 
+// The service for the sign up page
+expressService.post("/signup", (requestObject, responseObject) => 
+{
+  // Set the response status
+  responseObject.status(200);
+
+  // Parse the the json file
+  var userInfo = requestObject.body;
+
+  // Get the username query argument
+  var username = userInfo.username;
+
+  // Get the password query argument
+  var password = userInfo.password;
+
+  // Get the username query argument
+  var firstName = userInfo.firstName;
+
+  // Get the password query argument
+  var lastName = userInfo.lastName;
+
+  // Generate a unique locations id 
+  var locationsId = uniqueIdGeneratorModule();
+
+  // Generate a unique user id 
+  var userId = uniqueIdGeneratorModule();
+
+  // Execute the query
+  MySQLConnection.query("INSERT INTO users VALUES (?, ?, ?, ?, ?, ?)", [userId, locationsId, username, password, firstName, lastName], function (mySQLError, result, fields) 
+  {
+    // If there was a MySQL error...
+    if (mySQLError != null) 
+      // Throw the error
+      throw mySQLError;
+
+    // Set the body of the response
+    responseObject.json({validation: locationsId});
+  });
+});
+
 // The service for the user info page
 expressService.get("/user/info", (requestObject, responseObject) => 
 {
@@ -139,7 +177,7 @@ expressService.get("/user/info", (requestObject, responseObject) =>
   {
     "lastUploadDate" : "",
     "timespan" : "",
-    "ecoScore" : 0,
+    "ecoScores" : [],
     "top3" : []
   };
 
@@ -152,14 +190,17 @@ expressService.get("/user/info", (requestObject, responseObject) =>
       throw mySQLError;
     else
     {
+      // If the result is not empty...
       if(result.length != 0)
       {
         // Get the date part
         responseBody["lastUploadDate"] = result[0].UploadDate.toJSON().slice(0, 10);
       }
     }
-
+    // Declare the left end of the timespan
     var firstTimestampMs;
+
+    // Declare the right end of the timespan
     var lastTimestampMs;
 
     // Execute the query
@@ -171,6 +212,7 @@ expressService.get("/user/info", (requestObject, responseObject) =>
         throw mySQLError;
       else
       {
+        // If the result is not empty...
         if(result.length != 0)
         {
           // Get the date part
@@ -187,18 +229,18 @@ expressService.get("/user/info", (requestObject, responseObject) =>
           throw mySQLError;
         else
         {
+          // If the result is not empty...
           if(result.length != 0)
           {
             // Get the date part
             firstTimestampMs = result[0].TimestampMs.toJSON().slice(0, 10);
           }
         }
-        // 
+        // Get the timespan
         responseBody["timespan"] = firstTimestampMs + " : " + lastTimestampMs;
 
-        //// real command: select InVehicle, OnBicycle, OnFoot, Running, Still, Tilting, Unknown, Walking from activities where ActivitiesId in(SELECT ActivitiesId FROM locations Where LocationId = "704d432a-142c-469e-b7c3-3b1b4e57ba10" AND ActivitiesId IS NOT null AND datediff(TimestampMs, CURDATE()) >= 0);
         // Execute the query
-        MySQLConnection.query("select InVehicle, OnBicycle, OnFoot, Running, Still, Tilting, Unknown, Walking from activities where ActivitiesId in(SELECT ActivitiesId FROM locations Where LocationId = ? AND ActivitiesId IS NOT null AND datediff(TimestampMs, CURDATE()) <= 0)", locationsId, function (mySQLError, result, fields) 
+        MySQLConnection.query("select TimestampMs, InVehicle, OnBicycle, OnFoot, Running, Still, Tilting, Unknown, Walking from activities where ActivitiesId in(SELECT ActivitiesId FROM locations Where LocationId = ? AND ActivitiesId IS NOT null AND datediff(TimestampMs, CURDATE()) > -366 ORDER BY TimestampMs ASC)", locationsId, function (mySQLError, result, fields) 
         {
           // If there was a MySQL error...
           if (mySQLError != null) 
@@ -206,24 +248,99 @@ expressService.get("/user/info", (requestObject, responseObject) =>
             throw mySQLError;
           else
           {
+            // If the result is not empty...
             if(result.length != 0)
             {
-              var bodyActivityCount = 0;
+              // Declare and empty array that will contain the eco scores
+              var ecoScores = [];
 
-              for(const row of result)
+              for(var month = 0; month < 12; month++)
               {
-                  if(row.InVehicle < Math.max(row.OnBicycle, row.OnFoot, row.Walking, row.Running))
-                    bodyActivityCount++;
-              }
-              
-              var bodyActivityPercentage = Math.round(bodyActivityCount / result.length);
+                // Initialize a counter
+                var bodyActivityCounter = 0;
 
-              console.log(bodyActivityPercentage);
+                var monthlyResults = result.filter(x => x.TimestampMs.getMonth() == month);
+                
+                // For every row in the result...
+                for(const row of monthlyResults)
+                {
+                  // If the activity counts a a body type activity...
+                  if(row.InVehicle < Math.max(row.OnBicycle, row.OnFoot, row.Walking, row.Running))
+                    // Increase the counter
+                    bodyActivityCount++;
+                }
+                // If there are monthly activities...
+                if(monthlyResults.length != 0)
+                  // Calculate the percentage
+                  var bodyActivityPercentage = Math.round(bodyActivityCounter / monthlyResults.length) * 100;
+                else
+                  // Set the percentage to 0
+                  var bodyActivityPercentage = 0;
+
+                // Add the monthly score
+                ecoScores.push(
+                  {
+                    key : month,
+                    value : bodyActivityPercentage + " %"
+                  });
+              }
+              // Get the timespan
+              responseBody["ecoScores"] = ecoScores;
             }
           }
-          
-          // Set the response body
-          responseObject.json(responseBody);
+          // Execute the query
+          MySQLConnection.query("select InVehicle, OnBicycle, OnFoot, Running, Still, Tilting, Unknown, Walking from activities where ActivitiesId in(SELECT ActivitiesId FROM locations Where LocationId = ? AND ActivitiesId IS NOT null AND datediff(TimestampMs, CURDATE()) > -366 ORDER BY TimestampMs ASC)", locationsId, function (mySQLError, result, fields) 
+          {
+            // If there was a MySQL error...
+            if (mySQLError != null) 
+              // Throw the error
+              throw mySQLError;
+            else
+            {
+              // If the result is not empty...
+              if(result.length != 0)
+              {
+                // Declare and empty array that will contain the eco scores
+                var ecoScores = [];
+
+                for(var month = 0; month < 12; month++)
+                {
+                  // Initialize a counter
+                  var bodyActivityCounter = 0;
+
+                  var monthlyResults = result.filter(x => x.TimestampMs.getMonth() == month);
+                  
+                  // For every row in the result...
+                  for(const row of monthlyResults)
+                  {
+                    // If the activity counts a a body type activity...
+                    if(row.InVehicle < Math.max(row.OnBicycle, row.OnFoot, row.Walking, row.Running))
+                      // Increase the counter
+                      bodyActivityCount++;
+                  }
+                  // If there are monthly activities...
+                  if(monthlyResults.length != 0)
+                    // Calculate the percentage
+                    var bodyActivityPercentage = Math.round(bodyActivityCounter / monthlyResults.length) * 100;
+                  else
+                    // Set the percentage to 0
+                    var bodyActivityPercentage = 0;
+
+                  // Add the monthly score
+                  ecoScores.push(
+                    {
+                      key : month,
+                      value : bodyActivityPercentage + " %"
+                    });
+                }
+                // Get the timespan
+                responseBody["ecoScores"] = ecoScores;
+              }
+            }
+            
+            // Set the response body
+            responseObject.json(responseBody);
+          });
         });
       });
     });
