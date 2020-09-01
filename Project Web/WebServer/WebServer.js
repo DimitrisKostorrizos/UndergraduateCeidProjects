@@ -55,11 +55,9 @@ const port = 8080;
 // Declare the dictionary that will contain the endpoints
 const endpointDictionary = 
 {
-  "/user/data" : function(arguments){},
   "/admin/dashboard" : function(){},
   "/admin/analysis" : function(arguments){},
-  "/admin/clear" : function(){},
-  "/admin/download" : function(arguments){},
+  "/admin/download" : function(arguments){}
 };
 
 // The service for the login page
@@ -450,6 +448,100 @@ expressService.post("/user/upload", (requestObject, responseObject) =>
 
   // Set the response body
   responseObject.json({validation: "Success"});
+});
+
+// The service for the user data page
+expressService.get("/user/data", (requestObject, responseObject) => 
+{
+  // Set the response status
+  responseObject.status(200);
+
+  // Parse the the json file
+  var userInfo = requestObject.body;
+
+  // Get the locations id query argument
+  var locationsId = userInfo.locationsId;
+
+  // Get the starting date query argument
+  var startingDate = userInfo.startingDate;
+
+  // Get the ending date query argument
+  var endingDate = userInfo.endingDate;
+
+  // Initialize an array that will contain the query values
+  var queryValues = [locationsId];
+
+  // Declare the MySQL statement
+  var MySQLStatement = "select LatitudeE7, LongitudeE7 from locations where LocationId = ?";
+
+  // If the starting date is not undefined...
+  if(startingDate !== null)
+  {
+    // Add the new query value
+    queryValues.push(startingDate);
+
+    // Merge the MySQL statements
+    MySQLStatement = MySQLStatement + ` AND datediff(TimestampMS, "${startingDate}") >= 0`;
+  }
+
+  // If the ending date is not undefined...
+  if(endingDate !== null)
+  {
+    // Add the new query value
+    queryValues.push(endingDate);
+
+    // Merge the MySQL statements
+    MySQLStatement = MySQLStatement + ` AND datediff(TimestampMS, "${endingDate}") <= 0`;
+  }
+
+  // Execute the query
+  MySQLConnection.query(MySQLStatement, queryValues, function (mySQLError, result, fields) 
+  {
+    // If there was a MySQL error...
+    if (mySQLError != null) 
+      // Throw the error
+      throw mySQLError;
+    else
+    {
+      // If the result is not empty...
+      if(result.length != 0)
+      {
+        // Set the body of the response
+        responseObject.json({locations: result});
+      }
+    }
+  });
+});
+
+// The service for the admin clear page
+expressService.delete("/admin/clear", (requestObject, responseObject) => 
+{
+  // Set the response status
+  responseObject.status(200);
+
+  // Execute the query
+  MySQLConnection.query("Truncate locations", function (mySQLError, result, fields) 
+  {
+    // If there was a MySQL error...
+    if (mySQLError != null) 
+      // Throw the error
+      throw mySQLError;
+    else
+    {
+      MySQLConnection.query("Truncate activities", function (mySQLError, result, fields) 
+      {
+        // If there was a MySQL error...
+        if (mySQLError != null) 
+          // Throw the error
+          throw mySQLError;
+        else
+        {
+          // Set the body of the response
+          responseObject.json({status: "Success"});
+        }
+      });
+    }
+  });
 });
 
 // Start the express service
