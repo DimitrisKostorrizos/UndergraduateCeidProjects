@@ -208,8 +208,17 @@ expressService.get("/user/info", (requestObject, responseObject) =>
           {
             if(result.length != 0)
             {
-              // Get the date part
-              firstTimestampMs = result[0].TimestampMs.toJSON().slice(0, 10);
+              var bodyActivityCount = 0;
+
+              for(const row of result)
+              {
+                  if(row.InVehicle < Math.max(row.OnBicycle, row.OnFoot, row.Walking, row.Running))
+                    bodyActivityCount++;
+              }
+              
+              var bodyActivityPercentage = Math.round(bodyActivityCount / result.length);
+
+              console.log(bodyActivityPercentage);
             }
           }
           
