@@ -15,7 +15,6 @@ expressService.use(expressModule.json());
 
 // Get the unique id generator module
 const { v4: uniqueIdGeneratorModule } = require('uuid');
-const { response } = require('express');
 
 // Create the MySQL connection
 var MySQLConnection = mysqlModule.createConnection({
