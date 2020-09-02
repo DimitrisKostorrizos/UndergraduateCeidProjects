@@ -536,8 +536,18 @@ expressService.delete("/admin/clear", (requestObject, responseObject) =>
           throw mySQLError;
         else
         {
-          // Set the body of the response
-          responseObject.json({status: "Success"});
+          MySQLConnection.query("Truncate users", function (mySQLError, result, fields) 
+          {
+            // If there was a MySQL error...
+            if (mySQLError != null) 
+              // Throw the error
+              throw mySQLError;
+            else
+            {
+              // Set the body of the response
+              responseObject.json({status: "Success"});
+            }
+          });
         }
       });
     }
