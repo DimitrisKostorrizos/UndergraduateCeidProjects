@@ -281,12 +281,12 @@ expressService.get("/user/info", (requestObject, responseObject) =>
                     value : bodyActivityPercentage + " %"
                   });
               }
-              // Get the timespan
+              // Get the eco scores
               responseBody["ecoScores"] = ecoScores;
             }
           }
           // Execute the query
-          MySQLConnection.query("select InVehicle, OnBicycle, OnFoot, Running, Still, Tilting, Unknown, Walking from activities where ActivitiesId in(SELECT ActivitiesId FROM locations Where LocationId = ? AND ActivitiesId IS NOT null AND datediff(TimestampMs, CURDATE()) > -366 ORDER BY TimestampMs ASC)", locationsId, function (mySQLError, result, fields) 
+          MySQLConnection.query("SELECT LocationsId, FirstName, LastName FROM users", function (mySQLError, result, fields) 
           {
             // If there was a MySQL error...
             if (mySQLError != null) 
@@ -297,46 +297,63 @@ expressService.get("/user/info", (requestObject, responseObject) =>
               // If the result is not empty...
               if(result.length != 0)
               {
-                // Declare and empty array that will contain the eco scores
-                var ecoScores = [];
-
-                for(var month = 0; month < 12; month++)
+                // Declare an array that will contain the users scores
+                var userScores = [];
+                
+                // For every user...
+                for(const row of result)
                 {
-                  // Initialize a counter
-                  var bodyActivityCounter = 0;
+                  // For every location...
+                  var locationsId = row.LocationsId;
 
-                  var monthlyResults = result.filter(x => x.TimestampMs.getMonth() == month);
-                  
-                  // For every row in the result...
-                  for(const row of monthlyResults)
+                  // Execute the query
+                  MySQLConnection.query("select InVehicle, OnBicycle, OnFoot, Running, Still, Tilting, Unknown, Walking from activities where ActivitiesId in(SELECT ActivitiesId FROM locations Where LocationId = ? AND ActivitiesId IS NOT null AND (MONTH(TimestampMs) - MONTH(CURDATE()) = 0))", locationsId, function (mySQLError, result, fields) 
                   {
-                    // If the activity counts a a body type activity...
-                    if(row.InVehicle < Math.max(row.OnBicycle, row.OnFoot, row.Walking, row.Running))
-                      // Increase the counter
-                      bodyActivityCount++;
-                  }
-                  // If there are monthly activities...
-                  if(monthlyResults.length != 0)
-                    // Calculate the percentage
-                    var bodyActivityPercentage = Math.round(bodyActivityCounter / monthlyResults.length) * 100;
-                  else
-                    // Set the percentage to 0
-                    var bodyActivityPercentage = 0;
-
-                  // Add the monthly score
-                  ecoScores.push(
+                    // If there was a MySQL error...
+                    if (mySQLError != null) 
+                      // Throw the error
+                      throw mySQLError;
+                    else
                     {
-                      key : month,
-                      value : bodyActivityPercentage + " %"
-                    });
+                      // If the result is not empty...
+                      if(result.length != 0)
+                      {
+                        // Initialize a counter
+                        var bodyActivityCounter = 0;
+                        
+                        // For every row in the result...
+                        for(const row of result)
+                        {
+                          // If the activity counts a a body type activity...
+                          if(row.InVehicle < Math.max(row.OnBicycle, row.OnFoot, row.Walking, row.Running))
+                            // Increase the counter
+                            bodyActivityCount++;
+                        }
+                        // If there are monthly activities...
+                        if(monthlyResults.length != 0)
+                          // Calculate the percentage
+                          var bodyActivityPercentage = Math.round(bodyActivityCounter / monthlyResults.length) * 100;
+                        else
+                          // Set the percentage to 0
+                          var bodyActivityPercentage = 0;
+
+                        // Add the monthly score
+                        userScores.push(
+                          {
+                            key : locationsId,
+                            value : [bodyActivityPercentage + " %", row.FirstName + " " + row.LastName[0] + "."]
+                          });
+                      }
+                    }
+                  });
                 }
-                // Get the timespan
-                responseBody["ecoScores"] = ecoScores;
+                // Get the eco scores
+                responseBody["top3"] = userScores;
+                
+                // Set the response body
+                responseObject.json(responseBody);
               }
             }
-            
-            // Set the response body
-            responseObject.json(responseBody);
           });
         });
       });
