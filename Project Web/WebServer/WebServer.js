@@ -33,7 +33,10 @@ MySQLConnection.connect(function(mySQLError)
     console.log("Successful MySQL Connection.");
 });
 
-// Formats the timestampMs to MySQL date
+/**
+ * Formats the @param timestampMs to MySQL date
+ * @param {Timestamp in Milliseconds} timestampMs 
+ */
 function TimestampMsToMySQLDate(timestampMs)
 {
   // Get the unformatted date representation of the timestampMs
@@ -69,6 +72,10 @@ async function GetQueryResult(databaseQuery)
   });
 }
 
+/**
+ * Calculates the eco score based on the @param activityData
+ * @param {[ActivityRow]} activityData 
+ */
 function GetEcoScore(activityData)
 {
   // Initialize a counter
@@ -84,14 +91,16 @@ function GetEcoScore(activityData)
   }
   // If there are monthly activities...
   if(activityData.length != 0)
-    // Calculate the percentage
+    // Calculate the % percentage
     var bodyActivityPercentage = Math.round(bodyActivityCounter / activityData.length) * 100;
   else
     // Set the percentage to 0
     var bodyActivityPercentage = 0;
 
+  // Return the % representation of the percentage 
   return bodyActivityPercentage + " %";
 }
+
 
 async function GetTop3Async()
 {
@@ -129,8 +138,7 @@ const port = 8080;
 // The service for the admin dashboard page
 expressService.get("/admin/dashboard", async (requestObject, responseObject) => 
 {
-  var values = await GetTop3Async();
-  console.log(values);
+
 });
 
 // The service for the admin download page
@@ -272,7 +280,7 @@ expressService.get("/user/info", async (requestObject, responseObject) =>
   var query = MySQLConnection.format("SELECT UploadDate FROM locations Where LocationId = ? Order By TimestampMs DESC Limit 1", locationsId);
 
   // Execute the query
-  var results = GetQueryResult(query);
+  var results = await GetQueryResult(query);
 
   // If there is at least one result...
   if(results.length != 0)
@@ -283,83 +291,57 @@ expressService.get("/user/info", async (requestObject, responseObject) =>
   query = MySQLConnection.format("SELECT TimestampMs FROM locations WHERE LocationId = ? ORDER BY TimestampMs ASC LIMIT 1", locationsId);
 
   // Execute the query
-  results = GetQueryResult(query);
+  results = await GetQueryResult(query);
 
   // If there is at least one result...
   if(results.length != 0)
     // Get the date part of the result
-    responseBody["initialTimestampMS"] = results[0].UploadDate.toJSON().slice(0, 10);
+    responseBody["initialTimestampMS"] = results[0].TimestampMs.toJSON().slice(0, 10);
 
   // Prepare the query
   query = MySQLConnection.format("SELECT TimestampMs FROM locations WHERE LocationId = ? ORDER BY TimestampMs DESC LIMIT 1", locationsId);
 
   // Execute the query
-  results = GetQueryResult(query);
+  results = await GetQueryResult(query);
 
   // If there is at least one result...
   if(results.length != 0)
     // Get the date part of the result
-    responseBody["lastTimestampMS"] = results[0].UploadDate.toJSON().slice(0, 10);= results[0].UploadDate.toJSON().slice(0, 10);
+    responseBody["lastTimestampMS"] = results[0].TimestampMs.toJSON().slice(0, 10);
 
+  // Prepare the query
+  query = MySQLConnection.format("SELECT TimestampMs, InVehicle, OnBicycle, OnFoot, Running, Still, Tilting, Unknown, Walking FROM activities WHERE ActivitiesId in (SELECT ActivitiesId FROM locations WHERE LocationId = ? AND ActivitiesId IS NOT NULL AND datediff(TimestampMs, CURDATE()) > -366 ORDER BY TimestampMs ASC)", locationsId);
 
-        // Execute the query
-        MySQLConnection.query("select TimestampMs, InVehicle, OnBicycle, OnFoot, Running, Still, Tilting, Unknown, Walking from activities where ActivitiesId in(SELECT ActivitiesId FROM locations Where LocationId = ? AND ActivitiesId IS NOT null AND datediff(TimestampMs, CURDATE()) > -366 ORDER BY TimestampMs ASC)", locationsId, function (mySQLError, result, fields) 
+  // Execute the query
+  results = await GetQueryResult(query);
+
+  // If there is at least one result...
+  if(results.length != 0)
+  {
+    for(var month = 0; month < 12; month++)
+    {
+      // Get the monthly results
+      var monthlyActivityData = results.filter(x => x.TimestampMs.getMonth() == month);
+
+      // Calculate the monthly eco score
+      var ecoScore = GetEcoScore(monthlyActivityData);
+
+      // Add the monthly score
+      responseBody["ecoScores"].push(
         {
-          // If there was a MySQL error...
-          if (mySQLError != null) 
-            // Throw the error
-            throw mySQLError;
-          else
-          {
-            // If the result is not empty...
-            if(result.length != 0)
-            {
-              // Declare and empty array that will contain the eco scores
-              var ecoScores = [];
-
-              for(var month = 0; month < 12; month++)
-              {
-                // Initialize a counter
-                var bodyActivityCounter = 0;
-
-                var monthlyResults = result.filter(x => x.TimestampMs.getMonth() == month);
-                
-                // For every row in the result...
-                for(const row of monthlyResults)
-                {
-                  // If the activity counts a a body type activity...
-                  if(row.InVehicle < Math.max(row.OnBicycle, row.OnFoot, row.Walking, row.Running))
-                    // Increase the counter
-                    bodyActivityCount++;
-                }
-                // If there are monthly activities...
-                if(monthlyResults.length != 0)
-                  // Calculate the percentage
-                  var bodyActivityPercentage = Math.round(bodyActivityCounter / monthlyResults.length) * 100;
-                else
-                  // Set the percentage to 0
-                  var bodyActivityPercentage = 0;
-
-                // Add the monthly score
-                ecoScores.push(
-                  {
-                    key : month,
-                    value : bodyActivityPercentage + " %"
-                  });
-              }
-              // Get the eco scores
-              responseBody["ecoScores"] = ecoScores;
-            }
-            // Get the eco scores
-            responseBody["top3"] = userScores;
-            
-            // Set the response body
-            responseObject.json(responseBody);
-          }
+          key : month,
+          value : ecoScore
         });
-      });
-    });
-  });
+    }
+  }
+
+  var top = await GetTop3Async();
+
+  // Get the top 3 users
+  responseBody["top3"] = await GetTop3Async();
+  
+  // Set the response body
+  responseObject.json(responseBody);
 });
 
 // The service for the user upload page
