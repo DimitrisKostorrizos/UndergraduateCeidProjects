@@ -114,6 +114,32 @@ function GetEcoScore(activityData)
   return bodyActivityPercentage + " %";
 }
 
+async function GetUserRanking(row)
+{
+  // Get the locations id
+  var locationsId = row.LocationsId;
+  
+  // Prepare the query
+  var query = MySQLConnection.format("select InVehicle, OnBicycle, OnFoot, Running, Still, Tilting, Unknown, Walking from activities where ActivitiesId in(SELECT ActivitiesId FROM locations Where LocationId = ? AND ActivitiesId IS NOT null AND (MONTH(TimestampMs) - MONTH(CURDATE()) = 0))", locationsId);
+
+  // Get the user's activity data
+  var activityData = await GetQueryResult(query);
+
+  // Get the user's eco score
+  var ecoScore = GetEcoScore(activityData);
+
+  // Initialize the user ranking
+  var userRanking = 
+  {
+    locationsId : locationsId,
+    ecoScore : ecoScore, 
+    abbreviatedFullName : row.FirstName + " " + row.LastName[0] + "."
+  }
+
+  // Return user ranking
+  return userRanking;
+}
+
 /**
  * Calculates and returns an array that contain the top 3 users, based on the monthly eco score
  */
@@ -126,31 +152,27 @@ async function GetTop3Async()
   var userScores = [];
 
   // For every user...
-  data.forEach(async row => 
+  data.forEach(user => 
   {
-    // Get the locations id
-    var locationsId = row.LocationsId;
-    
-    // Prepare the query
-    var query = MySQLConnection.format("select InVehicle, OnBicycle, OnFoot, Running, Still, Tilting, Unknown, Walking from activities where ActivitiesId in(SELECT ActivitiesId FROM locations Where LocationId = ? AND ActivitiesId IS NOT null AND (MONTH(TimestampMs) - MONTH(CURDATE()) = 0))", locationsId);
+    userScores.push(GetUserRanking(user));
+  });
 
-    // Get the user's activity data
-    var activityData = await GetQueryResult(query);
+  // Descending sort the users based on the eco score
+  userScores.sort((a, b) =>
+  {
+    if (a.ecoScore < b.ecoScore) 
+      return -1;
 
-    // Get the user's eco score
-    var ecoScore = GetEcoScore(activityData);
+    if (a.ecoScore > b.ecoScore) 
+      return 1;
 
-    // Add the user
-    userScores.push(
-      {
-        key : locationsId,
-        value : [ecoScore, row.FirstName + " " + row.LastName[0] + "."]
-      });
+    return 0;
   });
 
   var t = userScores[0];
 
-  return userScores.filter(x => x[locationsId][0].getMonth() == month);
+  // Return the 3 top users
+  return userScores.slice(2);
 }
 
 // Set the host name
@@ -166,13 +188,13 @@ expressService.get("/admin/dashboard", async (requestObject, responseObject) =>
 });
 
 // The service for the admin download page
-expressService.get("/admin/download", (requestObject, responseObject) => 
+expressService.get("/admin/download", async (requestObject, responseObject) => 
 {
 
 });
 
 // The service for the admin analysis page
-expressService.get("/admin/analysis", (requestObject, responseObject) => 
+expressService.get("/admin/analysis", async (requestObject, responseObject) => 
 {
 
 });
@@ -369,7 +391,7 @@ expressService.get("/user/info", async (requestObject, responseObject) =>
 });
 
 // The service for the user upload page
-expressService.post("/user/upload", (requestObject, responseObject) => 
+expressService.post("/user/upload", async(requestObject, responseObject) => 
 {
   // Set the response status
   responseObject.status(200);
@@ -439,7 +461,7 @@ expressService.post("/user/upload", (requestObject, responseObject) =>
         var query = MySQLConnection.format("INSERT INTO activities VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", activityValues);
 
         // Execute the query
-        await GetQueryResult(query);
+        //await GetQueryResult(query);////////////
       }
     }
     // Get the location accuracy
@@ -461,7 +483,7 @@ expressService.post("/user/upload", (requestObject, responseObject) =>
     var query = MySQLConnection.format("INSERT INTO locations VALUES (?, ?, ?, ?, ?, ?, CURDATE())", locationValues);
 
     // Execute the query
-    await GetQueryResult(query);
+    ////await GetQueryResult(query);///////////
   }
 
   // Set the response body
@@ -469,7 +491,7 @@ expressService.post("/user/upload", (requestObject, responseObject) =>
 });
 
 // The service for the user data page
-expressService.get("/user/data", (requestObject, responseObject) => 
+expressService.get("/user/data", async (requestObject, responseObject) => 
 {
   // Set the response status
   responseObject.status(200);
@@ -527,7 +549,7 @@ expressService.get("/user/data", (requestObject, responseObject) =>
 });
 
 // The service for the admin clear page
-expressService.delete("/admin/clear", (requestObject, responseObject) => 
+expressService.delete("/admin/clear", async (requestObject, responseObject) => 
 {
   // Set the response status
   responseObject.status(200);
