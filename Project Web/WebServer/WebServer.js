@@ -49,25 +49,38 @@ function TimestampMsToMySQLDate(timestampMs)
   return formattedDatePart;
 }
 
-async function GetQueryResult(databaseQuery) 
+/**
+ * Executes and returns the result of @param MySQLQuery asynchronously
+ * @param {MySQL query} MySQLQuery 
+ */
+async function GetQueryResult(MySQLQuery) 
 {
+  // Return the query's execution result, wrapped in a promise object
   return new Promise(data => {
-    MySQLConnection.query(databaseQuery, function (error, result) 
+    // Execute the query
+    MySQLConnection.query(MySQLQuery, function (error, result) 
     {
-        if(error) 
-        {
-          throw error;
-        }
+      // If there was an error...
+      if(error) 
+      {
+        // Throw the error
+        throw error;
+      }
 
-        try 
-        {
-          data(result);
-        } 
-        catch (error) 
-        {
-          data({});
-          throw error;
-        }
+      // Try to return the results
+      try 
+      {
+        // Return an array that contains the results
+        data(result);
+      } 
+      catch (error) 
+      {
+        // Return empty array
+        data({});
+
+        // Trow the error
+        throw error;
+      }
     });
   });
 }
@@ -101,24 +114,33 @@ function GetEcoScore(activityData)
   return bodyActivityPercentage + " %";
 }
 
-
+/**
+ * Calculates and returns an array that contain the top 3 users, based on the monthly eco score
+ */
 async function GetTop3Async()
 {
+  // Get the users
   var data = await GetQueryResult("SELECT LocationsId, FirstName, LastName FROM users");
 
+  // Declare an array tht will contain the top 3 users
   var userScores = [];
 
+  // For every user...
   data.forEach(async row => 
   {
+    // Get the locations id
     var locationsId = row.LocationsId;
     
+    // Prepare the query
     var query = MySQLConnection.format("select InVehicle, OnBicycle, OnFoot, Running, Still, Tilting, Unknown, Walking from activities where ActivitiesId in(SELECT ActivitiesId FROM locations Where LocationId = ? AND ActivitiesId IS NOT null AND (MONTH(TimestampMs) - MONTH(CURDATE()) = 0))", locationsId);
 
+    // Get the user's activity data
     var activityData = await GetQueryResult(query);
 
+    // Get the user's eco score
     var ecoScore = GetEcoScore(activityData);
 
-    // Add the monthly score
+    // Add the user
     userScores.push(
       {
         key : locationsId,
@@ -126,7 +148,9 @@ async function GetTop3Async()
       });
   });
 
-  return userScores;
+  var t = userScores[0];
+
+  return userScores.filter(x => x[locationsId][0].getMonth() == month);
 }
 
 // Set the host name
@@ -411,14 +435,11 @@ expressService.post("/user/upload", (requestObject, responseObject) =>
         activitiesDictionary["ON_FOOT"], activitiesDictionary["RUNNING"], activitiesDictionary["STILL"], 
         activitiesDictionary["TILTING"],activitiesDictionary["UNKNOWN"],activitiesDictionary["WALKING"]];
         
+        // Prepare the query
+        var query = MySQLConnection.format("INSERT INTO activities VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", activityValues);
+
         // Execute the query
-        MySQLConnection.query("Insert into activities values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", activityValues, function (mySQLError, result, fields) 
-        {
-          // If there was a MySQL error...
-          if (mySQLError != null) 
-            // Throw the error
-            throw mySQLError;
-        });
+        await GetQueryResult(query);
       }
     }
     // Get the location accuracy
@@ -436,18 +457,15 @@ expressService.post("/user/upload", (requestObject, responseObject) =>
     // Get the MySQL values
     var locationValues = [activityId, locationsId, accuracy, latitudeE7, longitudeE7, timestampMs];
     
+    // Prepare the query
+    var query = MySQLConnection.format("INSERT INTO locations VALUES (?, ?, ?, ?, ?, ?, CURDATE())", locationValues);
+
     // Execute the query
-    MySQLConnection.query("Insert into locations values (?, ?, ?, ?, ?, ?, CURDATE())", locationValues, function (mySQLError, result, fields) 
-    {
-      // If there was a MySQL error...
-      if (mySQLError != null) 
-        // Throw the error
-        throw mySQLError;
-    });
+    await GetQueryResult(query);
   }
 
   // Set the response body
-  responseObject.json({validation: "Success"});
+  responseObject.json({validation: true});
 });
 
 // The service for the user data page
