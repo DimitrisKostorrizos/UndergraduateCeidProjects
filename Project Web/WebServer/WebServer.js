@@ -465,7 +465,7 @@ expressService.post("/user/upload", (requestObject, responseObject) =>
   }
 
   // Set the response body
-  responseObject.json({validation: true});
+  responseObject.json({status: true});
 });
 
 // The service for the user data page
@@ -490,7 +490,7 @@ expressService.get("/user/data", (requestObject, responseObject) =>
   var queryValues = [locationsId];
 
   // Declare the MySQL statement
-  var MySQLStatement = "select LatitudeE7, LongitudeE7 from locations where LocationId = ?";
+  var query = "SELECT LatitudeE7, LongitudeE7 FROM locations WHERE LocationId = ?";
 
   // If the starting date is not undefined...
   if(startingDate !== null)
@@ -498,8 +498,8 @@ expressService.get("/user/data", (requestObject, responseObject) =>
     // Add the new query value
     queryValues.push(startingDate);
 
-    // Merge the MySQL statements
-    MySQLStatement = MySQLStatement + ` AND datediff(TimestampMS, "${startingDate}") >= 0`;
+    // Merge the queries
+    query = query + ` AND datediff(TimestampMS, "${startingDate}") >= 0`;
   }
 
   // If the ending date is not undefined...
@@ -508,27 +508,22 @@ expressService.get("/user/data", (requestObject, responseObject) =>
     // Add the new query value
     queryValues.push(endingDate);
 
-    // Merge the MySQL statements
-    MySQLStatement = MySQLStatement + ` AND datediff(TimestampMS, "${endingDate}") <= 0`;
+    // Merge the queries
+    query = query + ` AND datediff(TimestampMS, "${endingDate}") <= 0`;
   }
 
+  // Prepare the query
+  query = MySQLConnection.format(query, queryValues)
+
   // Execute the query
-  MySQLConnection.query(MySQLStatement, queryValues, function (mySQLError, result, fields) 
-  {
-    // If there was a MySQL error...
-    if (mySQLError != null) 
-      // Throw the error
-      throw mySQLError;
-    else
-    {
-      // If the result is not empty...
-      if(result.length != 0)
-      {
-        // Set the body of the response
-        responseObject.json({locations: result});
-      }
-    }
-  });
+  var results = await GetQueryResult(query);
+  
+   // If the result is not empty...
+   if(results.length != 0)
+   {
+     // Set the body of the response
+     responseObject.json({locations: result});
+   }
 });
 
 // The service for the admin clear page
@@ -537,39 +532,26 @@ expressService.delete("/admin/clear", (requestObject, responseObject) =>
   // Set the response status
   responseObject.status(200);
 
+  //Prepare the query
+  var query = MySQLConnection.format("Truncate locations");
+
   // Execute the query
-  MySQLConnection.query("Truncate locations", function (mySQLError, result, fields) 
-  {
-    // If there was a MySQL error...
-    if (mySQLError != null) 
-      // Throw the error
-      throw mySQLError;
-    else
-    {
-      MySQLConnection.query("Truncate activities", function (mySQLError, result, fields) 
-      {
-        // If there was a MySQL error...
-        if (mySQLError != null) 
-          // Throw the error
-          throw mySQLError;
-        else
-        {
-          MySQLConnection.query("Truncate users", function (mySQLError, result, fields) 
-          {
-            // If there was a MySQL error...
-            if (mySQLError != null) 
-              // Throw the error
-              throw mySQLError;
-            else
-            {
-              // Set the body of the response
-              responseObject.json({status: "Success"});
-            }
-          });
-        }
-      });
-    }
-  });
+  await GetQueryResult(query);
+
+  //Prepare the query
+  query = MySQLConnection.format("Truncate activities");
+
+  // Execute the query
+  await GetQueryResult(query);
+
+  //Prepare the query
+  query = MySQLConnection.format("Truncate users");
+
+  // Execute the query
+  await GetQueryResult(query);
+
+  // Set the body of the response
+  responseObject.json({status: true});
 });
 
 // Start the express service
