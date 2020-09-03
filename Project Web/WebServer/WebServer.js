@@ -46,75 +46,78 @@ function TimestampMsToMySQLDate(timestampMs)
   return formattedDatePart;
 }
 
+async function GetQueryResult(databaseQuery) 
+{
+  return new Promise(data => {
+    MySQLConnection.query(databaseQuery, function (error, result) 
+    {
+        if(error) 
+        {
+          throw error;
+        }
+
+        try 
+        {
+          data(result);
+        } 
+        catch (error) 
+        {
+          data({});
+          throw error;
+        }
+    });
+  });
+}
+
+function GetEcoScore(activityData)
+{
+  // Initialize a counter
+  var bodyActivityCounter = 0;
+  
+  // For every row in the result...
+  for(const row of activityData)
+  {
+    // If the activity counts a a body type activity...
+    if(row.InVehicle < Math.max(row.OnBicycle, row.OnFoot, row.Walking, row.Running))
+      // Increase the counter
+      bodyActivityCount++;
+  }
+  // If there are monthly activities...
+  if(activityData.length != 0)
+    // Calculate the percentage
+    var bodyActivityPercentage = Math.round(bodyActivityCounter / activityData.length) * 100;
+  else
+    // Set the percentage to 0
+    var bodyActivityPercentage = 0;
+
+  return bodyActivityPercentage + " %";
+}
+
 async function GetTop3Async()
 {
-  // Execute the query
-  await MySQLConnection.query("SELECT LocationsId, FirstName, LastName FROM users", function (mySQLError, result, fields) 
+  var data = await GetQueryResult("SELECT LocationsId, FirstName, LastName FROM users");
+
+  var userScores = [];
+
+  data.forEach(async row => 
   {
-    // If there was a MySQL error...
-    if (mySQLError != null) 
-      // Throw the error
-      throw mySQLError;
-    else
-    {
-      // If the result is not empty...
-      if(result.length != 0)
+    var locationsId = row.LocationsId;
+    
+    var query = MySQLConnection.format("select InVehicle, OnBicycle, OnFoot, Running, Still, Tilting, Unknown, Walking from activities where ActivitiesId in(SELECT ActivitiesId FROM locations Where LocationId = ? AND ActivitiesId IS NOT null AND (MONTH(TimestampMs) - MONTH(CURDATE()) = 0))", locationsId);
+
+    var activityData = await GetQueryResult(query);
+
+    var ecoScore = GetEcoScore(activityData);
+
+    // Add the monthly score
+    userScores.push(
       {
-        // Declare an array that will contain the users scores
-        var userScores = [];
-        
-        // For every user...
-        for(const row of result)
-        {
-          // For every location...
-          var locationsId = row.LocationsId;
-
-          // Execute the query
-          MySQLConnection.query("select InVehicle, OnBicycle, OnFoot, Running, Still, Tilting, Unknown, Walking from activities where ActivitiesId in(SELECT ActivitiesId FROM locations Where LocationId = ? AND ActivitiesId IS NOT null AND (MONTH(TimestampMs) - MONTH(CURDATE()) = 0))", locationsId, function (mySQLError, result, fields) 
-          {
-            // If there was a MySQL error...
-            if (mySQLError != null) 
-              // Throw the error
-              throw mySQLError;
-            else
-            {
-              // If the result is not empty...
-              if(result.length != 0)
-              {
-                // Initialize a counter
-                var bodyActivityCounter = 0;
-                
-                // For every row in the result...
-                for(const row of result)
-                {
-                  // If the activity counts a a body type activity...
-                  if(row.InVehicle < Math.max(row.OnBicycle, row.OnFoot, row.Walking, row.Running))
-                    // Increase the counter
-                    bodyActivityCount++;
-                }
-                // If there are monthly activities...
-                if(monthlyResults.length != 0)
-                  // Calculate the percentage
-                  var bodyActivityPercentage = Math.round(bodyActivityCounter / monthlyResults.length) * 100;
-                else
-                  // Set the percentage to 0
-                  var bodyActivityPercentage = 0;
-
-                // Add the monthly score
-                userScores.push(
-                  {
-                    key : locationsId,
-                    value : [bodyActivityPercentage + " %", row.FirstName + " " + row.LastName[0] + "."]
-                  });
-              }
-            }
-            // Get the eco scores
-            responseBody["top3"] = userScores;
-          });
-        }
-      }
-    }
+        key : locationsId,
+        value : [ecoScore, row.FirstName + " " + row.LastName[0] + "."]
+      });
   });
+
+  return userScores;
 }
 
 // Set the host name
@@ -124,9 +127,10 @@ const host = 'localhost';
 const port = 8080;
 
 // The service for the admin dashboard page
-expressService.get("/admin/dashboard", (requestObject, responseObject) => 
+expressService.get("/admin/dashboard", async (requestObject, responseObject) => 
 {
-  GetTop3Async()
+  var values = await GetTop3Async();
+  console.log(values);
 });
 
 // The service for the admin download page
@@ -142,73 +146,79 @@ expressService.get("/admin/analysis", (requestObject, responseObject) =>
 });
 
 // The service for the login page
-expressService.get("/login", (requestObject, responseObject) => 
+expressService.get("/login", async (requestObject, responseObject) => 
 {
   // Set the response status
   responseObject.status(200);
 
-  // Parse the the json file
+  // Initialize the response body
+  var responseBody = 
+  {
+    validation : false,
+    locationsId : null,
+    userId : null
+  };
+
+  // Parse the request body
   var userInfo = requestObject.body;
 
-  // Get the username query argument
+  // Get the username value
   var username = userInfo.username;
 
-  // Get the password query argument
+  // Get the password value
   var password = userInfo.password;
 
-  // Execute the query
-  MySQLConnection.query("SELECT HashedPassword, UserId, LocationsId FROM users where Username = ?", username, function (mySQLError, result, fields) 
+  // Prepare the MySQL query
+  var query = MySQLConnection.format("SELECT HashedPassword, UserId, LocationsId, UserId FROM users WHERE Username = ?", username);
+
+  // Get the query results
+  var results = await GetQueryResult(query);
+
+  // If there is at least one result...
+  if(results.length != 0)
   {
-    // If there was a MySQL error...
-    if (mySQLError != null) 
-      // Throw the error
-      throw mySQLError;
-    else
+    // Get the hashed password
+    var hashedPassword = results[0].HashedPassword;
+
+    // Get the locations id
+    var locationsId = results[0].LocationsId;
+
+    // Get the user id
+    var userId = results[0].UserId;
+
+    // Check if the password is correct...
+    if(hashedPassword == password)
     {
-      // If the result is not empty...
-      if(result.length != 0)
-      {
-        // Get the hashed password form the result
-        var hashedPassword = result[0].HashedPassword;
-
-        // Get the hashed password form the result
-        var locationsId = result[0].LocationsId;
-
-        // Check if the password is correct...
-        if(hashedPassword == password)
-        {
-          // Set the body fof the response
-          responseObject.json({validation: locationsId});
-        }
-        else
-        {
-          // Set the body of the response
-          responseObject.json({validation: ""});
-        }
-      }
-      else
-      {
-        // Set the body of the response
-        responseObject.json({validation: ""});
-      }
+      // Set the body fof the response
+      responseBody["locationsId"] = locationsId;
+      responseBody["userId"] = locationsId;
+      responseBody["validation"] = true;
     }
-  });
+  }
+  responseObject.json(responseBody);
 });
 
 // The service for the sign up page
-expressService.post("/signup", (requestObject, responseObject) => 
+expressService.post("/signup", async (requestObject, responseObject) => 
 {
   // Set the response status
   responseObject.status(200);
 
-  // Parse the the json file
+  // Initialize the response body
+  var responseBody = 
+  {
+    locationsId : null,
+    userId : null
+  }; 
+
+  // Parse the request body
   var userInfo = requestObject.body;
 
-  // Get the username query argument
+  // Get the username
   var username = userInfo.username;
 
-  // Get the password query argument
-  var password = userInfo.password;
+  // Get the hashed password
+  var hashedPassword = userInfo.hashedPassword;
 
   // Get the username query argument
   var firstName = userInfo.firstName;
@@ -222,100 +232,75 @@ expressService.post("/signup", (requestObject, responseObject) =>
   // Generate a unique user id 
   var userId = uniqueIdGeneratorModule();
 
+  // Prepare the query
+  var query = MySQLConnection.format("INSERT INTO users VALUES (?, ?, ?, ?, ?, ?)", [userId, locationsId, username, hashedPassword, firstName, lastName]);
+  
   // Execute the query
-  MySQLConnection.query("INSERT INTO users VALUES (?, ?, ?, ?, ?, ?)", [userId, locationsId, username, password, firstName, lastName], function (mySQLError, result, fields) 
-  {
-    // If there was a MySQL error...
-    if (mySQLError != null) 
-      // Throw the error
-      throw mySQLError;
+  await GetQueryResult(query);
 
-    // Set the body of the response
-    responseObject.json({validation: locationsId});
-  });
+  // Set the response body
+  responseBody["locationsId"] = locationsId;
+  responseBody["userId"] = userId;
+
+  // Set the body of the response
+  responseObject.json(responseBody);
 });
 
 // The service for the user info page
-expressService.get("/user/info", (requestObject, responseObject) => 
+expressService.get("/user/info", async (requestObject, responseObject) => 
 {
   // Set the response status
   responseObject.status(200);
 
-  // Get the url object
-  var urlObject = urlModule.parse(requestObject.url, true);
-
-  // Get the query arguments
-  var queryArguments = urlObject.query;
-
-  // Get the user id query argument
-  var locationsId = queryArguments.locationsId;
-
-  // Declare the response body
+  // Initialize the response body
   var responseBody = 
   {
-    "lastUploadDate" : "",
-    "timespan" : "",
-    "ecoScores" : [],
-    "top3" : []
-  };
+    lastUploadDate : null,
+    initialTimestampMS : null,
+    lastTimestampMS : null,
+    ecoScores : [],
+    top3 : []
+  }; 
+
+  // Parse the request body
+  var userInfo = requestObject.body;
+
+  // Get the locations id
+  var locationsId = userInfo.locationsId;
+
+  // Prepare the query
+  var query = MySQLConnection.format("SELECT UploadDate FROM locations Where LocationId = ? Order By TimestampMs DESC Limit 1", locationsId);
 
   // Execute the query
-  MySQLConnection.query("SELECT UploadDate FROM locations Where LocationId = ? Order By TimestampMs DESC Limit 1", locationsId, function (mySQLError, result, fields) 
-  {
-    // If there was a MySQL error...
-    if (mySQLError != null) 
-      // Throw the error
-      throw mySQLError;
-    else
-    {
-      // If the result is not empty...
-      if(result.length != 0)
-      {
-        // Get the date part
-        responseBody["lastUploadDate"] = result[0].UploadDate.toJSON().slice(0, 10);
-      }
-    }
-    // Declare the left end of the timespan
-    var firstTimestampMs;
+  var results = GetQueryResult(query);
 
-    // Declare the right end of the timespan
-    var lastTimestampMs;
+  // If there is at least one result...
+  if(results.length != 0)
+    // Get the date part of the result
+    responseBody["lastUploadDate"] = results[0].UploadDate.toJSON().slice(0, 10);
 
-    // Execute the query
-    MySQLConnection.query("SELECT TimestampMs FROM locations Where LocationId = ? Order By TimestampMs DESC Limit 1", locationsId, function (mySQLError, result, fields) 
-    {
-      // If there was a MySQL error...
-      if (mySQLError != null) 
-        // Throw the error
-        throw mySQLError;
-      else
-      {
-        // If the result is not empty...
-        if(result.length != 0)
-        {
-          // Get the date part
-          lastTimestampMs = result[0].TimestampMs.toJSON().slice(0, 10);
-        }
-      }
-      
-      // Execute the query
-      MySQLConnection.query("SELECT TimestampMs FROM locations Where LocationId = ? Order By TimestampMs ASC Limit 1", locationsId, function (mySQLError, result, fields) 
-      {
-        // If there was a MySQL error...
-        if (mySQLError != null) 
-          // Throw the error
-          throw mySQLError;
-        else
-        {
-          // If the result is not empty...
-          if(result.length != 0)
-          {
-            // Get the date part
-            firstTimestampMs = result[0].TimestampMs.toJSON().slice(0, 10);
-          }
-        }
-        // Get the timespan
-        responseBody["timespan"] = firstTimestampMs + " : " + lastTimestampMs;
+  // Prepare the query
+  query = MySQLConnection.format("SELECT TimestampMs FROM locations WHERE LocationId = ? ORDER BY TimestampMs ASC LIMIT 1", locationsId);
+
+  // Execute the query
+  results = GetQueryResult(query);
+
+  // If there is at least one result...
+  if(results.length != 0)
+    // Get the date part of the result
+    responseBody["initialTimestampMS"] = results[0].UploadDate.toJSON().slice(0, 10);
+
+  // Prepare the query
+  query = MySQLConnection.format("SELECT TimestampMs FROM locations WHERE LocationId = ? ORDER BY TimestampMs DESC LIMIT 1", locationsId);
+
+  // Execute the query
+  results = GetQueryResult(query);
+
+  // If there is at least one result...
+  if(results.length != 0)
+    // Get the date part of the result
+    responseBody["lastTimestampMS"] = results[0].UploadDate.toJSON().slice(0, 10);= results[0].UploadDate.toJSON().slice(0, 10);
+
 
         // Execute the query
         MySQLConnection.query("select TimestampMs, InVehicle, OnBicycle, OnFoot, Running, Still, Tilting, Unknown, Walking from activities where ActivitiesId in(SELECT ActivitiesId FROM locations Where LocationId = ? AND ActivitiesId IS NOT null AND datediff(TimestampMs, CURDATE()) > -366 ORDER BY TimestampMs ASC)", locationsId, function (mySQLError, result, fields) 
@@ -365,68 +350,12 @@ expressService.get("/user/info", (requestObject, responseObject) =>
               // Get the eco scores
               responseBody["ecoScores"] = ecoScores;
             }
+            // Get the eco scores
+            responseBody["top3"] = userScores;
+            
+            // Set the response body
+            responseObject.json(responseBody);
           }
-          // Execute the query
-          MySQLConnection.query("SELECT LocationsId, FirstName, LastName FROM users", function (mySQLError, result, fields) 
-          {
-            // If there was a MySQL error...
-            if (mySQLError != null) 
-              // Throw the error
-              throw mySQLError;
-            else
-            {
-              // If the result is not empty...
-              if(result.length != 0)
-              {
-                // Declare an array that will contain the users scores
-                var userScores = [];
-                
-                // For every user...
-                for(const row of result)
-                {
-                  // For every location...
-                  var locationsId = row.LocationsId;
-                  
-                  sql = mysqlModule.format("select InVehicle, OnBicycle, OnFoot, Running, Still, Tilting, Unknown, Walking from activities where ActivitiesId in(SELECT ActivitiesId FROM locations Where LocationId = ? AND ActivitiesId IS NOT null AND (MONTH(TimestampMs) - MONTH(CURDATE()) = 0))", locationsId);
-                  
-                  // If the result is not empty...
-                  if(result.length != 0)
-                  {
-                    // Initialize a counter
-                    var bodyActivityCounter = 0;
-                    
-                    // For every row in the result...
-                    for(const row of result)
-                    {
-                      // If the activity counts a a body type activity...
-                      if(row.InVehicle < Math.max(row.OnBicycle, row.OnFoot, row.Walking, row.Running))
-                        // Increase the counter
-                        bodyActivityCount++;
-                    }
-                    // If there are monthly activities...
-                    if(monthlyResults.length != 0)
-                      // Calculate the percentage
-                      var bodyActivityPercentage = Math.round(bodyActivityCounter / monthlyResults.length) * 100;
-                    else
-                      // Set the percentage to 0
-                      var bodyActivityPercentage = 0;
-
-                    // Add the monthly score
-                    userScores.push(
-                      {
-                        key : locationsId,
-                        value : [bodyActivityPercentage + " %", row.FirstName + " " + row.LastName[0] + "."]
-                      });
-                  }
-                }
-                // Get the eco scores
-                responseBody["top3"] = userScores;
-                
-                // Set the response body
-                responseObject.json(responseBody);
-              }
-            }
-          });
         });
       });
     });
