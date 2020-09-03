@@ -52,13 +52,23 @@ const host = 'localhost';
 // Set the web server port
 const port = 8080;
 
-// Declare the dictionary that will contain the endpoints
-const endpointDictionary = 
+// The service for the admin dashboard page
+expressService.get("/admin/dashboard", (requestObject, responseObject) => 
 {
-  "/admin/dashboard" : function(){},
-  "/admin/analysis" : function(arguments){},
-  "/admin/download" : function(arguments){}
-};
+
+});
+
+// The service for the admin download page
+expressService.get("/admin/download", (requestObject, responseObject) => 
+{
+
+});
+
+// The service for the admin analysis page
+expressService.get("/admin/analysis", (requestObject, responseObject) => 
+{
+
+});
 
 // The service for the login page
 expressService.get("/login", (requestObject, responseObject) => 
@@ -305,47 +315,38 @@ expressService.get("/user/info", (requestObject, responseObject) =>
                 {
                   // For every location...
                   var locationsId = row.LocationsId;
-
-                  // Execute the query
-                  MySQLConnection.query("select InVehicle, OnBicycle, OnFoot, Running, Still, Tilting, Unknown, Walking from activities where ActivitiesId in(SELECT ActivitiesId FROM locations Where LocationId = ? AND ActivitiesId IS NOT null AND (MONTH(TimestampMs) - MONTH(CURDATE()) = 0))", locationsId, function (mySQLError, result, fields) 
+                  
+                  sql = mysqlModule.format("select InVehicle, OnBicycle, OnFoot, Running, Still, Tilting, Unknown, Walking from activities where ActivitiesId in(SELECT ActivitiesId FROM locations Where LocationId = ? AND ActivitiesId IS NOT null AND (MONTH(TimestampMs) - MONTH(CURDATE()) = 0))", locationsId);
+                  
+                  // If the result is not empty...
+                  if(result.length != 0)
                   {
-                    // If there was a MySQL error...
-                    if (mySQLError != null) 
-                      // Throw the error
-                      throw mySQLError;
-                    else
+                    // Initialize a counter
+                    var bodyActivityCounter = 0;
+                    
+                    // For every row in the result...
+                    for(const row of result)
                     {
-                      // If the result is not empty...
-                      if(result.length != 0)
-                      {
-                        // Initialize a counter
-                        var bodyActivityCounter = 0;
-                        
-                        // For every row in the result...
-                        for(const row of result)
-                        {
-                          // If the activity counts a a body type activity...
-                          if(row.InVehicle < Math.max(row.OnBicycle, row.OnFoot, row.Walking, row.Running))
-                            // Increase the counter
-                            bodyActivityCount++;
-                        }
-                        // If there are monthly activities...
-                        if(monthlyResults.length != 0)
-                          // Calculate the percentage
-                          var bodyActivityPercentage = Math.round(bodyActivityCounter / monthlyResults.length) * 100;
-                        else
-                          // Set the percentage to 0
-                          var bodyActivityPercentage = 0;
-
-                        // Add the monthly score
-                        userScores.push(
-                          {
-                            key : locationsId,
-                            value : [bodyActivityPercentage + " %", row.FirstName + " " + row.LastName[0] + "."]
-                          });
-                      }
+                      // If the activity counts a a body type activity...
+                      if(row.InVehicle < Math.max(row.OnBicycle, row.OnFoot, row.Walking, row.Running))
+                        // Increase the counter
+                        bodyActivityCount++;
                     }
-                  });
+                    // If there are monthly activities...
+                    if(monthlyResults.length != 0)
+                      // Calculate the percentage
+                      var bodyActivityPercentage = Math.round(bodyActivityCounter / monthlyResults.length) * 100;
+                    else
+                      // Set the percentage to 0
+                      var bodyActivityPercentage = 0;
+
+                    // Add the monthly score
+                    userScores.push(
+                      {
+                        key : locationsId,
+                        value : [bodyActivityPercentage + " %", row.FirstName + " " + row.LastName[0] + "."]
+                      });
+                  }
                 }
                 // Get the eco scores
                 responseBody["top3"] = userScores;
