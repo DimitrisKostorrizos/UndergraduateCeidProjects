@@ -46,6 +46,77 @@ function TimestampMsToMySQLDate(timestampMs)
   return formattedDatePart;
 }
 
+async function GetTop3Async()
+{
+  // Execute the query
+  await MySQLConnection.query("SELECT LocationsId, FirstName, LastName FROM users", function (mySQLError, result, fields) 
+  {
+    // If there was a MySQL error...
+    if (mySQLError != null) 
+      // Throw the error
+      throw mySQLError;
+    else
+    {
+      // If the result is not empty...
+      if(result.length != 0)
+      {
+        // Declare an array that will contain the users scores
+        var userScores = [];
+        
+        // For every user...
+        for(const row of result)
+        {
+          // For every location...
+          var locationsId = row.LocationsId;
+
+          // Execute the query
+          MySQLConnection.query("select InVehicle, OnBicycle, OnFoot, Running, Still, Tilting, Unknown, Walking from activities where ActivitiesId in(SELECT ActivitiesId FROM locations Where LocationId = ? AND ActivitiesId IS NOT null AND (MONTH(TimestampMs) - MONTH(CURDATE()) = 0))", locationsId, function (mySQLError, result, fields) 
+          {
+            // If there was a MySQL error...
+            if (mySQLError != null) 
+              // Throw the error
+              throw mySQLError;
+            else
+            {
+              // If the result is not empty...
+              if(result.length != 0)
+              {
+                // Initialize a counter
+                var bodyActivityCounter = 0;
+                
+                // For every row in the result...
+                for(const row of result)
+                {
+                  // If the activity counts a a body type activity...
+                  if(row.InVehicle < Math.max(row.OnBicycle, row.OnFoot, row.Walking, row.Running))
+                    // Increase the counter
+                    bodyActivityCount++;
+                }
+                // If there are monthly activities...
+                if(monthlyResults.length != 0)
+                  // Calculate the percentage
+                  var bodyActivityPercentage = Math.round(bodyActivityCounter / monthlyResults.length) * 100;
+                else
+                  // Set the percentage to 0
+                  var bodyActivityPercentage = 0;
+
+                // Add the monthly score
+                userScores.push(
+                  {
+                    key : locationsId,
+                    value : [bodyActivityPercentage + " %", row.FirstName + " " + row.LastName[0] + "."]
+                  });
+              }
+            }
+            // Get the eco scores
+            responseBody["top3"] = userScores;
+          });
+        }
+      }
+    }
+  });
+}
+
 // Set the host name
 const host = 'localhost';
 
@@ -55,7 +126,7 @@ const port = 8080;
 // The service for the admin dashboard page
 expressService.get("/admin/dashboard", (requestObject, responseObject) => 
 {
-
+  GetTop3Async()
 });
 
 // The service for the admin download page
