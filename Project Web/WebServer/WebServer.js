@@ -33,17 +33,32 @@ MySQLConnection.connect(function(mySQLError)
     console.log("Successful MySQL Connection.");
 });
 
+function GetMySQLDatePart(value)
+{
+  return value.toJSON().slice(0, 10);
+}
+
+function GetMySQLTimePart(value)
+{
+  return value.toJSON().slice(11, 19);
+}
+
+function GetMySQLDateTimePart(value)
+{
+  return GetMySQLDatePart(value) + " " + GetMySQLTimePart(value);
+}
+
 /**
  * Formats the @param timestampMs to MySQL date
  * @param {Timestamp in Milliseconds} timestampMs 
  */
-function TimestampMsToMySQLDate(timestampMs)
+function TimestampMsToMySQLDateTime(timestampMs)
 {
   // Get the unformatted date representation of the timestampMs
   var unformattedDate = new Date(Number(timestampMs));
 
   // Format the date part to MySQL date
-  var formattedDatePart = unformattedDate.toJSON().slice(0, 10);
+  var formattedDatePart = GetMySQLDateTimePart(unformattedDate);
 
   // Return the MySQL date
   return formattedDatePart;
@@ -409,7 +424,7 @@ expressService.post("/user/upload", async(requestObject, responseObject) =>
   var jsonData = requestObject.body;
 
   // For every location int the json...
-  for(const location of jsonData.locations)
+  jsonData.locations.forEach(async location =>
   {
     // Initialize the activity id
     var activityId = null;
@@ -418,13 +433,13 @@ expressService.post("/user/upload", async(requestObject, responseObject) =>
     if(location.hasOwnProperty("activity"))
     {
       // For every activity...
-      for(const activity of location.activity) 
+      location.activity.forEach(async activity =>
       {
         // Generate a unique id for the activity
         var activityId = uniqueIdGeneratorModule();
 
         // Get the timestamp
-        var timestampMs = TimestampMsToMySQLDate(activity.timestampMs);
+        var timestampMs = TimestampMsToMySQLDateTime(activity.timestampMs);
   
         // Initialize the dictionary for the activity types
         var activitiesDictionary = 
@@ -461,8 +476,8 @@ expressService.post("/user/upload", async(requestObject, responseObject) =>
         var query = MySQLConnection.format("INSERT INTO activities VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", activityValues);
 
         // Execute the query
-        //await GetQueryResult(query);////////////
-      }
+        await GetQueryResult(query);
+      })
     }
     // Get the location accuracy
     var accuracy = location.accuracy;
@@ -474,7 +489,7 @@ expressService.post("/user/upload", async(requestObject, responseObject) =>
     var longitudeE7 = location.longitudeE7;
 
     // Get the location timestampMs
-    var timestampMs = TimestampMsToMySQLDate(location.timestampMs);
+    var timestampMs = TimestampMsToMySQLDateTime(location.timestampMs);
 
     // Get the MySQL values
     var locationValues = [activityId, locationsId, accuracy, latitudeE7, longitudeE7, timestampMs];
@@ -483,8 +498,8 @@ expressService.post("/user/upload", async(requestObject, responseObject) =>
     var query = MySQLConnection.format("INSERT INTO locations VALUES (?, ?, ?, ?, ?, ?, CURDATE())", locationValues);
 
     // Execute the query
-    ////await GetQueryResult(query);///////////
-  }
+    await GetQueryResult(query);
+  })
 
   // Set the response body
   responseObject.json({status: true});
