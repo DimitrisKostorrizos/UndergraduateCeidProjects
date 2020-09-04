@@ -78,6 +78,43 @@ function TimestampMsToMySQLDateTime(timestampMs)
 }
 
 /**
+ * Calculates and return the @param activities percentage
+ * @param {Activities} activities 
+ */
+function GetActivitiesPercentage(activities)
+{
+  var activityTypeCounterDictionary =
+  {
+   InVehicle : 0, 
+   OnBicycle : 0, 
+   OnFoot : 0, 
+   Running : 0, 
+   Still : 0, 
+   Tilting : 0, 
+   Unknown : 0,
+   Walking : 0
+  };
+
+  for(const activity of activities)
+  {
+    var test ="";
+
+    for(const activityType in activityTypeCounterDictionary)
+    {
+      if(activity[activityType] != 0)
+        activityTypeCounterDictionary[activityType]++;
+    }
+  }
+
+  for(const activityType in activityTypeCounterDictionary)
+  {
+    activityTypeCounterDictionary[activityType] = activityTypeCounterDictionary[activityType] / activities.length * 100;
+  }
+
+  return activityTypeCounterDictionary;
+}
+
+/**
  * Executes and returns the result of @param MySQLQuery asynchronously
  * @param {MySQL query} MySQLQuery 
  */
@@ -540,6 +577,15 @@ expressService.get("/user/data", async (requestObject, responseObject) =>
   // Set the response status
   responseObject.status(200);
 
+  // Initialize the response body
+  var responseBody =
+  {
+    activityPercentage : [],
+    timePerActivity : [],
+    dayPerActivity : [],
+    locations : []
+  };
+
   // Get the url object
   var urlObject = urlModule.parse(requestObject.url, true);
 
@@ -559,7 +605,10 @@ expressService.get("/user/data", async (requestObject, responseObject) =>
   var queryValues = [locationsId];
 
   // Declare the MySQL statement
-  var query = "SELECT LatitudeE7, LongitudeE7 FROM locations WHERE LocationId = ?";
+  var locationsQuery = "SELECT LatitudeE7, LongitudeE7, ActivitiesId FROM locations WHERE LocationId = ?";
+
+  // Declare the MySQL statement
+  var activitiesQuery = MySQLConnection.format("SELECT TimestampMs, InVehicle, OnBicycle, OnFoot, Running, Still, Tilting, Unknown, Walking FROM activities WHERE ActivitiesId in (SELECT ActivitiesId FROM locations WHERE LocationId = ?");
 
   // If the starting date is not undefined...
   if(startingDate !== null)
@@ -568,7 +617,10 @@ expressService.get("/user/data", async (requestObject, responseObject) =>
     queryValues.push(startingDate);
 
     // Merge the queries
-    query = query + ` AND datediff(TimestampMS, "${startingDate}") >= 0`;
+    locationsQuery = locationsQuery + ` AND datediff(TimestampMS, "${startingDate}") >= 0`;
+
+    // Merge the queries
+    activitiesQuery = activitiesQuery + ` AND datediff(TimestampMS, "${startingDate}") >= 0`;
   }
 
   // If the ending date is not undefined...
@@ -578,21 +630,43 @@ expressService.get("/user/data", async (requestObject, responseObject) =>
     queryValues.push(endingDate);
 
     // Merge the queries
-    query = query + ` AND datediff(TimestampMS, "${endingDate}") <= 0`;
+    locationsQuery = locationsQuery + ` AND datediff(TimestampMS, "${endingDate}") <= 0`;
+
+    // Merge the queries
+    activitiesQuery = activitiesQuery + ` AND datediff(TimestampMS, "${endingDate}") <= 0`;
   }
 
+  // Merge the queries
+  activitiesQuery = activitiesQuery + ")";
+
   // Prepare the query
-  query = MySQLConnection.format(query, queryValues)
+  locationsQuery = MySQLConnection.format(locationsQuery, queryValues);
 
   // Execute the query
-  var results = await GetQueryResult(query);
-  
-   // If the result is not empty...
-   if(results.length != 0)
-   {
-     // Set the body of the response
-     responseObject.json({locations: results});
-   }
+  var locationResults = await GetQueryResult(locationsQuery);
+
+  // If the result is not empty...
+  if(locationResults.length != 0)
+  {
+    // Add the location's coordinates
+    responseBody["locations"] = locationResults;
+
+    // Prepare the query
+    activitiesQuery = MySQLConnection.format(activitiesQuery, queryValues);
+    
+    // Execute the query
+    var activitiesResults = await GetQueryResult(activitiesQuery);
+
+    // If the result is not empty...
+    if(activitiesResults.length != 0)
+    {
+      // Get the activity percentages
+      responseBody["activityPercentage"] = GetActivitiesPercentage(activitiesResults);
+    }
+  }
+
+  // Set the body of the response
+  responseObject.json(responseBody);
 });
 
 // The service for the admin clear page
