@@ -27,29 +27,42 @@ var MySQLConnection = mysqlModule.createConnection({
 // Try to connect to the MySQL database
 MySQLConnection.connect(function(mySQLError) 
 {
+  // If there was a connection error...
   if (mySQLError != null) 
     console.log("MySQL Connection Error.");
   else
     console.log("Successful MySQL Connection.");
 });
 
+/**
+ * Returns the MySQL date part of @param value
+ * @param {TimestampMS} value 
+ */
 function GetMySQLDatePart(value)
 {
   return value.toJSON().slice(0, 10);
 }
 
+/**
+ * Returns the MySQL time part of @param value
+ * @param {TimestampMS} value 
+ */
 function GetMySQLTimePart(value)
 {
   return value.toJSON().slice(11, 19);
 }
 
+/**
+ * Returns the MySQL datetime part of @param value
+ * @param {TimestampMS} value 
+ */
 function GetMySQLDateTimePart(value)
 {
   return GetMySQLDatePart(value) + " " + GetMySQLTimePart(value);
 }
 
 /**
- * Formats the @param timestampMs to MySQL date
+ * Formats the @param timestampMs to MySQL datetime
  * @param {Timestamp in Milliseconds} timestampMs 
  */
 function TimestampMsToMySQLDateTime(timestampMs)
@@ -115,7 +128,7 @@ function GetEcoScore(activityData)
     // If the activity counts a a body type activity...
     if(row.InVehicle < Math.max(row.OnBicycle, row.OnFoot, row.Walking, row.Running))
       // Increase the counter
-      bodyActivityCount++;
+      bodyActivityCounter++;
   }
   // If there are monthly activities...
   if(activityData.length != 0)
@@ -129,10 +142,14 @@ function GetEcoScore(activityData)
   return bodyActivityPercentage + " %";
 }
 
-async function GetUserRanking(row)
+/**
+ * Calculates and returns the user ranking entry
+ * @param {[LocationsId, FirstName, LastName]]} userInfo 
+ */
+async function GetUserRanking(userInfo)
 {
   // Get the locations id
-  var locationsId = row.LocationsId;
+  var locationsId = userInfo.LocationsId;
   
   // Prepare the query
   var query = MySQLConnection.format("select InVehicle, OnBicycle, OnFoot, Running, Still, Tilting, Unknown, Walking from activities where ActivitiesId in(SELECT ActivitiesId FROM locations Where LocationId = ? AND ActivitiesId IS NOT null AND (MONTH(TimestampMs) - MONTH(CURDATE()) = 0))", locationsId);
@@ -148,11 +165,68 @@ async function GetUserRanking(row)
   {
     locationsId : locationsId,
     ecoScore : ecoScore, 
-    abbreviatedFullName : row.FirstName + " " + row.LastName[0] + "."
+    abbreviatedFullName : userInfo.FirstName + " " + userInfo.LastName[0] + "."
   }
 
   // Return user ranking
   return userRanking;
+}
+
+/**
+ * Insert the activities that are associated with the @param location into tha database
+ * @param {location} location 
+ */
+async function InsertLocationsActivity(location)
+{
+  // Generate a unique id for the activity
+  var activityId = uniqueIdGeneratorModule();
+
+  // For every activity...
+  for(const activity of location.activity)
+  {
+    // Get the timestamp
+    var timestampMs = TimestampMsToMySQLDateTime(activity.timestampMs);
+
+    // Initialize the dictionary for the activity types
+    var activitiesDictionary = 
+    {
+      "IN_VEHICLE" : 0, 
+      "ON_BICYCLE": 0, 
+      "ON_FOOT" : 0, 
+      "RUNNING" : 0, 
+      "STILL" : 0, 
+      "TILTING" : 0, 
+      "UNKNOWN" : 0,  
+      "WALKING" : 0
+    };
+
+    // For every activity type...
+    for(const activityType of activity.activity) 
+    {
+      // Get the type
+      var type = activityType.type;
+
+      // If the type is a key in the dictionary...
+      if((type in activitiesDictionary))
+        // Set the type's confidence
+        activitiesDictionary[type] = activityType.confidence;
+    }
+
+    // Get the MySQL values
+    var activityValues = 
+    [activityId, timestampMs, activitiesDictionary["IN_VEHICLE"], activitiesDictionary["ON_BICYCLE"], 
+    activitiesDictionary["ON_FOOT"], activitiesDictionary["RUNNING"], activitiesDictionary["STILL"], 
+    activitiesDictionary["TILTING"],activitiesDictionary["UNKNOWN"],activitiesDictionary["WALKING"]];
+    
+    // Prepare the query
+    var query = MySQLConnection.format("INSERT INTO activities VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", activityValues);
+
+    // Execute the query
+    await GetQueryResult(query);
+  }
+
+  // Return the activity id
+  return activityId;
 }
 
 /**
@@ -161,16 +235,16 @@ async function GetUserRanking(row)
 async function GetTop3Async()
 {
   // Get the users
-  var data = await GetQueryResult("SELECT LocationsId, FirstName, LastName FROM users");
+  var users = await GetQueryResult("SELECT LocationsId, FirstName, LastName FROM users");
 
   // Declare an array tht will contain the top 3 users
   var userScores = [];
 
   // For every user...
-  data.forEach(user => 
+  for(const user of users) 
   {
-    userScores.push(GetUserRanking(user));
-  });
+    userScores.push(await GetUserRanking(user));
+  }
 
   // Descending sort the users based on the eco score
   userScores.sort((a, b) =>
@@ -184,10 +258,8 @@ async function GetTop3Async()
     return 0;
   });
 
-  var t = userScores[0];
-
   // Return the 3 top users
-  return userScores.slice(2);
+  return userScores.slice(0,3);
 }
 
 // Set the host name
@@ -331,11 +403,14 @@ expressService.get("/user/info", async (requestObject, responseObject) =>
     top3 : []
   }; 
 
-  // Parse the request body
-  var userInfo = requestObject.body;
+  // Get the url object
+  var urlObject = urlModule.parse(requestObject.url, true);
 
-  // Get the locations id
-  var locationsId = userInfo.locationsId;
+  // Get the query arguments
+  var queryArguments = urlObject.query;
+
+  // Get the user id query argument
+  var locationsId = queryArguments.locationsId;
 
   // Prepare the query
   var query = MySQLConnection.format("SELECT UploadDate FROM locations Where LocationId = ? Order By TimestampMs DESC Limit 1", locationsId);
@@ -346,7 +421,7 @@ expressService.get("/user/info", async (requestObject, responseObject) =>
   // If there is at least one result...
   if(results.length != 0)
     // Get the date part of the result
-    responseBody["lastUploadDate"] = results[0].UploadDate.toJSON().slice(0, 10);
+    responseBody["lastUploadDate"] = GetMySQLDatePart(results[0].UploadDate);
 
   // Prepare the query
   query = MySQLConnection.format("SELECT TimestampMs FROM locations WHERE LocationId = ? ORDER BY TimestampMs ASC LIMIT 1", locationsId);
@@ -357,7 +432,7 @@ expressService.get("/user/info", async (requestObject, responseObject) =>
   // If there is at least one result...
   if(results.length != 0)
     // Get the date part of the result
-    responseBody["initialTimestampMS"] = results[0].TimestampMs.toJSON().slice(0, 10);
+    responseBody["initialTimestampMS"] = GetMySQLDatePart(results[0].TimestampMs);
 
   // Prepare the query
   query = MySQLConnection.format("SELECT TimestampMs FROM locations WHERE LocationId = ? ORDER BY TimestampMs DESC LIMIT 1", locationsId);
@@ -368,7 +443,7 @@ expressService.get("/user/info", async (requestObject, responseObject) =>
   // If there is at least one result...
   if(results.length != 0)
     // Get the date part of the result
-    responseBody["lastTimestampMS"] = results[0].TimestampMs.toJSON().slice(0, 10);
+    responseBody["lastTimestampMS"] = GetMySQLDatePart(results[0].TimestampMs);
 
   // Prepare the query
   query = MySQLConnection.format("SELECT TimestampMs, InVehicle, OnBicycle, OnFoot, Running, Still, Tilting, Unknown, Walking FROM activities WHERE ActivitiesId in (SELECT ActivitiesId FROM locations WHERE LocationId = ? AND ActivitiesId IS NOT NULL AND datediff(TimestampMs, CURDATE()) > -366 ORDER BY TimestampMs ASC)", locationsId);
@@ -396,8 +471,6 @@ expressService.get("/user/info", async (requestObject, responseObject) =>
     }
   }
 
-  var top = await GetTop3Async();
-
   // Get the top 3 users
   responseBody["top3"] = await GetTop3Async();
   
@@ -424,7 +497,7 @@ expressService.post("/user/upload", async(requestObject, responseObject) =>
   var jsonData = requestObject.body;
 
   // For every location int the json...
-  jsonData.locations.forEach(async location =>
+  for(const location of jsonData.locations)
   {
     // Initialize the activity id
     var activityId = null;
@@ -432,52 +505,8 @@ expressService.post("/user/upload", async(requestObject, responseObject) =>
     // If the type is a key in the dictionary...
     if(location.hasOwnProperty("activity"))
     {
-      // For every activity...
-      location.activity.forEach(async activity =>
-      {
-        // Generate a unique id for the activity
-        var activityId = uniqueIdGeneratorModule();
-
-        // Get the timestamp
-        var timestampMs = TimestampMsToMySQLDateTime(activity.timestampMs);
-  
-        // Initialize the dictionary for the activity types
-        var activitiesDictionary = 
-        {
-          "IN_VEHICLE" : 0, 
-          "ON_BICYCLE": 0, 
-          "ON_FOOT" : 0, 
-          "RUNNING" : 0, 
-          "STILL" : 0, 
-          "TILTING" : 0, 
-          "UNKNOWN" : 0,  
-          "WALKING" : 0
-        };
-  
-        // For every activity type...
-        for(const activityType of activity.activity) 
-        {
-          // Get the type
-          var type = activityType.type;
-  
-          // If the type is a key in the dictionary...
-          if((type in activitiesDictionary))
-            // Set the type's confidence
-            activitiesDictionary[type] = activityType.confidence;
-        }
-  
-        // Get the MySQL values
-        var activityValues = 
-        [activityId, timestampMs, activitiesDictionary["IN_VEHICLE"], activitiesDictionary["ON_BICYCLE"], 
-        activitiesDictionary["ON_FOOT"], activitiesDictionary["RUNNING"], activitiesDictionary["STILL"], 
-        activitiesDictionary["TILTING"],activitiesDictionary["UNKNOWN"],activitiesDictionary["WALKING"]];
-        
-        // Prepare the query
-        var query = MySQLConnection.format("INSERT INTO activities VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", activityValues);
-
-        // Execute the query
-        await GetQueryResult(query);
-      })
+      // Generate a unique id for the activity
+      var activityId = await InsertLocationsActivity(location);
     }
     // Get the location accuracy
     var accuracy = location.accuracy;
@@ -499,7 +528,7 @@ expressService.post("/user/upload", async(requestObject, responseObject) =>
 
     // Execute the query
     await GetQueryResult(query);
-  })
+  }
 
   // Set the response body
   responseObject.json({status: true});
@@ -511,17 +540,20 @@ expressService.get("/user/data", async (requestObject, responseObject) =>
   // Set the response status
   responseObject.status(200);
 
-  // Parse the the json file
-  var userInfo = requestObject.body;
+  // Get the url object
+  var urlObject = urlModule.parse(requestObject.url, true);
+
+  // Get the query arguments
+  var queryArguments = urlObject.query;
 
   // Get the locations id query argument
-  var locationsId = userInfo.locationsId;
+  var locationsId = queryArguments.locationsId;
 
   // Get the starting date query argument
-  var startingDate = userInfo.startingDate;
+  var startingDate = queryArguments.startingDate;
 
   // Get the ending date query argument
-  var endingDate = userInfo.endingDate;
+  var endingDate = queryArguments.endingDate;
 
   // Initialize an array that will contain the query values
   var queryValues = [locationsId];
@@ -559,7 +591,7 @@ expressService.get("/user/data", async (requestObject, responseObject) =>
    if(results.length != 0)
    {
      // Set the body of the response
-     responseObject.json({locations: result});
+     responseObject.json({locations: results});
    }
 });
 
