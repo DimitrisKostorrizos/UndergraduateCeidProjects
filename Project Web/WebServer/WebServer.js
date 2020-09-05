@@ -124,9 +124,39 @@ function GetActivitiesPercentage(activities)
  * Calculates and return the hour of the day that has the most @param activities entries
  * @param {Activities} activities 
  */
-function GetActivitiesHours(activities)
+function GetHourPerActivity(activities)
 {
+  // Initialize the dictionary that will contain the activity type hours
+  var activityTypeCounterDictionary =
+  {
+   InVehicle : null, 
+   OnBicycle : null, 
+   OnFoot : null, 
+   Running : null, 
+   Still : null, 
+   Tilting : null, 
+   Unknown : null,
+   Walking : null
+  };
 
+  // For every activity type...
+  for(const activityType in activityTypeCounterDictionary)
+  {
+    // Get the activities that have non zero value for the selected type
+    var filteredActivities = activities.filter(x => x[activityType] != 0);
+
+
+
+    // If the activity value is not 0...
+    if(activity[activityType] != 0)
+      // Count the activity type
+      activityTypeCounterDictionary[activityType]++;
+  }
+  // For every activity...
+  for(const activity of activities)
+  {
+    
+  }
 }
 
 /**
@@ -605,7 +635,7 @@ expressService.get("/user/data", async (requestObject, responseObject) =>
   var responseBody =
   {
     activityPercentage : [],
-    timePerActivity : [],
+    hourPerActivity : [],
     dayPerActivity : [],
     locations : []
   };
@@ -686,6 +716,9 @@ expressService.get("/user/data", async (requestObject, responseObject) =>
     {
       // Get the activity percentages
       responseBody["activityPercentage"] = GetActivitiesPercentage(activitiesResults);
+      
+      // Get the hour per activity
+      responseBody["hourPerActivity"] = GetHourPerActivity(activitiesResults);
     }
   }
 
