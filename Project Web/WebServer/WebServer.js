@@ -83,6 +83,7 @@ function TimestampMsToMySQLDateTime(timestampMs)
  */
 function GetActivitiesPercentage(activities)
 {
+  // Initialize the dictionary that will contain the activity type percentages
   var activityTypeCounterDictionary =
   {
    InVehicle : 0, 
@@ -95,23 +96,46 @@ function GetActivitiesPercentage(activities)
    Walking : 0
   };
 
+  // For every activity...
   for(const activity of activities)
   {
-    var test ="";
-
+    // For every activity type...
     for(const activityType in activityTypeCounterDictionary)
     {
+      // If the activity value is not 0...
       if(activity[activityType] != 0)
+        // Count the activity type
         activityTypeCounterDictionary[activityType]++;
     }
   }
 
+  // For every type...
   for(const activityType in activityTypeCounterDictionary)
   {
+    // Calculate the type percentage
     activityTypeCounterDictionary[activityType] = activityTypeCounterDictionary[activityType] / activities.length * 100;
   }
 
+  // Return the dictionary
   return activityTypeCounterDictionary;
+}
+
+/**
+ * Calculates and return the hour of the day that has the most @param activities entries
+ * @param {Activities} activities 
+ */
+function GetActivitiesHours(activities)
+{
+
+}
+
+/**
+ * Calculates and return the the day of the week that has the most @param activities entries
+ * @param {Activities} activities 
+ */
+function GetActivitiesDay(activities)
+{
+
 }
 
 /**
