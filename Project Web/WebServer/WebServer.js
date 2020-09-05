@@ -127,7 +127,7 @@ function GetActivitiesPercentage(activities)
 function GetHourPerActivity(activities)
 {
   // Initialize the dictionary that will contain the activity type hours
-  var activityTypeCounterDictionary =
+  var activityTypeHourDictionary =
   {
    InVehicle : null, 
    OnBicycle : null, 
@@ -140,23 +140,32 @@ function GetHourPerActivity(activities)
   };
 
   // For every activity type...
-  for(const activityType in activityTypeCounterDictionary)
+  for(const activityType in activityTypeHourDictionary)
   {
     // Get the activities that have non zero value for the selected type
     var filteredActivities = activities.filter(x => x[activityType] != 0);
 
+    // Initialize an array that will contain the count of the activities grouped by hour
+    var hoursDictionary = [];
 
+    // For every hour...
+    for(var hour = 0; hour < 24; hour++)
+    {
+      // Get the activities that have non zero value for the selected type
+      var filteredByHourActivities = filteredActivities.filter(x => x.TimestampMs.getHours() == hour);
 
-    // If the activity value is not 0...
-    if(activity[activityType] != 0)
-      // Count the activity type
-      activityTypeCounterDictionary[activityType]++;
+      // Add the entry
+      hoursDictionary.push(
+        {
+          "hour" : hour,
+          "value" : filteredByHourActivities.length == -1 ? 0 : filteredByHourActivities.length
+        });
+    }
+
+    activityTypeHourDictionary[activityType] = hoursDictionary.indexOf(Math.max(activityTypeHourDictionary));
   }
-  // For every activity...
-  for(const activity of activities)
-  {
-    
-  }
+
+  return activityTypeHourDictionary;
 }
 
 /**
