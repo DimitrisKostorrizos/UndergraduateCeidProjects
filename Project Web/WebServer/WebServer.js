@@ -319,6 +319,18 @@ async function GetUserRanking(userInfo)
   return userRanking;
 }
 
+function JsonToCsv(jsonData)
+{
+  var items = json3.items;
+  var replacer = (key, value) => value === null ? '' : value; // specify how you want to handle null values here
+  var header = Object.keys(items[0]);
+  var csv = items.map(row => header.map(fieldName => JSON.stringify(row[fieldName], replacer)).join(','))
+  csv.unshift(header.join(','));
+  csv = csv.join('\r\n');
+
+  return csv;
+}
+
 /**
  * Insert the activities that are associated with the @param location into tha database
  * @param {location} location 
