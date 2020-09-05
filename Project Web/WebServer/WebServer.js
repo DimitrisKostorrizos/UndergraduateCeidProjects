@@ -155,16 +155,20 @@ function GetHourPerActivity(activities)
       var filteredByHourActivities = filteredActivities.filter(x => x.TimestampMs.getHours() == hour);
 
       // Add the entry
-      hoursDictionary.push(
-        {
-          "hour" : hour,
-          "value" : filteredByHourActivities.length == -1 ? 0 : filteredByHourActivities.length
-        });
+      hoursDictionary.push(filteredByHourActivities.length);
     }
 
-    activityTypeHourDictionary[activityType] = hoursDictionary.indexOf(Math.max(activityTypeHourDictionary));
+    // Get the max value
+    var maxValue = hoursDictionary.reduce(function(a, b) 
+    {
+      return Math.max(a, b);
+    });
+
+    // Get the index of the max value
+    activityTypeHourDictionary[activityType] = hoursDictionary.indexOf(maxValue);
   }
 
+  // Return the dictionary
   return activityTypeHourDictionary;
 }
 
@@ -172,9 +176,52 @@ function GetHourPerActivity(activities)
  * Calculates and return the the day of the week that has the most @param activities entries
  * @param {Activities} activities 
  */
-function GetActivitiesDay(activities)
+function GetDayPerActivity(activities)
 {
+  // Initialize the dictionary that will contain the activity type hours
+  var activityTypeDayDictionary =
+  {
+   InVehicle : null, 
+   OnBicycle : null, 
+   OnFoot : null, 
+   Running : null, 
+   Still : null, 
+   Tilting : null, 
+   Unknown : null,
+   Walking : null
+  };
 
+  // For every activity type...
+  for(const activityType in activityTypeDayDictionary)
+  {
+    // Get the activities that have non zero value for the selected type
+    var filteredActivities = activities.filter(x => x[activityType] != 0);
+
+    // Initialize an array that will contain the count of the activities grouped by day
+    var daysDictionary = [];
+
+    // For every day...
+    for(var day = 0; day < 7; day++)
+    {
+      // Get the activities that have non zero value for the selected type
+      var filteredByHourActivities = filteredActivities.filter(x => x.TimestampMs.getDay() == day);
+
+      // Add the entry
+      daysDictionary.push(filteredByHourActivities.length);
+    }
+
+    // Get the max value
+    var maxValue = daysDictionary.reduce(function(a, b) 
+    {
+      return Math.max(a, b);
+    });
+
+    // Get the index of the max value
+    activityTypeDayDictionary[activityType] = daysDictionary.indexOf(maxValue);
+  }
+
+  // Return the dictionary
+  return activityTypeDayDictionary;
 }
 
 /**
@@ -699,7 +746,7 @@ expressService.get("/user/data", async (requestObject, responseObject) =>
     activitiesQuery = activitiesQuery + ` AND datediff(TimestampMS, "${endingDate}") <= 0`;
   }
 
-  // Merge the queries
+  // Add the missing parentheses
   activitiesQuery = activitiesQuery + ")";
 
   // Prepare the query
@@ -728,6 +775,9 @@ expressService.get("/user/data", async (requestObject, responseObject) =>
       
       // Get the hour per activity
       responseBody["hourPerActivity"] = GetHourPerActivity(activitiesResults);
+
+      // Get the day per activity
+      responseBody["dayPerActivity"] = GetDayPerActivity(activitiesResults);
     }
   }
 
