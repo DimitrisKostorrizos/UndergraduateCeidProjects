@@ -36,7 +36,7 @@ MySQLConnection.connect(function(mySQLError)
 
 /**
  * Returns the MySQL date part of @param value
- * @param {TimestampMS} value 
+ * @param {TimestampMs} value 
  */
 function GetMySQLDatePart(value)
 {
@@ -45,7 +45,7 @@ function GetMySQLDatePart(value)
 
 /**
  * Returns the MySQL time part of @param value
- * @param {TimestampMS} value 
+ * @param {TimestampMs} value 
  */
 function GetMySQLTimePart(value)
 {
@@ -54,7 +54,7 @@ function GetMySQLTimePart(value)
 
 /**
  * Returns the MySQL datetime part of @param value
- * @param {TimestampMS} value 
+ * @param {TimestampMs} value 
  */
 function GetMySQLDateTimePart(value)
 {
@@ -356,10 +356,21 @@ function GetActivitiesPerYearPercentage(activitiesResults)
   // Get the current year
   var currentYear = new Date().getFullYear();
 
-  var minimumYear = activitiesResults.filter(x => x.TimestampMs.getFullYear() == year);
-  
+  // Ascending sort the activities results based on the year
+  activitiesResults.sort(function(a, b) 
+  {
+    if(a.TimestampMs.getFullYear() >= b.TimestampMs.getFullYear())
+      return a;
+
+    if(a.TimestampMs.getFullYear() < b.TimestampMs.getFullYear())
+      return b;
+  });
+
+  // Get the minimum year
+  var minimumYear = activitiesResults[0].TimestampMs.getFullYear();
+
   // For every user...
-  for(var year = 0; year < currentYear; year++)
+  for(var year = minimumYear; year <= currentYear; year++)
   {
     // Get the daily results 
     var yearResults = activitiesResults.filter(x => x.TimestampMs.getFullYear() == year);
@@ -998,10 +1009,10 @@ expressService.get("/user/data", async (requestObject, responseObject) =>
     queryValues.push(startingDate);
 
     // Merge the queries
-    locationsQuery = locationsQuery + ` AND datediff(TimestampMS, "${startingDate}") >= 0`;
+    locationsQuery = locationsQuery + ` AND datediff(TimestampMs, "${startingDate}") >= 0`;
 
     // Merge the queries
-    activitiesQuery = activitiesQuery + ` AND datediff(TimestampMS, "${startingDate}") >= 0`;
+    activitiesQuery = activitiesQuery + ` AND datediff(TimestampMs, "${startingDate}") >= 0`;
   }
 
   // If the ending date is not undefined...
@@ -1011,10 +1022,10 @@ expressService.get("/user/data", async (requestObject, responseObject) =>
     queryValues.push(endingDate);
 
     // Merge the queries
-    locationsQuery = locationsQuery + ` AND datediff(TimestampMS, "${endingDate}") <= 0`;
+    locationsQuery = locationsQuery + ` AND datediff(TimestampMs, "${endingDate}") <= 0`;
 
     // Merge the queries
-    activitiesQuery = activitiesQuery + ` AND datediff(TimestampMS, "${endingDate}") <= 0`;
+    activitiesQuery = activitiesQuery + ` AND datediff(TimestampMs, "${endingDate}") <= 0`;
   }
 
   // Add the missing parentheses
