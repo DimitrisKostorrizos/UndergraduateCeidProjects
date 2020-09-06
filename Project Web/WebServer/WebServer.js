@@ -228,7 +228,7 @@ function GetDayPerActivity(activities)
  * Executes and returns the result of @param MySQLQuery asynchronously
  * @param {MySQL query} MySQLQuery 
  */
-async function GetQueryResult(MySQLQuery) 
+async function GetQueryResultAsync(MySQLQuery) 
 {
   // Return the query's execution result, wrapped in a promise object
   return new Promise(data => {
@@ -293,7 +293,7 @@ function GetEcoScore(activityData)
  * Calculates and returns the user ranking entry
  * @param {[LocationsId, FirstName, LastName]]} userInfo 
  */
-async function GetUserRanking(userInfo)
+async function GetUserRankingAsync(userInfo)
 {
   // Get the locations id
   var locationsId = userInfo.LocationsId;
@@ -302,7 +302,7 @@ async function GetUserRanking(userInfo)
   var query = MySQLConnection.format("select InVehicle, OnBicycle, OnFoot, Running, Still, Tilting, Unknown, Walking from activities where ActivitiesId in(SELECT ActivitiesId FROM locations Where LocationId = ? AND ActivitiesId IS NOT null AND (MONTH(TimestampMs) - MONTH(CURDATE()) = 0))", locationsId);
 
   // Get the user's activity data
-  var activityData = await GetQueryResult(query);
+  var activityData = await GetQueryResultAsync(query);
 
   // Get the user's eco score
   var ecoScore = GetEcoScore(activityData);
@@ -317,6 +317,52 @@ async function GetUserRanking(userInfo)
 
   // Return user ranking
   return userRanking;
+}
+
+/**
+ * Calculates and return the activities per user percentage
+ * @param {UserResults} userResults 
+ * @param {ActivitiesResults} activitiesResults 
+ */
+async function GetActivitiesPerUserPercentageAsync(userResults, activitiesResults)
+{
+  // Declare an array that will contain the users' activities percentages
+  var usersArray = [];
+
+  // For every user...
+  for(const user of userResults)
+  {
+    // Prepare the MySQL query
+    var activitiesIdQuery = MySQLConnection.format("SELECT ActivitiesId FROM locations where LocationId = ?", user.LocationsId);
+
+    // Get the query results
+    var activitiesIdsResults = await GetQueryResultAsync(activitiesIdQuery);
+
+    // If there is at least one result...
+    if(activitiesIdsResults.length != 0)
+    {
+      // Get the selected user activities
+      activitiesResults.filter(x => activitiesIdsResults.includes(x.ActivitiesId));
+
+      // Get the activities percentage
+      usersArray.push(
+        {
+          "User" : user.Username,
+          "Activities" : GetActivitiesPercentage(activitiesResults)
+        });
+    }
+    else
+    {
+      // Get the activities percentage
+      usersArray.push(
+        {
+          "User" : user.Username,
+          "Activities" : null
+        });
+    }
+  }
+  // Return the array
+  return usersArray;
 }
 
 function JsonToCsv(jsonData)
@@ -335,7 +381,7 @@ function JsonToCsv(jsonData)
  * Insert the activities that are associated with the @param location into tha database
  * @param {location} location 
  */
-async function InsertLocationsActivity(location)
+async function InsertLocationsActivityAsync(location)
 {
   // Generate a unique id for the activity
   var activityId = uniqueIdGeneratorModule();
@@ -381,7 +427,7 @@ async function InsertLocationsActivity(location)
     var query = MySQLConnection.format("INSERT INTO activities VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", activityValues);
 
     // Execute the query
-    await GetQueryResult(query);
+    await GetQueryResultAsync(query);
   }
 
   // Return the activity id
@@ -394,7 +440,7 @@ async function InsertLocationsActivity(location)
 async function GetTop3Async()
 {
   // Get the users
-  var users = await GetQueryResult("SELECT LocationsId, FirstName, LastName FROM users");
+  var users = await GetQueryResultAsync("SELECT LocationsId, FirstName, LastName FROM users");
 
   // Declare an array tht will contain the top 3 users
   var userScores = [];
@@ -402,7 +448,7 @@ async function GetTop3Async()
   // For every user...
   for(const user of users) 
   {
-    userScores.push(await GetUserRanking(user));
+    userScores.push(await GetUserRankingAsync(user));
   }
 
   // Descending sort the users based on the eco score
@@ -438,14 +484,14 @@ expressService.get("/admin/dashboard", async (requestObject, responseObject) =>
   {
     activitiesPercentage : [],
     activitiesPerUserPercentage : [],
-    userId : null
+    activitiesPerMonthPercentage : [],
   };
 
   // Prepare the MySQL query
   var activitiesQuery = MySQLConnection.format("SELECT * FROM activities");
 
   // Get the query results
-  var activitiesResults = await GetQueryResult(activitiesQuery);
+  var activitiesResults = await GetQueryResultAsync(activitiesQuery);
 
   // If there is at least one result...
   if(activitiesResults.length != 0)
@@ -457,44 +503,17 @@ expressService.get("/admin/dashboard", async (requestObject, responseObject) =>
     var usersQuery = MySQLConnection.format("SELECT Username, LocationsId FROM users");
 
     // Get the query results
-    var userResults = await GetQueryResult(usersQuery);
+    var userResults = await GetQueryResultAsync(usersQuery);
 
     // If there is at least one result...
     if(userResults.length != 0)
     {
-      // For every user...
-      for(const user of userResults)
-      {
-        // Prepare the MySQL query
-        var activitiesIdQuery = MySQLConnection.format("SELECT ActivitiesId FROM locations where LocationId = ?", user.LocationsId);
-
-        // Get the query results
-        var activitiesIdsResults = await GetQueryResult(activitiesIdQuery);
-
-        // If there is at least one result...
-        if(activitiesIdsResults.length != 0)
-        {
-          // Get the selected user activities
-          activitiesResults.filter(x => activitiesIdsResults.includes(x.ActivitiesId));
-
-          // Get the activities percentage
-          responseBody["activitiesPerUserPercentage"].push(
-            {
-              "User" : user.Username,
-              "Activities" : GetActivitiesPercentage(activitiesResults)
-            });
-        }
-        else
-        {
-          // Get the activities percentage
-          responseBody["activitiesPerUserPercentage"].push(
-            {
-              "User" : user.Username,
-              "Activities" : null
-            });
-        }
-      }
+      // Get the activities per user percentage
+      responseBody["activitiesPerUserPercentage"] = await GetActivitiesPerUserPercentageAsync(userResults, activitiesResults);
     }
+    // Get the activities per month percentage
+    responseBody["activitiesPerMonthPercentage"] = Get
+    
   }
 
   // Set the response body
@@ -540,7 +559,7 @@ expressService.get("/login", async (requestObject, responseObject) =>
   var query = MySQLConnection.format("SELECT HashedPassword, UserId, LocationsId, UserId FROM users WHERE Username = ?", username);
 
   // Get the query results
-  var results = await GetQueryResult(query);
+  var results = await GetQueryResultAsync(query);
 
   // If there is at least one result...
   if(results.length != 0)
@@ -605,7 +624,7 @@ expressService.post("/signup", async (requestObject, responseObject) =>
   var query = MySQLConnection.format("INSERT INTO users VALUES (?, ?, ?, ?, ?, ?)", [userId, locationsId, username, hashedPassword, firstName, lastName]);
   
   // Execute the query
-  await GetQueryResult(query);
+  await GetQueryResultAsync(query);
 
   // Set the response body
   responseBody["locationsId"] = locationsId;
@@ -644,7 +663,7 @@ expressService.get("/user/info", async (requestObject, responseObject) =>
   var query = MySQLConnection.format("SELECT UploadDate FROM locations Where LocationId = ? Order By TimestampMs DESC Limit 1", locationsId);
 
   // Execute the query
-  var results = await GetQueryResult(query);
+  var results = await GetQueryResultAsync(query);
 
   // If there is at least one result...
   if(results.length != 0)
@@ -655,7 +674,7 @@ expressService.get("/user/info", async (requestObject, responseObject) =>
   query = MySQLConnection.format("SELECT TimestampMs FROM locations WHERE LocationId = ? ORDER BY TimestampMs ASC LIMIT 1", locationsId);
 
   // Execute the query
-  results = await GetQueryResult(query);
+  results = await GetQueryResultAsync(query);
 
   // If there is at least one result...
   if(results.length != 0)
@@ -666,7 +685,7 @@ expressService.get("/user/info", async (requestObject, responseObject) =>
   query = MySQLConnection.format("SELECT TimestampMs FROM locations WHERE LocationId = ? ORDER BY TimestampMs DESC LIMIT 1", locationsId);
 
   // Execute the query
-  results = await GetQueryResult(query);
+  results = await GetQueryResultAsync(query);
 
   // If there is at least one result...
   if(results.length != 0)
@@ -677,7 +696,7 @@ expressService.get("/user/info", async (requestObject, responseObject) =>
   query = MySQLConnection.format("SELECT TimestampMs, InVehicle, OnBicycle, OnFoot, Running, Still, Tilting, Unknown, Walking FROM activities WHERE ActivitiesId in (SELECT ActivitiesId FROM locations WHERE LocationId = ? AND ActivitiesId IS NOT NULL AND datediff(TimestampMs, CURDATE()) > -366 ORDER BY TimestampMs ASC)", locationsId);
 
   // Execute the query
-  results = await GetQueryResult(query);
+  results = await GetQueryResultAsync(query);
 
   // If there is at least one result...
   if(results.length != 0)
@@ -734,7 +753,7 @@ expressService.post("/user/upload", async(requestObject, responseObject) =>
     if(location.hasOwnProperty("activity"))
     {
       // Generate a unique id for the activity
-      var activityId = await InsertLocationsActivity(location);
+      var activityId = await InsertLocationsActivityAsync(location);
     }
     // Get the location accuracy
     var accuracy = location.accuracy;
@@ -755,7 +774,7 @@ expressService.post("/user/upload", async(requestObject, responseObject) =>
     var query = MySQLConnection.format("INSERT INTO locations VALUES (?, ?, ?, ?, ?, ?, CURDATE())", locationValues);
 
     // Execute the query
-    await GetQueryResult(query);
+    await GetQueryResultAsync(query);
   }
 
   // Set the response body
@@ -834,7 +853,7 @@ expressService.get("/user/data", async (requestObject, responseObject) =>
   locationsQuery = MySQLConnection.format(locationsQuery, queryValues);
 
   // Execute the query
-  var locationResults = await GetQueryResult(locationsQuery);
+  var locationResults = await GetQueryResultAsync(locationsQuery);
 
   // If the result is not empty...
   if(locationResults.length != 0)
@@ -846,7 +865,7 @@ expressService.get("/user/data", async (requestObject, responseObject) =>
     activitiesQuery = MySQLConnection.format(activitiesQuery, queryValues);
     
     // Execute the query
-    var activitiesResults = await GetQueryResult(activitiesQuery);
+    var activitiesResults = await GetQueryResultAsync(activitiesQuery);
 
     // If the result is not empty...
     if(activitiesResults.length != 0)
@@ -876,19 +895,19 @@ expressService.delete("/admin/clear", async (requestObject, responseObject) =>
   var query = MySQLConnection.format("Truncate locations");
 
   // Execute the query
-  await GetQueryResult(query);
+  await GetQueryResultAsync(query);
 
   //Prepare the query
   query = MySQLConnection.format("Truncate activities");
 
   // Execute the query
-  await GetQueryResult(query);
+  await GetQueryResultAsync(query);
 
   //Prepare the query
   query = MySQLConnection.format("Truncate users");
 
   // Execute the query
-  await GetQueryResult(query);
+  await GetQueryResultAsync(query);
 
   // Set the body of the response
   responseObject.json({status: true});
