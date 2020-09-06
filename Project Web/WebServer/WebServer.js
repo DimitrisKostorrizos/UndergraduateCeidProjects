@@ -430,7 +430,75 @@ const port = 8080;
 // The service for the admin dashboard page
 expressService.get("/admin/dashboard", async (requestObject, responseObject) => 
 {
+  // Set the response status
+  responseObject.status(200);
 
+  // Initialize the response body
+  var responseBody = 
+  {
+    activitiesPercentage : [],
+    activitiesPerUserPercentage : [],
+    userId : null
+  };
+
+  // Prepare the MySQL query
+  var activitiesQuery = MySQLConnection.format("SELECT * FROM activities");
+
+  // Get the query results
+  var activitiesResults = await GetQueryResult(activitiesQuery);
+
+  // If there is at least one result...
+  if(activitiesResults.length != 0)
+  {
+    // Get the activities percentage
+    responseBody["activitiesPercentage"] = GetActivitiesPercentage(activitiesResults);
+
+    // Prepare the MySQL query
+    var usersQuery = MySQLConnection.format("SELECT Username, LocationsId FROM users");
+
+    // Get the query results
+    var userResults = await GetQueryResult(usersQuery);
+
+    // If there is at least one result...
+    if(userResults.length != 0)
+    {
+      // For every user...
+      for(const user of userResults)
+      {
+        // Prepare the MySQL query
+        var activitiesIdQuery = MySQLConnection.format("SELECT ActivitiesId FROM locations where LocationId = ?", user.LocationsId);
+
+        // Get the query results
+        var activitiesIdsResults = await GetQueryResult(activitiesIdQuery);
+
+        // If there is at least one result...
+        if(activitiesIdsResults.length != 0)
+        {
+          // Get the selected user activities
+          activitiesResults.filter(x => activitiesIdsResults.includes(x.ActivitiesId));
+
+          // Get the activities percentage
+          responseBody["activitiesPerUserPercentage"].push(
+            {
+              "User" : user.Username,
+              "Activities" : GetActivitiesPercentage(activitiesResults)
+            });
+        }
+        else
+        {
+          // Get the activities percentage
+          responseBody["activitiesPerUserPercentage"].push(
+            {
+              "User" : user.Username,
+              "Activities" : null
+            });
+        }
+      }
+    }
+  }
+
+  // Set the response body
+  responseObject.json(responseBody);
 });
 
 // The service for the admin download page
@@ -495,6 +563,7 @@ expressService.get("/login", async (requestObject, responseObject) =>
       responseBody["validation"] = true;
     }
   }
+  // Set the response body
   responseObject.json(responseBody);
 });
 
