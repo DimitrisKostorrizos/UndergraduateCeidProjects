@@ -225,6 +225,171 @@ function GetDayPerActivity(activities)
 }
 
 /**
+ * Calculates and return the activities per month percentage
+ * @param {[ActivitiesResults]} activitiesResults 
+ */
+function GetActivitiesPerMonthPercentage(activitiesResults)
+{
+  // Declare an array that will contain the users' activities percentages
+  var monthsArray = [];
+
+  // For every user...
+  for(var month = 0; month < 12; month++)
+  {
+    // Get the monthly results 
+    var monthlyResults = activitiesResults.filter(x => x.TimestampMs.getMonth() == month);
+
+    // If there is at least one result...
+    if(monthlyResults.length != 0)
+    {
+      // Add the monthly activities percentage
+      monthsArray.push(
+        {
+          "month" : month,
+          "activities" : GetActivitiesPercentage(monthlyResults)
+        });
+    }
+    else
+    {
+      // Add the monthly activities percentage
+      monthsArray.push(
+        {
+          "month" : month,
+          "activities" : null
+        });
+    }
+  }
+
+  // Return the array
+  return monthsArray
+};
+
+/**
+ * Calculates and return the activities per hour percentage
+ * @param {[ActivitiesResults]} activitiesResults 
+ */
+function GetActivitiesPerHourPercentage(activitiesResults)
+{
+  // Declare an array that will contain the users' activities percentages
+  var hoursArray = [];
+
+  // For every user...
+  for(var hour = 0; hour < 24; hour++)
+  {
+    // Get the hourly results 
+    var hourlyResults = activitiesResults.filter(x => x.TimestampMs.getHours() == hour);
+
+    // If there is at least one result...
+    if(hourlyResults.length != 0)
+    {
+      // Add the hourly activities percentage
+      hoursArray.push(
+        {
+          "hour" : hour,
+          "activities" : GetActivitiesPercentage(hourlyResults)
+        });
+    }
+    else
+    {
+      // Add the hourly activities percentage
+      hoursArray.push(
+        {
+          "hour" : hour,
+          "activities" : null
+        });
+    }
+  }
+
+  // Return the array
+  return hoursArray
+};
+
+/**
+ * Calculates and return the activities per week day percentage
+ * @param {[ActivitiesResults]} activitiesResults 
+ */
+function GetActivitiesPerWeekDayPercentage(activitiesResults)
+{
+  // Declare an array that will contain the users' activities percentages
+  var weekDayArray = [];
+
+  // For every user...
+  for(var weekDay = 0; weekDay < 7; weekDay++)
+  {
+    // Get the daily results 
+    var weekDayResults = activitiesResults.filter(x => x.TimestampMs.getDay() == weekDay);
+
+    // If there is at least one result...
+    if(weekDayResults.length != 0)
+    {
+      // Add the daily activities percentage
+      weekDayArray.push(
+        {
+          "weekDay" : weekDay,
+          "activities" : GetActivitiesPercentage(weekDayResults)
+        });
+    }
+    else
+    {
+      // Add the daily activities percentage
+      weekDayArray.push(
+        {
+          "weekDay" : weekDay,
+          "activities" : null
+        });
+    }
+  }
+
+  // Return the array
+  return weekDayArray
+};
+
+/**
+ * Calculates and return the activities per year percentage
+ * @param {[ActivitiesResults]} activitiesResults 
+ */
+function GetActivitiesPerYearPercentage(activitiesResults)
+{
+  // Declare an array that will contain the users' activities percentages
+  var yearArray = [];
+
+  // Get the current year
+  var currentYear = new Date().getFullYear();
+
+  var minimumYear = activitiesResults.filter(x => x.TimestampMs.getFullYear() == year);
+  
+  // For every user...
+  for(var year = 0; year < currentYear; year++)
+  {
+    // Get the daily results 
+    var yearResults = activitiesResults.filter(x => x.TimestampMs.getFullYear() == year);
+
+    // If there is at least one result...
+    if(yearResults.length != 0)
+    {
+      // Add the daily activities percentage
+      yearArray.push(
+        {
+          "year" : year,
+          "activities" : GetActivitiesPercentage(yearResults)
+        });
+    }
+    else
+    {
+      // Add the daily activities percentage
+      yearArray.push(
+        {
+          "year" : year,
+          "activities" : null
+        });
+    }
+  }
+
+  // Return the array
+  return yearArray
+};
+
+/**
  * Executes and returns the result of @param MySQLQuery asynchronously
  * @param {MySQL query} MySQLQuery 
  */
@@ -322,7 +487,7 @@ async function GetUserRankingAsync(userInfo)
 /**
  * Calculates and return the activities per user percentage
  * @param {UserResults} userResults 
- * @param {ActivitiesResults} activitiesResults 
+ * @param {[ActivitiesResults]} activitiesResults 
  */
 async function GetActivitiesPerUserPercentageAsync(userResults, activitiesResults)
 {
@@ -485,6 +650,9 @@ expressService.get("/admin/dashboard", async (requestObject, responseObject) =>
     activitiesPercentage : [],
     activitiesPerUserPercentage : [],
     activitiesPerMonthPercentage : [],
+    activitiesPerWeekDayPercentage : [],
+    activitiesPerHourPercentage : [],
+    activitiesPerYearPercentage : []
   };
 
   // Prepare the MySQL query
@@ -511,19 +679,22 @@ expressService.get("/admin/dashboard", async (requestObject, responseObject) =>
       // Get the activities per user percentage
       responseBody["activitiesPerUserPercentage"] = await GetActivitiesPerUserPercentageAsync(userResults, activitiesResults);
     }
+
     // Get the activities per month percentage
-    responseBody["activitiesPerMonthPercentage"] = Get
+    responseBody["activitiesPerMonthPercentage"] = GetActivitiesPerMonthPercentage(activitiesResults);
     
+    // Get the activities per month percentage
+    responseBody["activitiesPerHourPercentage"] = GetActivitiesPerHourPercentage(activitiesResults);
+
+    // Get the activities per week day percentage
+    responseBody["activitiesPerWeekDayPercentage"] = GetActivitiesPerWeekDayPercentage(activitiesResults);
+    
+    // Get the activities per year percentage
+    responseBody["activitiesPerYearPercentage"] = GetActivitiesPerYearPercentage(activitiesResults);
   }
 
   // Set the response body
   responseObject.json(responseBody);
-});
-
-// The service for the admin download page
-expressService.get("/admin/download", async (requestObject, responseObject) => 
-{
-
 });
 
 // The service for the admin analysis page
