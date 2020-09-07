@@ -726,10 +726,16 @@ expressService.get("/admin/analysis", async (requestObject, responseObject) =>
   // Get the query arguments
   var queryArguments = urlObject.query;
 
+  // Get the starting year query argument
+  var startingYear = queryArguments.startingYear;
+
+  // Get the ending year query argument
+  var endingYear = queryArguments.endingYear;
+
   // Get the starting time query argument
   var startingTime = queryArguments.startingTime;
 
-  // Get the starting time query argument
+  // Get the ending time query argument
   var endingTime = queryArguments.endingTime;
 
   
@@ -743,7 +749,7 @@ expressService.get("/admin/analysis", async (requestObject, responseObject) =>
   if(queryArguments.length != 0)
   {
     // Merge the queries
-    locationsQuery = locationsQuery + "WHERE (";
+    locationsQuery = locationsQuery + " WHERE (";
 
     // If a timespan has been selected...
     if(startingTime !== null && endingTime !== null)
@@ -752,10 +758,10 @@ expressService.get("/admin/analysis", async (requestObject, responseObject) =>
       queryValues.push(startingTime);
 
       // Add the ending time
-      queryValues.push(startingTime);
+      queryValues.push(endingTime);
 
       // Merge the queries
-      locationsQuery = locationsQuery + "";
+      locationsQuery = locationsQuery + "HOUR(TimestampMs) BETWEEN ? AND ?";
     }
     // Merge the missing parentheses
     locationsQuery = locationsQuery + ")";
