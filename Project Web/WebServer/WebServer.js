@@ -732,6 +732,18 @@ expressService.get("/admin/analysis", async (requestObject, responseObject) =>
   // Get the ending year query argument
   var endingYear = queryArguments.endingYear;
 
+  // Get the starting month query argument
+  var startingMonth = queryArguments.startingMonth;
+
+  // Get the ending month query argument
+  var endingMonth = queryArguments.endingMonth;
+
+  // Get the starting day query argument
+  var startingDay = queryArguments.startingDay;
+
+  // Get the ending day query argument
+  var endingDay = queryArguments.endingDay;
+
   // Get the starting time query argument
   var startingTime = queryArguments.startingTime;
 
