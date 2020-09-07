@@ -11,7 +11,7 @@ var expressModule = require('express');
 var expressService = expressModule();
 
 // Use the express json body parser
-expressService.use(expressModule.json());
+expressService.use(expressModule.json({ limit: '1gb' }));
 
 // Get the unique id generator module
 const { v4: uniqueIdGeneratorModule } = require('uuid');
@@ -711,7 +711,71 @@ expressService.get("/admin/dashboard", async (requestObject, responseObject) =>
 // The service for the admin analysis page
 expressService.get("/admin/analysis", async (requestObject, responseObject) => 
 {
+  // Set the response status
+  responseObject.status(200);
 
+  // Initialize the response body
+  var responseBody = 
+  {
+    locations : []
+  };
+
+  // Get the url object
+  var urlObject = urlModule.parse(requestObject.url, true);
+
+  // Get the query arguments
+  var queryArguments = urlObject.query;
+
+  // Get the starting time query argument
+  var startingTime = queryArguments.startingTime;
+
+  // Get the starting time query argument
+  var endingTime = queryArguments.endingTime;
+
+  
+  // Initialize the query
+  var locationsQuery = "SELECT LatitudeE7, LongitudeE7 FROM locations";
+
+  // Declare an array that will contain the query values
+  var queryValues = [];
+
+  // If there is at least one query argument...
+  if(queryArguments.length != 0)
+  {
+    // Merge the queries
+    locationsQuery = locationsQuery + "WHERE (";
+
+    // If a timespan has been selected...
+    if(startingTime !== null && endingTime !== null)
+    {
+      // Add the staring time
+      queryValues.push(startingTime);
+
+      // Add the ending time
+      queryValues.push(startingTime);
+
+      // Merge the queries
+      locationsQuery = locationsQuery + "";
+    }
+    // Merge the missing parentheses
+    locationsQuery = locationsQuery + ")";
+  }
+  
+  // Prepare the MySQL query
+  var locationsQuery = MySQLConnection.format(locationsQuery, queryValues);
+
+  // Get the query results
+  var locationsResults = await GetQueryResultAsync(locationsQuery);
+
+  // If there is at least one result...
+  if(locationsResults.length != 0)
+  {
+    // Get the locations
+    responseBody["locations"] = locationsResults;
+  }
+
+  // Set the response body
+  responseObject.json(responseBody);
 });
 
 // The service for the login page
