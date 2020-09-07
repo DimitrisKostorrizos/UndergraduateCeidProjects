@@ -750,6 +750,8 @@ expressService.get("/admin/analysis", async (requestObject, responseObject) =>
   // Get the ending time query argument
   var endingTime = queryArguments.endingTime;
 
+  // Get the activities types query argument
+  var activitiesTypes = queryArguments.activitiesType;  
   
   // Initialize the query
   var locationsQuery = "SELECT LatitudeE7, LongitudeE7 FROM locations";
