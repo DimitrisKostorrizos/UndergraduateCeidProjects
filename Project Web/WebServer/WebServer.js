@@ -760,10 +760,82 @@ expressService.get("/admin/analysis", async (requestObject, responseObject) =>
   var queryValues = [];
 
   // If there is at least one query argument...
-  if(queryArguments.length != 0)
+  if(Object.keys(queryArguments).length != 0)
   {
+    // Calculate the number of ands in the query
+    var numberOfAnds = (Object.keys(queryArguments).length - 1) / 2 - 1;
+
     // Merge the queries
     locationsQuery = locationsQuery + " WHERE (";
+
+    // If a timespan has been selected...
+    if(startingYear !== null && endingYear !== null)
+    {
+      // Add the staring year
+      queryValues.push(startingYear);
+
+      // Add the ending year
+      queryValues.push(endingYear);
+
+      // Merge the queries
+      locationsQuery = locationsQuery + " YEAR(TimestampMs) BETWEEN ? AND ?";
+    }
+
+    // If an "AND" must be added...
+    if(numberOfAnds != 0)
+    {
+      // Merge the queries
+      locationsQuery = locationsQuery + " AND";
+
+      // Reduce the counter
+      numberOfAnds--;
+    }
+
+    // If a timespan has been selected...
+    if(startingDay !== null && endingDay !== null)
+    {
+      // Add the staring month
+      queryValues.push(startingDay);
+
+      // Add the ending month
+      queryValues.push(endingDay);
+
+      // Merge the queries
+      locationsQuery = locationsQuery + " DAY(TimestampMs) BETWEEN ? AND ?";
+    }
+
+    // If an "AND" must be added...
+    if(numberOfAnds != 0)
+    {
+      // Merge the queries
+      locationsQuery = locationsQuery + " AND";
+
+      // Reduce the counter
+      numberOfAnds--;
+    }
+
+    // If a timespan has been selected...
+    if(startingMonth !== null && endingMonth !== null)
+    {
+      // Add the staring month
+      queryValues.push(startingMonth);
+
+      // Add the ending month
+      queryValues.push(endingMonth);
+
+      // Merge the queries
+      locationsQuery = locationsQuery + " MONTH(TimestampMs) BETWEEN ? AND ?";
+    }
+
+    // If an "AND" must be added...
+    if(numberOfAnds != 0)
+    {
+      // Merge the queries
+      locationsQuery = locationsQuery + " AND";
+
+      // Reduce the counter
+      numberOfAnds--;
+    }
 
     // If a timespan has been selected...
     if(startingTime !== null && endingTime !== null)
@@ -775,8 +847,9 @@ expressService.get("/admin/analysis", async (requestObject, responseObject) =>
       queryValues.push(endingTime);
 
       // Merge the queries
-      locationsQuery = locationsQuery + "HOUR(TimestampMs) BETWEEN ? AND ?";
+      locationsQuery = locationsQuery + " HOUR(TimestampMs) BETWEEN ? AND ?";
     }
+
     // Merge the missing parentheses
     locationsQuery = locationsQuery + ")";
   }
