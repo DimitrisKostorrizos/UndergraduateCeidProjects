@@ -1,41 +1,58 @@
-function CheckUsername()
+function Login()
 {
+    // Initialize the error status
+    var error = false;
+
+    // Get the username
     var username = document.getElementById("username").value;
+
+    // If the username is empty...
     if(username.length == 0)
     {
+        // Set the error message
         document.getElementById("usernameLabel").innerHTML = "Username can't be empty.";
-    }
-    else 
-    {
-        if(username == "j")
-        {
-            HideElementbyId("userForm");
-            ShowupElementbyId("passwordForm");
-        }
-        else
-        {
-            document.getElementById("usernameLabel").innerHTML = "Enter a valid username";
-        }
-    }
-}    
 
-function CheckPassword()
-{
+        // Set the error status
+        error = true;
+    }
+
+    // Get the password
     var password = document.getElementById("psw").value;
+
+    // If the username is empty...
     if(password.length == 0)
     {
+        // Set the error message
         document.getElementById("passwordLabel").innerHTML = "Password can't be empty.";
+
+        // Set the error status
+        error = true;
     }
-    else 
+
+    // If there isn't an error
+    if(error)
     {
-        if(password == "1")
+        // Initialize the request body
+        var requestBody = 
         {
-            document.getElementById("passwordLabel").innerHTML = "Success";
-        }
-        else
+            "username" : username,
+            "password" : password
+        };
+
+        // Initialize the request
+        var httpRequest = new XMLHttpRequest();
+
+        //
+        httpRequest.onreadystatechange = function() 
         {
-            document.getElementById("passwordLabel").innerHTML = "Invalid password.Try again.";
-        }
+            if (this.readyState == 4 && this.status == 200) 
+            {
+                console.log(this.responseText);
+            }
+        };
+        httpRequest.setRequestHeader('Content-Type', 'application/json');
+        httpRequest.open("GET", "http://localhost:8080/login", false);
+        httpRequest.send(requestBody);
     }
 }
 
