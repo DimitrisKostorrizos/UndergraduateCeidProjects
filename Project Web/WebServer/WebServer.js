@@ -850,6 +850,19 @@ expressService.get("/admin/analysis", async (requestObject, responseObject) =>
       locationsQuery = locationsQuery + " HOUR(TimestampMs) BETWEEN ? AND ?";
     }
 
+    // If there is at least one type...
+    if(typeof activitiesTypes !== 'undefined')
+    {
+      // Split the query argument
+      var types = activitiesTypes.split(",");
+
+      // For every type...
+      for(const type of types)
+      {
+        
+      }
+    }
+
     // Merge the missing parentheses
     locationsQuery = locationsQuery + ")";
   }
