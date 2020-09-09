@@ -1,0 +1,1789 @@
+.mediaViewInfo {
+	--web-view-name: AnalysisUserPage;
+	--web-view-id: AnalysisUserPage;
+	--web-scale-on-resize: true;
+	--web-enable-deep-linking: true;
+}
+:root {
+	--web-view-ids: AnalysisUserPage;
+}
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	border: none;
+}
+#AnalysisUserPage {
+	position: absolute;
+	width: 1366px;
+	height: 2046px;
+	background-color: rgba(255,255,255,1);
+	overflow: hidden;
+	--web-view-name: AnalysisUserPage;
+	--web-view-id: AnalysisUserPage;
+	--web-scale-on-resize: true;
+	--web-enable-deep-linking: true;
+}
+#Background {
+	opacity: 0.49;
+	position: absolute;
+	width: 1366px;
+	height: 2046px;
+	left: 0px;
+	top: 0px;
+	overflow: visible;
+}
+#BackgroundPicture {
+	opacity: 0.4;
+	position: absolute;
+	width: 1366px;
+	height: 2046px;
+	left: 0px;
+	top: 0px;
+	overflow: visible;
+}
+#ColorEffect_q {
+	opacity: 0.5;
+	fill: url(#ColorEffect_q);
+}
+.ColorEffect_q {
+	position: absolute;
+	overflow: visible;
+	width: 1366px;
+	height: 2046px;
+	left: 0px;
+	top: 0px;
+}
+#UserTopMenuBar {
+	position: absolute;
+	width: 1366px;
+	height: 100px;
+	left: 0px;
+	top: 0px;
+	overflow: visible;
+}
+#TopMenu {
+	position: absolute;
+	width: 1366px;
+	height: 100px;
+	left: 0px;
+	top: 0px;
+	overflow: visible;
+}
+#Container {
+	fill: rgba(0,168,150,1);
+	stroke: rgba(112,112,112,1);
+	stroke-width: 1px;
+	stroke-linejoin: miter;
+	stroke-linecap: butt;
+	stroke-miterlimit: 4;
+	shape-rendering: auto;
+}
+.Container {
+	position: absolute;
+	overflow: visible;
+	width: 1366px;
+	height: 100px;
+	left: 0px;
+	top: 0px;
+}
+#HomePage {
+	position: absolute;
+	width: 400px;
+	height: 100px;
+	left: 0px;
+	top: 0px;
+	overflow: visible;
+}
+#TabArea {
+	fill: rgba(2,195,154,1);
+	stroke: rgba(112,112,112,1);
+	stroke-width: 1px;
+	stroke-linejoin: round;
+	stroke-linecap: butt;
+	stroke-miterlimit: 4;
+	shape-rendering: auto;
+}
+.TabArea {
+	position: absolute;
+	overflow: visible;
+	width: 400px;
+	height: 100px;
+	left: 0px;
+	top: 0px;
+}
+#Text {
+	left: 0px;
+	top: 14px;
+	position: absolute;
+	overflow: hidden;
+	width: 401px;
+	height: 66px;
+	text-align: center;
+	font-family: Calibri;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 50px;
+	color: rgba(5,102,141,1);
+}
+#AnalyseUserData {
+	position: absolute;
+	width: 400px;
+	height: 100px;
+	left: 397px;
+	top: 0px;
+	overflow: visible;
+}
+#TabArea_y {
+	fill: rgba(2,195,154,1);
+	stroke: rgba(112,112,112,1);
+	stroke-width: 1px;
+	stroke-linejoin: round;
+	stroke-linecap: butt;
+	stroke-miterlimit: 4;
+	shape-rendering: auto;
+}
+.TabArea_y {
+	position: absolute;
+	overflow: visible;
+	width: 400px;
+	height: 100px;
+	left: 0px;
+	top: 0px;
+}
+#Text_z {
+	left: 0px;
+	top: 14px;
+	position: absolute;
+	overflow: hidden;
+	width: 401px;
+	height: 66px;
+	text-align: center;
+	font-family: Calibri;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 50px;
+	color: rgba(5,102,141,1);
+}
+#UploadDataTab {
+	position: absolute;
+	width: 400px;
+	height: 100px;
+	left: 794px;
+	top: 0px;
+	overflow: visible;
+}
+#TabArea_ {
+	fill: rgba(2,195,154,1);
+	stroke: rgba(112,112,112,1);
+	stroke-width: 1px;
+	stroke-linejoin: round;
+	stroke-linecap: butt;
+	stroke-miterlimit: 4;
+	shape-rendering: auto;
+}
+.TabArea_ {
+	position: absolute;
+	overflow: visible;
+	width: 400px;
+	height: 100px;
+	left: 0px;
+	top: 0px;
+}
+#Text_ {
+	left: 0px;
+	top: 14px;
+	position: absolute;
+	overflow: hidden;
+	width: 401px;
+	height: 66px;
+	text-align: center;
+	font-family: Calibri;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 50px;
+	color: rgba(5,102,141,1);
+}
+#HeatMapContainer {
+	fill: rgba(255,255,255,1);
+	stroke: rgba(112,112,112,1);
+	stroke-width: 1px;
+	stroke-linejoin: miter;
+	stroke-linecap: butt;
+	stroke-miterlimit: 4;
+	shape-rendering: auto;
+}
+.HeatMapContainer {
+	position: absolute;
+	overflow: visible;
+	width: 1130px;
+	height: 780px;
+	left: 118px;
+	top: 1164px;
+}
+#Button {
+	position: absolute;
+	width: 215px;
+	height: 51px;
+	left: 1033px;
+	top: 134px;
+	overflow: visible;
+}
+#TextBlock {
+	fill: rgba(2,195,154,1);
+	stroke: rgba(2,128,144,1);
+	stroke-width: 1px;
+	stroke-linejoin: miter;
+	stroke-linecap: butt;
+	stroke-miterlimit: 4;
+	shape-rendering: auto;
+}
+.TextBlock {
+	position: absolute;
+	overflow: visible;
+	width: 215px;
+	height: 51px;
+	left: 0px;
+	top: 0px;
+}
+#Text_ba {
+	left: 26px;
+	top: 11px;
+	position: absolute;
+	overflow: hidden;
+	width: 165px;
+	height: 30px;
+	text-align: center;
+	font-family: Calibri;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 26px;
+	color: rgba(5,102,141,1);
+}
+#StartingMonthInputContainer {
+	fill: rgba(255,255,255,1);
+	stroke: rgba(112,112,112,1);
+	stroke-width: 1px;
+	stroke-linejoin: miter;
+	stroke-linecap: butt;
+	stroke-miterlimit: 4;
+	shape-rendering: auto;
+}
+.StartingMonthInputContainer {
+	position: absolute;
+	overflow: visible;
+	width: 225px;
+	height: 38px;
+	left: 118px;
+	top: 136px;
+}
+#EndingMonthInputContainer {
+	fill: rgba(255,255,255,1);
+	stroke: rgba(112,112,112,1);
+	stroke-width: 1px;
+	stroke-linejoin: miter;
+	stroke-linecap: butt;
+	stroke-miterlimit: 4;
+	shape-rendering: auto;
+}
+.EndingMonthInputContainer {
+	position: absolute;
+	overflow: visible;
+	width: 225px;
+	height: 38px;
+	left: 433px;
+	top: 136px;
+}
+# {
+	left: 355.5px;
+	top: 140.5px;
+	position: absolute;
+	overflow: hidden;
+	width: 60px;
+	height: 29px;
+	text-align: center;
+	font-family: Calibri;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 26px;
+	color: rgba(5,102,141,1);
+}
+#ActivitiesContainer {
+	position: absolute;
+	width: 365px;
+	height: 836px;
+	left: 82px;
+	top: 222px;
+	overflow: visible;
+}
+#ActivitiesContainer_bb {
+	opacity: 0;
+	fill: rgba(255,255,255,1);
+	stroke: rgba(112,112,112,1);
+	stroke-width: 1px;
+	stroke-linejoin: miter;
+	stroke-linecap: butt;
+	stroke-miterlimit: 4;
+	shape-rendering: auto;
+}
+.ActivitiesContainer_bb {
+	position: absolute;
+	overflow: visible;
+	width: 362px;
+	height: 836px;
+	left: 0px;
+	top: 0px;
+}
+#RoundedTextBlock {
+	position: absolute;
+	width: 362px;
+	height: 59px;
+	left: 0px;
+	top: 0px;
+	overflow: visible;
+}
+#RankingTextBlock {
+	fill: rgba(255,255,255,1);
+	stroke: rgba(2,128,144,1);
+	stroke-width: 1px;
+	stroke-linejoin: miter;
+	stroke-linecap: butt;
+	stroke-miterlimit: 4;
+	shape-rendering: auto;
+}
+.RankingTextBlock {
+	position: absolute;
+	overflow: visible;
+	width: 362px;
+	height: 59px;
+	left: 0px;
+	top: 0px;
+}
+#RankingText {
+	left: 33px;
+	top: 14px;
+	position: absolute;
+	overflow: visible;
+	width: 297px;
+	height: 45px;
+	text-align: center;
+	font-family: Calibri;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 26px;
+	color: rgba(0,0,0,1);
+}
+#InVehicle {
+	position: absolute;
+	width: 328px;
+	height: 76px;
+	left: 0px;
+	top: 88px;
+	overflow: visible;
+}
+#TextBlockContainer {
+	fill: rgba(255,255,255,1);
+	stroke: rgba(2,128,144,1);
+	stroke-width: 1px;
+	stroke-linejoin: miter;
+	stroke-linecap: butt;
+	stroke-miterlimit: 4;
+	shape-rendering: auto;
+}
+.TextBlockContainer {
+	position: absolute;
+	overflow: visible;
+	width: 363px;
+	height: 76px;
+	left: 0px;
+	top: 0px;
+}
+#ActivityInVehicleValue {
+	left: 115px;
+	top: 17px;
+	position: absolute;
+	overflow: hidden;
+	width: 213px;
+	height: 51px;
+	text-align: center;
+	font-family: Calibri;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 26px;
+	color: rgba(0,0,0,1);
+}
+#IconContainer {
+	position: absolute;
+	width: 91px;
+	height: 58px;
+	left: 32px;
+	top: 10px;
+	overflow: visible;
+}
+#Mask {
+	position: absolute;
+	width: 91px;
+	height: 58px;
+	left: 0px;
+	top: 0px;
+	overflow: visible;
+}
+#OnBicycle {
+	position: absolute;
+	width: 364px;
+	height: 76px;
+	left: 0px;
+	top: 183px;
+	overflow: visible;
+}
+#TextBlockContainer_bl {
+	fill: rgba(255,255,255,1);
+}
+.TextBlockContainer_bl {
+	position: absolute;
+	overflow: visible;
+	width: 364px;
+	height: 76px;
+	left: 0px;
+	top: 0px;
+}
+#ActivityOnBicycleValue {
+	left: 152px;
+	top: 19px;
+	position: absolute;
+	overflow: hidden;
+	width: 187px;
+	height: 45px;
+	text-align: center;
+	font-family: Calibri;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 26px;
+	color: rgba(0,0,0,1);
+}
+#IconContainer_bn {
+	position: absolute;
+	width: 100px;
+	height: 66px;
+	left: 37px;
+	top: 8.947px;
+	overflow: visible;
+}
+#Mask_bo {
+	position: absolute;
+	width: 100px;
+	height: 66px;
+	left: 0px;
+	top: 0px;
+	overflow: visible;
+}
+#OnFoot {
+	position: absolute;
+	width: 365px;
+	height: 76px;
+	left: 0px;
+	top: 278px;
+	overflow: visible;
+}
+#TextBlockContainer_bq {
+	fill: rgba(255,255,255,1);
+}
+.TextBlockContainer_bq {
+	position: absolute;
+	overflow: visible;
+	width: 365px;
+	height: 76px;
+	left: 0px;
+	top: 0px;
+}
+#ActivityOnFootValue {
+	left: 127px;
+	top: 9px;
+	position: absolute;
+	overflow: hidden;
+	width: 213px;
+	height: 59px;
+	text-align: center;
+	font-family: Calibri;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 26px;
+	color: rgba(0,0,0,1);
+}
+#IconContainer_bs {
+	position: absolute;
+	width: 100px;
+	height: 59px;
+	left: 27px;
+	top: 9px;
+	overflow: visible;
+}
+#Mask_bt {
+	position: absolute;
+	width: 100px;
+	height: 59px;
+	left: 0px;
+	top: 0px;
+	overflow: visible;
+}
+#Running {
+	position: absolute;
+	width: 364px;
+	height: 76px;
+	left: 0px;
+	top: 373px;
+	overflow: visible;
+}
+#TextBlockContainer_bv {
+	fill: rgba(255,255,255,1);
+	stroke: rgba(2,128,144,1);
+	stroke-width: 1px;
+	stroke-linejoin: miter;
+	stroke-linecap: butt;
+	stroke-miterlimit: 4;
+	shape-rendering: auto;
+}
+.TextBlockContainer_bv {
+	position: absolute;
+	overflow: visible;
+	width: 364px;
+	height: 76px;
+	left: 0px;
+	top: 0px;
+}
+#ActivityRunningValue {
+	left: 128px;
+	top: 11px;
+	position: absolute;
+	overflow: hidden;
+	width: 213px;
+	height: 54px;
+	text-align: center;
+	font-family: Calibri;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 26px;
+	color: rgba(0,0,0,1);
+}
+#IconContainer_bx {
+	position: absolute;
+	width: 100px;
+	height: 66px;
+	left: 28px;
+	top: 5px;
+	overflow: visible;
+}
+#Mask_by {
+	position: absolute;
+	width: 100px;
+	height: 66px;
+	left: 0px;
+	top: 0px;
+	overflow: visible;
+}
+#Still {
+	position: absolute;
+	width: 364px;
+	height: 76px;
+	left: 0px;
+	top: 468px;
+	overflow: visible;
+}
+#TextBlockContainer_b {
+	fill: rgba(255,255,255,1);
+	stroke: rgba(2,128,144,1);
+	stroke-width: 1px;
+	stroke-linejoin: miter;
+	stroke-linecap: butt;
+	stroke-miterlimit: 4;
+	shape-rendering: auto;
+}
+.TextBlockContainer_b {
+	position: absolute;
+	overflow: visible;
+	width: 364px;
+	height: 76px;
+	left: 0px;
+	top: 0px;
+}
+#ActivityStillValue {
+	left: 133px;
+	top: 16px;
+	position: absolute;
+	overflow: hidden;
+	width: 213px;
+	height: 45px;
+	text-align: center;
+	font-family: Calibri;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 26px;
+	color: rgba(0,0,0,1);
+}
+#IconContainer_b {
+	position: absolute;
+	width: 100px;
+	height: 66px;
+	left: 33px;
+	top: 5px;
+	overflow: visible;
+}
+#Mask_b {
+	position: absolute;
+	width: 100px;
+	height: 66px;
+	left: 0px;
+	top: 0px;
+	overflow: visible;
+}
+#Tilting {
+	position: absolute;
+	width: 354px;
+	height: 76px;
+	left: 0px;
+	top: 563px;
+	overflow: visible;
+}
+#TextBlockContainer_ca {
+	fill: rgba(255,255,255,1);
+	stroke: rgba(2,128,144,1);
+	stroke-width: 1px;
+	stroke-linejoin: miter;
+	stroke-linecap: butt;
+	stroke-miterlimit: 4;
+	shape-rendering: auto;
+}
+.TextBlockContainer_ca {
+	position: absolute;
+	overflow: visible;
+	width: 354px;
+	height: 76px;
+	left: 0px;
+	top: 0px;
+}
+#ActivityTiltingValue {
+	left: 142px;
+	top: 12px;
+	position: absolute;
+	overflow: hidden;
+	width: 213px;
+	height: 53px;
+	text-align: center;
+	font-family: Calibri;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 26px;
+	color: rgba(0,0,0,1);
+}
+#IconContainer_ca {
+	position: absolute;
+	width: 100px;
+	height: 66px;
+	left: 30px;
+	top: 5px;
+	overflow: visible;
+}
+#Mask_ca {
+	position: absolute;
+	width: 100px;
+	height: 66px;
+	left: 0px;
+	top: 0px;
+	overflow: visible;
+}
+#Unknown {
+	position: absolute;
+	width: 364px;
+	height: 76px;
+	left: 0px;
+	top: 658px;
+	overflow: visible;
+}
+#TextBlockContainer_cb {
+	fill: rgba(255,255,255,1);
+	stroke: rgba(2,128,144,1);
+	stroke-width: 1px;
+	stroke-linejoin: miter;
+	stroke-linecap: butt;
+	stroke-miterlimit: 4;
+	shape-rendering: auto;
+}
+.TextBlockContainer_cb {
+	position: absolute;
+	overflow: visible;
+	width: 364px;
+	height: 76px;
+	left: 0px;
+	top: 0px;
+}
+#ActivityUnknownValue {
+	left: 130px;
+	top: 11px;
+	position: absolute;
+	overflow: hidden;
+	width: 213px;
+	height: 54px;
+	text-align: center;
+	font-family: Calibri;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 26px;
+	color: rgba(0,0,0,1);
+}
+#IconContainer_cc {
+	position: absolute;
+	width: 100px;
+	height: 66px;
+	left: 30px;
+	top: 5px;
+	overflow: visible;
+}
+#Mask_cd {
+	position: absolute;
+	width: 100px;
+	height: 66px;
+	left: 0px;
+	top: 0px;
+	overflow: visible;
+}
+#Walking {
+	position: absolute;
+	width: 364px;
+	height: 76px;
+	left: 0px;
+	top: 753px;
+	overflow: visible;
+}
+#TextBlockContainer_cf {
+	fill: rgba(255,255,255,1);
+	stroke: rgba(2,128,144,1);
+	stroke-width: 1px;
+	stroke-linejoin: miter;
+	stroke-linecap: butt;
+	stroke-miterlimit: 4;
+	shape-rendering: auto;
+}
+.TextBlockContainer_cf {
+	position: absolute;
+	overflow: visible;
+	width: 364px;
+	height: 76px;
+	left: 0px;
+	top: 0px;
+}
+#ActivityWalkingValue {
+	left: 136px;
+	top: 15px;
+	position: absolute;
+	overflow: hidden;
+	width: 213px;
+	height: 47px;
+	text-align: center;
+	font-family: Calibri;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 26px;
+	color: rgba(0,0,0,1);
+}
+#IconContainer_ch {
+	position: absolute;
+	width: 100px;
+	height: 66px;
+	left: 36px;
+	top: 5px;
+	overflow: visible;
+}
+#Mask_ci {
+	position: absolute;
+	width: 100px;
+	height: 66px;
+	left: 0px;
+	top: 0px;
+	overflow: visible;
+}
+#DayPerActivityContainer {
+	position: absolute;
+	width: 364px;
+	height: 836px;
+	left: 476px;
+	top: 222px;
+	overflow: visible;
+}
+#DayPerActivityContainer_ck {
+	opacity: 0;
+	fill: rgba(255,255,255,1);
+	stroke: rgba(112,112,112,1);
+	stroke-width: 1px;
+	stroke-linejoin: miter;
+	stroke-linecap: butt;
+	stroke-miterlimit: 4;
+	shape-rendering: auto;
+}
+.DayPerActivityContainer_ck {
+	position: absolute;
+	overflow: visible;
+	width: 362px;
+	height: 836px;
+	left: 0px;
+	top: 0px;
+}
+#RoundedTextBlock_cl {
+	position: absolute;
+	width: 362px;
+	height: 59px;
+	left: 0px;
+	top: 0px;
+	overflow: visible;
+}
+#RankingTextBlock_cm {
+	fill: rgba(255,255,255,1);
+	stroke: rgba(2,128,144,1);
+	stroke-width: 1px;
+	stroke-linejoin: miter;
+	stroke-linecap: butt;
+	stroke-miterlimit: 4;
+	shape-rendering: auto;
+}
+.RankingTextBlock_cm {
+	position: absolute;
+	overflow: visible;
+	width: 362px;
+	height: 59px;
+	left: 0px;
+	top: 0px;
+}
+#RankingText_cn {
+	left: 33px;
+	top: 14px;
+	position: absolute;
+	overflow: visible;
+	width: 297px;
+	height: 45px;
+	text-align: center;
+	font-family: Calibri;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 26px;
+	color: rgba(0,0,0,1);
+}
+#InVehicle_co {
+	position: absolute;
+	width: 328px;
+	height: 76px;
+	left: 0px;
+	top: 88px;
+	overflow: visible;
+}
+#TextBlockContainer_cp {
+	fill: rgba(255,255,255,1);
+	stroke: rgba(2,128,144,1);
+	stroke-width: 1px;
+	stroke-linejoin: miter;
+	stroke-linecap: butt;
+	stroke-miterlimit: 4;
+	shape-rendering: auto;
+}
+.TextBlockContainer_cp {
+	position: absolute;
+	overflow: visible;
+	width: 363px;
+	height: 76px;
+	left: 0px;
+	top: 0px;
+}
+#DayPerActivityInVehicleValue {
+	left: 115px;
+	top: 17px;
+	position: absolute;
+	overflow: hidden;
+	width: 213px;
+	height: 51px;
+	text-align: center;
+	font-family: Calibri;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 26px;
+	color: rgba(0,0,0,1);
+}
+#IconContainer_cr {
+	position: absolute;
+	width: 91px;
+	height: 58px;
+	left: 32px;
+	top: 10px;
+	overflow: visible;
+}
+#Mask_cs {
+	position: absolute;
+	width: 91px;
+	height: 58px;
+	left: 0px;
+	top: 0px;
+	overflow: visible;
+}
+#OnBicycle_ct {
+	position: absolute;
+	width: 364px;
+	height: 76px;
+	left: 0px;
+	top: 183px;
+	overflow: visible;
+}
+#TextBlockContainer_cu {
+	fill: rgba(255,255,255,1);
+}
+.TextBlockContainer_cu {
+	position: absolute;
+	overflow: visible;
+	width: 364px;
+	height: 76px;
+	left: 0px;
+	top: 0px;
+}
+#DayPerActivityOnBicycleValue {
+	left: 152px;
+	top: 19px;
+	position: absolute;
+	overflow: hidden;
+	width: 187px;
+	height: 45px;
+	text-align: center;
+	font-family: Calibri;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 26px;
+	color: rgba(0,0,0,1);
+}
+#IconContainer_cw {
+	position: absolute;
+	width: 100px;
+	height: 66px;
+	left: 37px;
+	top: 8.947px;
+	overflow: visible;
+}
+#Mask_cx {
+	position: absolute;
+	width: 100px;
+	height: 66px;
+	left: 0px;
+	top: 0px;
+	overflow: visible;
+}
+#OnFoot_cy {
+	position: absolute;
+	width: 328px;
+	height: 76px;
+	left: 0px;
+	top: 278px;
+	overflow: visible;
+}
+#TextBlockContainer_cz {
+	fill: rgba(255,255,255,1);
+}
+.TextBlockContainer_cz {
+	position: absolute;
+	overflow: visible;
+	width: 365px;
+	height: 76px;
+	left: 0px;
+	top: 0px;
+}
+#DayPerActivityOnFootValue {
+	left: 127px;
+	top: 9px;
+	position: absolute;
+	overflow: hidden;
+	width: 213px;
+	height: 59px;
+	text-align: center;
+	font-family: Calibri;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 26px;
+	color: rgba(0,0,0,1);
+}
+#IconContainer_c {
+	position: absolute;
+	width: 100px;
+	height: 59px;
+	left: 27px;
+	top: 9px;
+	overflow: visible;
+}
+#Mask_c {
+	position: absolute;
+	width: 100px;
+	height: 59px;
+	left: 0px;
+	top: 0px;
+	overflow: visible;
+}
+#Running_c {
+	position: absolute;
+	width: 364px;
+	height: 76px;
+	left: 0px;
+	top: 373px;
+	overflow: visible;
+}
+#TextBlockContainer_c {
+	fill: rgba(255,255,255,1);
+	stroke: rgba(2,128,144,1);
+	stroke-width: 1px;
+	stroke-linejoin: miter;
+	stroke-linecap: butt;
+	stroke-miterlimit: 4;
+	shape-rendering: auto;
+}
+.TextBlockContainer_c {
+	position: absolute;
+	overflow: visible;
+	width: 364px;
+	height: 76px;
+	left: 0px;
+	top: 0px;
+}
+#DayPerActivityRunningValue {
+	left: 128px;
+	top: 11px;
+	position: absolute;
+	overflow: hidden;
+	width: 213px;
+	height: 54px;
+	text-align: center;
+	font-family: Calibri;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 26px;
+	color: rgba(0,0,0,1);
+}
+#IconContainer_da {
+	position: absolute;
+	width: 100px;
+	height: 66px;
+	left: 28px;
+	top: 5px;
+	overflow: visible;
+}
+#Mask_da {
+	position: absolute;
+	width: 100px;
+	height: 66px;
+	left: 0px;
+	top: 0px;
+	overflow: visible;
+}
+#Still_c {
+	position: absolute;
+	width: 364px;
+	height: 76px;
+	left: 0px;
+	top: 468px;
+	overflow: visible;
+}
+#TextBlockContainer_da {
+	fill: rgba(255,255,255,1);
+	stroke: rgba(2,128,144,1);
+	stroke-width: 1px;
+	stroke-linejoin: miter;
+	stroke-linecap: butt;
+	stroke-miterlimit: 4;
+	shape-rendering: auto;
+}
+.TextBlockContainer_da {
+	position: absolute;
+	overflow: visible;
+	width: 364px;
+	height: 76px;
+	left: 0px;
+	top: 0px;
+}
+#DayPerActivityStillValue {
+	left: 133px;
+	top: 16px;
+	position: absolute;
+	overflow: hidden;
+	width: 213px;
+	height: 45px;
+	text-align: center;
+	font-family: Calibri;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 26px;
+	color: rgba(0,0,0,1);
+}
+#IconContainer_db {
+	position: absolute;
+	width: 100px;
+	height: 66px;
+	left: 33px;
+	top: 5px;
+	overflow: visible;
+}
+#Mask_dc {
+	position: absolute;
+	width: 100px;
+	height: 66px;
+	left: 0px;
+	top: 0px;
+	overflow: visible;
+}
+#Tilting_dd {
+	position: absolute;
+	width: 354px;
+	height: 76px;
+	left: 0px;
+	top: 563px;
+	overflow: visible;
+}
+#TextBlockContainer_de {
+	fill: rgba(255,255,255,1);
+	stroke: rgba(2,128,144,1);
+	stroke-width: 1px;
+	stroke-linejoin: miter;
+	stroke-linecap: butt;
+	stroke-miterlimit: 4;
+	shape-rendering: auto;
+}
+.TextBlockContainer_de {
+	position: absolute;
+	overflow: visible;
+	width: 354px;
+	height: 76px;
+	left: 0px;
+	top: 0px;
+}
+#DayPerActivityTiltingValue {
+	left: 142px;
+	top: 12px;
+	position: absolute;
+	overflow: hidden;
+	width: 213px;
+	height: 53px;
+	text-align: center;
+	font-family: Calibri;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 26px;
+	color: rgba(0,0,0,1);
+}
+#IconContainer_dg {
+	position: absolute;
+	width: 100px;
+	height: 66px;
+	left: 30px;
+	top: 5px;
+	overflow: visible;
+}
+#Mask_dh {
+	position: absolute;
+	width: 100px;
+	height: 66px;
+	left: 0px;
+	top: 0px;
+	overflow: visible;
+}
+#Unknown_di {
+	position: absolute;
+	width: 364px;
+	height: 76px;
+	left: 0px;
+	top: 658px;
+	overflow: visible;
+}
+#TextBlockContainer_dj {
+	fill: rgba(255,255,255,1);
+	stroke: rgba(2,128,144,1);
+	stroke-width: 1px;
+	stroke-linejoin: miter;
+	stroke-linecap: butt;
+	stroke-miterlimit: 4;
+	shape-rendering: auto;
+}
+.TextBlockContainer_dj {
+	position: absolute;
+	overflow: visible;
+	width: 364px;
+	height: 76px;
+	left: 0px;
+	top: 0px;
+}
+#DayPerActivityUnknownValue {
+	left: 130px;
+	top: 11px;
+	position: absolute;
+	overflow: hidden;
+	width: 213px;
+	height: 54px;
+	text-align: center;
+	font-family: Calibri;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 26px;
+	color: rgba(0,0,0,1);
+}
+#IconContainer_dl {
+	position: absolute;
+	width: 100px;
+	height: 66px;
+	left: 30px;
+	top: 5px;
+	overflow: visible;
+}
+#Mask_dm {
+	position: absolute;
+	width: 100px;
+	height: 66px;
+	left: 0px;
+	top: 0px;
+	overflow: visible;
+}
+#Walking_dn {
+	position: absolute;
+	width: 364px;
+	height: 76px;
+	left: 0px;
+	top: 753px;
+	overflow: visible;
+}
+#TextBlockContainer_do {
+	fill: rgba(255,255,255,1);
+	stroke: rgba(2,128,144,1);
+	stroke-width: 1px;
+	stroke-linejoin: miter;
+	stroke-linecap: butt;
+	stroke-miterlimit: 4;
+	shape-rendering: auto;
+}
+.TextBlockContainer_do {
+	position: absolute;
+	overflow: visible;
+	width: 364px;
+	height: 76px;
+	left: 0px;
+	top: 0px;
+}
+#DayPerActivityWalkingValue {
+	left: 136px;
+	top: 15px;
+	position: absolute;
+	overflow: hidden;
+	width: 213px;
+	height: 47px;
+	text-align: center;
+	font-family: Calibri;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 26px;
+	color: rgba(0,0,0,1);
+}
+#IconContainer_dq {
+	position: absolute;
+	width: 100px;
+	height: 66px;
+	left: 36px;
+	top: 5px;
+	overflow: visible;
+}
+#Mask_dr {
+	position: absolute;
+	width: 100px;
+	height: 66px;
+	left: 0px;
+	top: 0px;
+	overflow: visible;
+}
+#HourPerActivityContainer {
+	position: absolute;
+	width: 364px;
+	height: 836px;
+	left: 870px;
+	top: 222px;
+	overflow: visible;
+}
+#HourPerActivityContainer_dt {
+	opacity: 0;
+	fill: rgba(255,255,255,1);
+	stroke: rgba(112,112,112,1);
+	stroke-width: 1px;
+	stroke-linejoin: miter;
+	stroke-linecap: butt;
+	stroke-miterlimit: 4;
+	shape-rendering: auto;
+}
+.HourPerActivityContainer_dt {
+	position: absolute;
+	overflow: visible;
+	width: 362px;
+	height: 836px;
+	left: 0px;
+	top: 0px;
+}
+#RoundedTextBlock_du {
+	position: absolute;
+	width: 362px;
+	height: 59px;
+	left: 0px;
+	top: 0px;
+	overflow: visible;
+}
+#RankingTextBlock_dv {
+	fill: rgba(255,255,255,1);
+	stroke: rgba(2,128,144,1);
+	stroke-width: 1px;
+	stroke-linejoin: miter;
+	stroke-linecap: butt;
+	stroke-miterlimit: 4;
+	shape-rendering: auto;
+}
+.RankingTextBlock_dv {
+	position: absolute;
+	overflow: visible;
+	width: 362px;
+	height: 59px;
+	left: 0px;
+	top: 0px;
+}
+#RankingText_dw {
+	left: 33px;
+	top: 14px;
+	position: absolute;
+	overflow: visible;
+	width: 297px;
+	height: 45px;
+	text-align: center;
+	font-family: Calibri;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 26px;
+	color: rgba(0,0,0,1);
+}
+#InVehicle_dx {
+	position: absolute;
+	width: 328px;
+	height: 76px;
+	left: 0px;
+	top: 88px;
+	overflow: visible;
+}
+#TextBlockContainer_dy {
+	fill: rgba(255,255,255,1);
+	stroke: rgba(2,128,144,1);
+	stroke-width: 1px;
+	stroke-linejoin: miter;
+	stroke-linecap: butt;
+	stroke-miterlimit: 4;
+	shape-rendering: auto;
+}
+.TextBlockContainer_dy {
+	position: absolute;
+	overflow: visible;
+	width: 363px;
+	height: 76px;
+	left: 0px;
+	top: 0px;
+}
+#HourPerActivityInVehicleValue {
+	left: 115px;
+	top: 17px;
+	position: absolute;
+	overflow: hidden;
+	width: 213px;
+	height: 51px;
+	text-align: center;
+	font-family: Calibri;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 26px;
+	color: rgba(0,0,0,1);
+}
+#IconContainer_d {
+	position: absolute;
+	width: 91px;
+	height: 58px;
+	left: 32px;
+	top: 10px;
+	overflow: visible;
+}
+#Mask_d {
+	position: absolute;
+	width: 91px;
+	height: 58px;
+	left: 0px;
+	top: 0px;
+	overflow: visible;
+}
+#OnBicycle_d {
+	position: absolute;
+	width: 364px;
+	height: 76px;
+	left: 0px;
+	top: 183px;
+	overflow: visible;
+}
+#TextBlockContainer_d {
+	fill: rgba(255,255,255,1);
+}
+.TextBlockContainer_d {
+	position: absolute;
+	overflow: visible;
+	width: 364px;
+	height: 76px;
+	left: 0px;
+	top: 0px;
+}
+#HourPerActivityOnBicycleValue {
+	left: 152px;
+	top: 19px;
+	position: absolute;
+	overflow: hidden;
+	width: 187px;
+	height: 45px;
+	text-align: center;
+	font-family: Calibri;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 26px;
+	color: rgba(0,0,0,1);
+}
+#IconContainer_ea {
+	position: absolute;
+	width: 100px;
+	height: 66px;
+	left: 37px;
+	top: 8.947px;
+	overflow: visible;
+}
+#Mask_ea {
+	position: absolute;
+	width: 100px;
+	height: 66px;
+	left: 0px;
+	top: 0px;
+	overflow: visible;
+}
+#OnFoot_d {
+	position: absolute;
+	width: 328px;
+	height: 76px;
+	left: 0px;
+	top: 278px;
+	overflow: visible;
+}
+#TextBlockContainer_ea {
+	fill: rgba(255,255,255,1);
+}
+.TextBlockContainer_ea {
+	position: absolute;
+	overflow: visible;
+	width: 365px;
+	height: 76px;
+	left: 0px;
+	top: 0px;
+}
+#HourPerActivityOnFootValue {
+	left: 127px;
+	top: 9px;
+	position: absolute;
+	overflow: hidden;
+	width: 213px;
+	height: 59px;
+	text-align: center;
+	font-family: Calibri;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 26px;
+	color: rgba(0,0,0,1);
+}
+#IconContainer_eb {
+	position: absolute;
+	width: 100px;
+	height: 59px;
+	left: 27px;
+	top: 9px;
+	overflow: visible;
+}
+#Mask_eb {
+	position: absolute;
+	width: 100px;
+	height: 59px;
+	left: 0px;
+	top: 0px;
+	overflow: visible;
+}
+#Running_ec {
+	position: absolute;
+	width: 364px;
+	height: 76px;
+	left: 0px;
+	top: 373px;
+	overflow: visible;
+}
+#TextBlockContainer_ed {
+	fill: rgba(255,255,255,1);
+	stroke: rgba(2,128,144,1);
+	stroke-width: 1px;
+	stroke-linejoin: miter;
+	stroke-linecap: butt;
+	stroke-miterlimit: 4;
+	shape-rendering: auto;
+}
+.TextBlockContainer_ed {
+	position: absolute;
+	overflow: visible;
+	width: 364px;
+	height: 76px;
+	left: 0px;
+	top: 0px;
+}
+#HourPerActivityRunningValue {
+	left: 128px;
+	top: 11px;
+	position: absolute;
+	overflow: hidden;
+	width: 213px;
+	height: 54px;
+	text-align: center;
+	font-family: Calibri;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 26px;
+	color: rgba(0,0,0,1);
+}
+#IconContainer_ef {
+	position: absolute;
+	width: 100px;
+	height: 66px;
+	left: 28px;
+	top: 5px;
+	overflow: visible;
+}
+#Mask_eg {
+	position: absolute;
+	width: 100px;
+	height: 66px;
+	left: 0px;
+	top: 0px;
+	overflow: visible;
+}
+#Still_eh {
+	position: absolute;
+	width: 364px;
+	height: 76px;
+	left: 0px;
+	top: 468px;
+	overflow: visible;
+}
+#TextBlockContainer_ei {
+	fill: rgba(255,255,255,1);
+	stroke: rgba(2,128,144,1);
+	stroke-width: 1px;
+	stroke-linejoin: miter;
+	stroke-linecap: butt;
+	stroke-miterlimit: 4;
+	shape-rendering: auto;
+}
+.TextBlockContainer_ei {
+	position: absolute;
+	overflow: visible;
+	width: 364px;
+	height: 76px;
+	left: 0px;
+	top: 0px;
+}
+#HourPerActivityStillValue {
+	left: 133px;
+	top: 16px;
+	position: absolute;
+	overflow: hidden;
+	width: 213px;
+	height: 45px;
+	text-align: center;
+	font-family: Calibri;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 26px;
+	color: rgba(0,0,0,1);
+}
+#IconContainer_ek {
+	position: absolute;
+	width: 100px;
+	height: 66px;
+	left: 33px;
+	top: 5px;
+	overflow: visible;
+}
+#Mask_el {
+	position: absolute;
+	width: 100px;
+	height: 66px;
+	left: 0px;
+	top: 0px;
+	overflow: visible;
+}
+#Tilting_em {
+	position: absolute;
+	width: 354px;
+	height: 76px;
+	left: 0px;
+	top: 563px;
+	overflow: visible;
+}
+#TextBlockContainer_en {
+	fill: rgba(255,255,255,1);
+	stroke: rgba(2,128,144,1);
+	stroke-width: 1px;
+	stroke-linejoin: miter;
+	stroke-linecap: butt;
+	stroke-miterlimit: 4;
+	shape-rendering: auto;
+}
+.TextBlockContainer_en {
+	position: absolute;
+	overflow: visible;
+	width: 354px;
+	height: 76px;
+	left: 0px;
+	top: 0px;
+}
+#HourPerActivityTiltingValue {
+	left: 142px;
+	top: 12px;
+	position: absolute;
+	overflow: hidden;
+	width: 213px;
+	height: 53px;
+	text-align: center;
+	font-family: Calibri;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 26px;
+	color: rgba(0,0,0,1);
+}
+#IconContainer_ep {
+	position: absolute;
+	width: 100px;
+	height: 66px;
+	left: 30px;
+	top: 5px;
+	overflow: visible;
+}
+#Mask_eq {
+	position: absolute;
+	width: 100px;
+	height: 66px;
+	left: 0px;
+	top: 0px;
+	overflow: visible;
+}
+#Unknown_er {
+	position: absolute;
+	width: 364px;
+	height: 76px;
+	left: 0px;
+	top: 658px;
+	overflow: visible;
+}
+#TextBlockContainer_es {
+	fill: rgba(255,255,255,1);
+	stroke: rgba(2,128,144,1);
+	stroke-width: 1px;
+	stroke-linejoin: miter;
+	stroke-linecap: butt;
+	stroke-miterlimit: 4;
+	shape-rendering: auto;
+}
+.TextBlockContainer_es {
+	position: absolute;
+	overflow: visible;
+	width: 364px;
+	height: 76px;
+	left: 0px;
+	top: 0px;
+}
+#HourPerActivityUnknownValue {
+	left: 130px;
+	top: 11px;
+	position: absolute;
+	overflow: hidden;
+	width: 213px;
+	height: 54px;
+	text-align: center;
+	font-family: Calibri;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 26px;
+	color: rgba(0,0,0,1);
+}
+#IconContainer_eu {
+	position: absolute;
+	width: 100px;
+	height: 66px;
+	left: 30px;
+	top: 5px;
+	overflow: visible;
+}
+#Mask_ev {
+	position: absolute;
+	width: 100px;
+	height: 66px;
+	left: 0px;
+	top: 0px;
+	overflow: visible;
+}
+#Walking_ew {
+	position: absolute;
+	width: 364px;
+	height: 76px;
+	left: 0px;
+	top: 753px;
+	overflow: visible;
+}
+#TextBlockContainer_ex {
+	fill: rgba(255,255,255,1);
+	stroke: rgba(2,128,144,1);
+	stroke-width: 1px;
+	stroke-linejoin: miter;
+	stroke-linecap: butt;
+	stroke-miterlimit: 4;
+	shape-rendering: auto;
+}
+.TextBlockContainer_ex {
+	position: absolute;
+	overflow: visible;
+	width: 364px;
+	height: 76px;
+	left: 0px;
+	top: 0px;
+}
+#HourPerActivityWalkingValue {
+	left: 136px;
+	top: 15px;
+	position: absolute;
+	overflow: hidden;
+	width: 213px;
+	height: 47px;
+	text-align: center;
+	font-family: Calibri;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 26px;
+	color: rgba(0,0,0,1);
+}
+#IconContainer_ez {
+	position: absolute;
+	width: 100px;
+	height: 66px;
+	left: 36px;
+	top: 5px;
+	overflow: visible;
+}
+#Mask_e {
+	position: absolute;
+	width: 100px;
+	height: 66px;
+	left: 0px;
+	top: 0px;
+	overflow: visible;
+}
