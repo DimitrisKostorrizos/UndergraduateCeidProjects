@@ -30,7 +30,7 @@ function Login()
     }
 
     // If there isn't an error
-    if(error)
+    if(!error)
     {
         // Initialize the request body
         var requestBody = 
@@ -42,17 +42,21 @@ function Login()
         // Initialize the request
         var httpRequest = new XMLHttpRequest();
 
+        httpRequest.open("GET", "http://localhost:8080/login", true);
+        
+        httpRequest.setRequestHeader('Content-Type', 'application/json');
+        
         //
         httpRequest.onreadystatechange = function() 
         {
             if (this.readyState == 4 && this.status == 200) 
             {
                 console.log(this.responseText);
+                document.getElementById("passwordLabel").innerHTML = res;
             }
         };
-        httpRequest.setRequestHeader('Content-Type', 'application/json');
-        httpRequest.open("GET", "http://localhost:8080/login", false);
-        httpRequest.send(requestBody);
+
+        httpRequest.send(JSON.stringify(requestBody));
     }
 }
 
