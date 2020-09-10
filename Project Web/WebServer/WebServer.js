@@ -600,7 +600,7 @@ async function InsertLocationsActivityAsync(location)
     activitiesDictionary["TILTING"],activitiesDictionary["UNKNOWN"],activitiesDictionary["WALKING"]];
     
     // Prepare the query
-    var query = MySQLConnection.format("INSERT INTO activities VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", activityValues);
+    var query = MySQLConnection.format("INSERT INTO activities(ActivitiesId, TimestampMs, InVehicle, OnBicycle, OnFoot, Running, Still, Tilting, Unknown, Walking) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", activityValues);
 
     // Execute the query
     await GetQueryResultAsync(query);
@@ -1120,7 +1120,7 @@ expressService.post("/user/upload", async(requestObject, responseObject) =>
     var locationValues = [activityId, locationId, accuracy, latitudeE7, longitudeE7, timestampMs];
     
     // Prepare the query
-    var query = MySQLConnection.format("INSERT INTO locations VALUES (?, ?, ?, ?, ?, ?, CURDATE())", locationValues);
+    var query = MySQLConnection.format("INSERT INTO locations(ActivitiesId, LocationId, Accuracy, LatitudeE7, LongitudeE7, TimestampMs, UploadDate) VALUES (?, ?, ?, ?, ?, ?, CURDATE())", locationValues);
 
     // Execute the query
     await GetQueryResultAsync(query);
