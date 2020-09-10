@@ -908,7 +908,7 @@ expressService.get("/login", async (requestObject, responseObject) =>
   var password = userInfo.password;
 
   // Prepare the MySQL query
-  var query = MySQLConnection.format("SELECT HashedPassword, Id, LocationId, FROM users WHERE Username = ?", username);
+  var query = MySQLConnection.format("SELECT HashedPassword, Id, LocationId FROM users WHERE Username = ?", username);
 
   // Get the query results
   var results = await GetQueryResultAsync(query);
