@@ -467,15 +467,15 @@ function GetEcoScore(activityData)
 
 /**
  * Calculates and returns the user ranking entry
- * @param {[LocationsId, FirstName, LastName]]} userInfo 
+ * @param {[LocationId, FirstName, LastName]]} userInfo 
  */
 async function GetUserRankingAsync(userInfo)
 {
-  // Get the locations id
-  var locationsId = userInfo.LocationsId;
+  // Get the location id
+  var locationId = userInfo.LocationId;
   
   // Prepare the query
-  var query = MySQLConnection.format("select InVehicle, OnBicycle, OnFoot, Running, Still, Tilting, Unknown, Walking from activities where ActivitiesId in(SELECT ActivitiesId FROM locations Where LocationId = ? AND ActivitiesId IS NOT null AND (MONTH(TimestampMs) - MONTH(CURDATE()) = 0))", locationsId);
+  var query = MySQLConnection.format("select InVehicle, OnBicycle, OnFoot, Running, Still, Tilting, Unknown, Walking from activities where ActivitiesId in(SELECT ActivitiesId FROM locations Where LocationId = ? AND ActivitiesId IS NOT null AND (MONTH(TimestampMs) - MONTH(CURDATE()) = 0))", locationId);
 
   // Get the user's activity data
   var activityData = await GetQueryResultAsync(query);
@@ -486,7 +486,7 @@ async function GetUserRankingAsync(userInfo)
   // Initialize the user ranking
   var userRanking = 
   {
-    locationsId : locationsId,
+    locationId : locationId,
     ecoScore : ecoScore, 
     abbreviatedFullName : userInfo.FirstName + " " + userInfo.LastName[0] + "."
   }
@@ -509,7 +509,7 @@ async function GetActivitiesPerUserPercentageAsync(userResults, activitiesResult
   for(const user of userResults)
   {
     // Prepare the MySQL query
-    var activitiesIdQuery = MySQLConnection.format("SELECT ActivitiesId FROM locations where LocationId = ?", user.LocationsId);
+    var activitiesIdQuery = MySQLConnection.format("SELECT ActivitiesId FROM locations where LocationId = ?", user.LocationId);
 
     // Get the query results
     var activitiesIdsResults = await GetQueryResultAsync(activitiesIdQuery);
@@ -616,7 +616,7 @@ async function InsertLocationsActivityAsync(location)
 async function GetTop3Async()
 {
   // Get the users
-  var users = await GetQueryResultAsync("SELECT LocationsId, FirstName, LastName FROM users");
+  var users = await GetQueryResultAsync("SELECT LocationId, FirstName, LastName FROM users");
 
   // Declare an array tht will contain the top 3 users
   var userScores = [];
@@ -679,7 +679,7 @@ expressService.get("/admin/dashboard", async (requestObject, responseObject) =>
     responseBody["activitiesPercentage"] = GetActivitiesPercentage(activitiesResults);
 
     // Prepare the MySQL query
-    var usersQuery = MySQLConnection.format("SELECT Username, LocationsId FROM users");
+    var usersQuery = MySQLConnection.format("SELECT Username, LocationId FROM users");
 
     // Get the query results
     var userResults = await GetQueryResultAsync(usersQuery);
@@ -894,8 +894,8 @@ expressService.get("/login", async (requestObject, responseObject) =>
   var responseBody = 
   {
     validation : false,
-    locationsId : null,
-    userId : null
+    locationId : null,
+    id : null
   };
 
   // Parse the request body
@@ -908,7 +908,7 @@ expressService.get("/login", async (requestObject, responseObject) =>
   var password = userInfo.password;
 
   // Prepare the MySQL query
-  var query = MySQLConnection.format("SELECT HashedPassword, UserId, LocationsId, UserId FROM users WHERE Username = ?", username);
+  var query = MySQLConnection.format("SELECT HashedPassword, Id, LocationId, FROM users WHERE Username = ?", username);
 
   // Get the query results
   var results = await GetQueryResultAsync(query);
@@ -920,17 +920,17 @@ expressService.get("/login", async (requestObject, responseObject) =>
     var hashedPassword = results[0].HashedPassword;
 
     // Get the locations id
-    var locationsId = results[0].LocationsId;
+    var locationId = results[0].LocationId;
 
     // Get the user id
-    var userId = results[0].UserId;
+    var Id = results[0].Id;
 
     // Check if the password is correct...
     if(hashedPassword == password)
     {
-      // Set the body fof the response
-      responseBody["locationsId"] = locationsId;
-      responseBody["userId"] = locationsId;
+      // Set the body of the response
+      responseBody["locationId"] = locationId;
+      responseBody["id"] = Id;
       responseBody["validation"] = true;
     }
   }
@@ -947,8 +947,8 @@ expressService.post("/signup", async (requestObject, responseObject) =>
   // Initialize the response body
   var responseBody = 
   {
-    locationsId : null,
-    userId : null
+    locationId : null,
+    id : null
   }; 
 
   // Parse the request body
@@ -967,20 +967,17 @@ expressService.post("/signup", async (requestObject, responseObject) =>
   var lastName = userInfo.lastName;
 
   // Generate a unique locations id 
-  var locationsId = uniqueIdGeneratorModule();
-
-  // Generate a unique user id 
-  var userId = uniqueIdGeneratorModule();
+  var locationId = uniqueIdGeneratorModule();
 
   // Prepare the query
-  var query = MySQLConnection.format("INSERT INTO users VALUES (?, ?, ?, ?, ?, ?)", [userId, locationsId, username, hashedPassword, firstName, lastName]);
+  var query = MySQLConnection.format("INSERT INTO users(LocationId, Username, HashedPassword, FirstName, LastName) VALUES (?, ?, ?, ?, ?)", [locationId, username, hashedPassword, firstName, lastName]);
   
   // Execute the query
-  await GetQueryResultAsync(query);
+  var result = await GetQueryResultAsync(query);
 
   // Set the response body
-  responseBody["locationsId"] = locationsId;
-  responseBody["userId"] = userId;
+  responseBody["locationId"] = locationId;
+  responseBody["id"] = result.insertId;
 
   // Set the body of the response
   responseObject.json(responseBody);
@@ -1008,11 +1005,11 @@ expressService.get("/user/info", async (requestObject, responseObject) =>
   // Get the query arguments
   var queryArguments = urlObject.query;
 
-  // Get the user id query argument
-  var locationsId = queryArguments.locationsId;
+  // Get the location id query argument
+  var locationId = queryArguments.locationId;
 
   // Prepare the query
-  var query = MySQLConnection.format("SELECT UploadDate FROM locations Where LocationId = ? Order By TimestampMs DESC Limit 1", locationsId);
+  var query = MySQLConnection.format("SELECT UploadDate FROM locations Where LocationId = ? Order By TimestampMs DESC Limit 1", locationId);
 
   // Execute the query
   var results = await GetQueryResultAsync(query);
@@ -1023,7 +1020,7 @@ expressService.get("/user/info", async (requestObject, responseObject) =>
     responseBody["lastUploadDate"] = GetMySQLDatePart(results[0].UploadDate);
 
   // Prepare the query
-  query = MySQLConnection.format("SELECT TimestampMs FROM locations WHERE LocationId = ? ORDER BY TimestampMs ASC LIMIT 1", locationsId);
+  query = MySQLConnection.format("SELECT TimestampMs FROM locations WHERE LocationId = ? ORDER BY TimestampMs ASC LIMIT 1", locationId);
 
   // Execute the query
   results = await GetQueryResultAsync(query);
@@ -1034,7 +1031,7 @@ expressService.get("/user/info", async (requestObject, responseObject) =>
     responseBody["initialTimestampMS"] = GetMySQLDatePart(results[0].TimestampMs);
 
   // Prepare the query
-  query = MySQLConnection.format("SELECT TimestampMs FROM locations WHERE LocationId = ? ORDER BY TimestampMs DESC LIMIT 1", locationsId);
+  query = MySQLConnection.format("SELECT TimestampMs FROM locations WHERE LocationId = ? ORDER BY TimestampMs DESC LIMIT 1", locationId);
 
   // Execute the query
   results = await GetQueryResultAsync(query);
@@ -1045,7 +1042,7 @@ expressService.get("/user/info", async (requestObject, responseObject) =>
     responseBody["lastTimestampMS"] = GetMySQLDatePart(results[0].TimestampMs);
 
   // Prepare the query
-  query = MySQLConnection.format("SELECT TimestampMs, InVehicle, OnBicycle, OnFoot, Running, Still, Tilting, Unknown, Walking FROM activities WHERE ActivitiesId in (SELECT ActivitiesId FROM locations WHERE LocationId = ? AND ActivitiesId IS NOT NULL AND datediff(TimestampMs, CURDATE()) > -366 ORDER BY TimestampMs ASC)", locationsId);
+  query = MySQLConnection.format("SELECT TimestampMs, InVehicle, OnBicycle, OnFoot, Running, Still, Tilting, Unknown, Walking FROM activities WHERE ActivitiesId in (SELECT ActivitiesId FROM locations WHERE LocationId = ? AND ActivitiesId IS NOT NULL AND datediff(TimestampMs, CURDATE()) > -366 ORDER BY TimestampMs ASC)", locationId);
 
   // Execute the query
   results = await GetQueryResultAsync(query);
@@ -1089,8 +1086,8 @@ expressService.post("/user/upload", async(requestObject, responseObject) =>
   // Get the query arguments
   var queryArguments = urlObject.query;
 
-  // Get the user id query argument
-  var locationsId = queryArguments.locationsId;
+  // Get the location id query argument
+  var locationId = queryArguments.locationId;
 
   // Parse the the json file
   var jsonData = requestObject.body;
@@ -1120,7 +1117,7 @@ expressService.post("/user/upload", async(requestObject, responseObject) =>
     var timestampMs = TimestampMsToMySQLDateTime(location.timestampMs);
 
     // Get the MySQL values
-    var locationValues = [activityId, locationsId, accuracy, latitudeE7, longitudeE7, timestampMs];
+    var locationValues = [activityId, locationId, accuracy, latitudeE7, longitudeE7, timestampMs];
     
     // Prepare the query
     var query = MySQLConnection.format("INSERT INTO locations VALUES (?, ?, ?, ?, ?, ?, CURDATE())", locationValues);
@@ -1154,8 +1151,8 @@ expressService.get("/user/data", async (requestObject, responseObject) =>
   // Get the query arguments
   var queryArguments = urlObject.query;
 
-  // Get the locations id query argument
-  var locationsId = queryArguments.locationsId;
+  // Get the location id query argument
+  var locationId = queryArguments.locationId;
 
   // Get the starting date query argument
   var startingDate = queryArguments.startingDate;
@@ -1164,7 +1161,7 @@ expressService.get("/user/data", async (requestObject, responseObject) =>
   var endingDate = queryArguments.endingDate;
 
   // Initialize an array that will contain the query values
-  var queryValues = [locationsId];
+  var queryValues = [locationId];
 
   // Declare the MySQL statement
   var locationsQuery = "SELECT LatitudeE7, LongitudeE7, ActivitiesId FROM locations WHERE LocationId = ?";
@@ -1238,7 +1235,7 @@ expressService.get("/user/data", async (requestObject, responseObject) =>
 });
 
 // The service for the admin clear page
-expressService.delete("/admin/clear", async (requestObject, responseObject) => 
+expressService.delete("/admin", async (requestObject, responseObject) => 
 {
   // Set the response status
   responseObject.status(200);
