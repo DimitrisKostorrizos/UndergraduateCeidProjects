@@ -1,0 +1,3 @@
+cd "C:\Users\jimak\Documents\GitHub\UndergraduateCeidProjects\Project Web\WebServer"
+
+node WebServer.js
