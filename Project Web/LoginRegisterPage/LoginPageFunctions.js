@@ -32,32 +32,32 @@ function Login()
     // If there isn't an error
     if(!error)
     {
-        // Initialize the request body
-        var requestBody = 
-        {
-            "username" : username,
-            "password" : CryptoJS.SHA256(password).toString(CryptoJS.enc.Hex)
-        };
+        var hashedPassword = CryptoJS.SHA256(password).toString(CryptoJS.enc.Hex);
 
         // Initialize the request
         var httpRequest = new XMLHttpRequest();
 
-        httpRequest.open("GET", "http://localhost:8080/login", true);
+        var url = new URL("http://localhost:8080/login");
+        url.searchParams.set('username', username);
+        url.searchParams.set('password', hashedPassword)
+
+        httpRequest.open("GET", url, true);
         
-        httpRequest.setRequestHeader('Content-Type', 'application/json');
-        
-        httpRequest.onreadystatechange = function() 
+        httpRequest.onload = function()
         {
-
-            if (this.readyState == 4) 
-            {
-                var response = JSON.parse(this.response);
-                console.log(response);
-                document.getElementById("passwordLabel").innerHTML = response;
-            }
+            var response = JSON.parse(this.response);
+            console.log(response);
+            document.getElementById("passwordLabel").innerHTML = response;
         };
+        // httpRequest.onreadystatechange = function() 
+        // {
+        //     if (this.readyState == 4 && this.status == 200) 
+        //     {
+                
+        //     }
+        // };
 
-        httpRequest.send(JSON.stringify(requestBody));
+        httpRequest.send();
     }
 }
 
