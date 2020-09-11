@@ -36,7 +36,7 @@ function Login()
         var requestBody = 
         {
             "username" : username,
-            "password" : password
+            "password" : CryptoJS.SHA256(password).toString(CryptoJS.enc.Hex)
         };
 
         // Initialize the request
@@ -46,13 +46,14 @@ function Login()
         
         httpRequest.setRequestHeader('Content-Type', 'application/json');
         
-        //
         httpRequest.onreadystatechange = function() 
         {
-            if (this.readyState == 4 && this.status == 200) 
+
+            if (this.readyState == 4) 
             {
-                console.log(this.responseText);
-                document.getElementById("passwordLabel").innerHTML = res;
+                var response = JSON.parse(this.response);
+                console.log(response);
+                document.getElementById("passwordLabel").innerHTML = response;
             }
         };
 
