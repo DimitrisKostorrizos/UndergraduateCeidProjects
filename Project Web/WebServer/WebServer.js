@@ -885,7 +885,7 @@ expressService.get("/admin/analysis", async (requestObject, responseObject) =>
 });
 
 // The service for the login page
-expressService.get("/login", async (requestObject, responseObject) => 
+expressService.post("/login", async (requestObject, responseObject) => 
 {
   // Set the response status
   responseObject.status(200);
@@ -898,17 +898,14 @@ expressService.get("/login", async (requestObject, responseObject) =>
     id : null
   };
 
-  // Get the url object
-  var urlObject = urlModule.parse(requestObject.url, true);
+  // Parse the request body
+  var userInfo = requestObject.body;
 
-  // Get the query arguments
-  var queryArguments = urlObject.query;
+  // Get the username
+  var username = userInfo.username;
 
-  // Get the username value
-  var username = queryArguments.username;
-
-  // Get the password value
-  var password = queryArguments.password;
+  // Get the hashed password
+  var password = userInfo.hashedPassword;
 
   // Prepare the MySQL query
   var query = MySQLConnection.format("SELECT HashedPassword, Id, LocationId FROM users WHERE Username = ?", username);
@@ -946,8 +943,6 @@ expressService.post("/signup", async (requestObject, responseObject) =>
 {
   // Set the response status
   responseObject.status(200);
-
-  console.log("login");
 
   // Initialize the response body
   var responseBody = 
