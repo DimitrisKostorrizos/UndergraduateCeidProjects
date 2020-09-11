@@ -898,14 +898,17 @@ expressService.get("/login", async (requestObject, responseObject) =>
     id : null
   };
 
-  // Parse the request body
-  var userInfo = requestObject.body;
+  // Get the url object
+  var urlObject = urlModule.parse(requestObject.url, true);
+
+  // Get the query arguments
+  var queryArguments = urlObject.query;
 
   // Get the username value
-  var username = userInfo.username;
+  var username = queryArguments.username;
 
   // Get the password value
-  var password = userInfo.password;
+  var password = queryArguments.password;
 
   // Prepare the MySQL query
   var query = MySQLConnection.format("SELECT HashedPassword, Id, LocationId FROM users WHERE Username = ?", username);
@@ -943,6 +946,8 @@ expressService.post("/signup", async (requestObject, responseObject) =>
 {
   // Set the response status
   responseObject.status(200);
+
+  console.log("login");
 
   // Initialize the response body
   var responseBody = 
