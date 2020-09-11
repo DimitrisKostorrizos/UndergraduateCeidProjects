@@ -32,16 +32,24 @@ function Login()
     // If there isn't an error
     if(!error)
     {
+
         var hashedPassword = CryptoJS.SHA256(password).toString(CryptoJS.enc.Hex);
+        
+        var requestBody =JSON.stringify(
+        {
+            "username" : username,
+            "hashedPassword" : hashedPassword
+        });
 
         // Initialize the request
         var httpRequest = new XMLHttpRequest();
 
         var url = new URL("http://localhost:8080/login");
-        url.searchParams.set('username', username);
-        url.searchParams.set('password', hashedPassword)
+        // url.searchParams.set('username', username);
+        // url.searchParams.set('password', hashedPassword)
 
-        httpRequest.open("GET", url, true);
+        httpRequest.open("POST", url, true);
+        httpRequest.setRequestHeader('Content-type', 'application/json; charset=utf-8');
         
         httpRequest.onload = function()
         {
@@ -49,15 +57,7 @@ function Login()
             console.log(response);
             document.getElementById("passwordLabel").innerHTML = response;
         };
-        // httpRequest.onreadystatechange = function() 
-        // {
-        //     if (this.readyState == 4 && this.status == 200) 
-        //     {
-                
-        //     }
-        // };
-
-        httpRequest.send();
+        httpRequest.send(requestBody);
     }
 }
 
