@@ -4,11 +4,17 @@ var urlModule = require('url');
 // Get the MySQL driver module
 var mysqlModule = require('mysql');
 
+// Get the cors module
+const cors = require('cors');
+
 // Get the express module
-var expressModule = require('express');
+const expressModule = require('express');
 
 // Initialize the express service
-var expressService = expressModule();
+const expressService = expressModule();
+
+// Use cors module
+expressService.use(cors());
 
 // Use the express json body parser
 expressService.use(expressModule.json({ limit: '1gb' }));

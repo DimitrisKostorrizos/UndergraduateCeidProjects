@@ -9,6 +9,8 @@
 <script id="applicationScript" type="text/javascript" src="LoginFormPage.js"></script>
 <script type="text/javascript" src="LoginPageFunctions.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link href="../SignUpFormPage/SignUpPage.html" id="SignUpFormPage"></a>
 </head>
 <body>
 <div id="LoginFormPage">
@@ -35,6 +37,7 @@
 			<label id="passwordLabel"></label>
 		  </fieldset>
 		</form>
+		<label id="validationLabel"></label>
 		<button id="LoginButton" class="LoginButton" onclick="Login()">
 			<svg class="TextBlock">
 				<rect id="TextBlock" rx="19" ry="19" x="0" y="0" width="176" height="38">
@@ -44,7 +47,7 @@
 				<span>Login</span>
 			</div>
 		</button>
-		<button id="SignUpButton" class="SignUpButton" onclick="SwitchtoSignUpForm()">
+		<button id="SignUpButton" class="SignUpButton" onclick="window.location.href='../SignUpFormPage/SignUpPage.html'">
 			<svg class="TextBlock_x">
 				<rect id="TextBlock_x" rx="19" ry="19" x="0" y="0" width="176" height="38">
 				</rect>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SignUpPage</title>
+<link rel="stylesheet" type="text/css" id="applicationStylesheet" href="SignUpPage.css"/>
+<script id="applicationScript" type="text/javascript" src="SignUpPage.js"></script>
+<script type="text/javascript" src="SignUpPageFunctions.js"></script>
+</head>
+<body>
+<div id="SignUpPage">
+	<div id="Background">
+		<img id="BackgroundPicture" src="BackgroundPicture.png" srcset="BackgroundPicture.png 1x, BackgroundPicture@2x.png 2x">
+		<svg class="ColorEffect_q">
+			<linearGradient id="ColorEffect_q" spreadMethod="pad" x1="0" x2="1.008" y1="0.466" y2="0.45">
+				<stop offset="0" stop-color="#05668d" stop-opacity="1"></stop>
+				<stop offset="1" stop-color="#033347" stop-opacity="0.522"></stop>
+			</linearGradient>
+			<rect id="ColorEffect_q" rx="0" ry="0" x="0" y="0" width="1366" height="768">
+			</rect>
+		</svg>
+	</div>
+	<div id="Form">
+		<form id="userForm">
+			<h1>SignUp Form</h1>
+			<fieldset>
+			  Όνομα:<br>
+			  <input type="text" id="firstName" placeholder="Όνομα" maxlength="16" autocomplete="off">
+			  <label id="firstNameLabel"></label><br><br>
+			  Επώνυμο:<br>
+			  <input type="text" id="lastName" placeholder="Επώνυμο" maxlength="16" autocomplete="off">
+			  <label id="lastNameLabel"></label><br><br>
+			  Username:<br>
+			  <input type="text" id="username" placeholder="Username" maxlength="16" autocomplete="off">
+			  <label id="usernameLabel"></label><br><br>
+			  Password:<br>
+			  <input type="password" id="psw" placeholder="Password" maxlength="16" autocomplete="off">
+			  <label id="passwordLabel"></label><br><br>
+			  Repeat Password:<br>
+			  <input type="password" id="rpsw" placeholder="Password" maxlength="16" autocomplete="off">
+			</fieldset>
+		  </form>
+		<button id="LoginButton" class="LoginButton" onclick="window.location.href='../LoginFormPage/LoginFormPage.html'">
+			<svg class="TextBlock">
+				<rect id="TextBlock" rx="19" ry="19" x="0" y="0" width="176" height="38">
+				</rect>
+			</svg>
+			<div id="Text">
+				<span>Login</span>
+			</div>
+		</button>
+		<button id="SignUpButton" class="SignUpButton" onclick="Register()">
+			<svg class="TextBlock_x">
+				<rect id="TextBlock_x" rx="19" ry="19" x="0" y="0" width="176" height="38">
+				</rect>
+			</svg>
+			<div id="Text_y">
+				<span>Sign Up</span>
+			</div>
+		</button>
+	</div>
+</div>
+</body>
+</html>
