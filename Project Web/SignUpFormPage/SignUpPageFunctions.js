@@ -11,17 +11,11 @@ function passwordEquals(password, repeatedPassword)
             var regex = /^(?=.*[A-Z])(?=.*?[0-9])(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,16}$/g;
             if(password.match(regex))
             {
-                document.getElementById("passwordtip").innerHTML = "";
                 return true;
-            }
-            else
-            {
-                document.getElementById("passwordtip").innerHTML = "The passwords must contain at least one uppercase letter, one number and one special character.";
             }
         }
         else
         {
-            document.getElementById("passwordtip").innerHTML = "The passwords must be the same.";
             return false;
         }
     }
@@ -94,7 +88,7 @@ function Register()
     if(passwordEquals(password, repeatedPassword))
     {
         // Set the error message
-        document.getElementById("lastNameLabel").innerHTML = "";
+        document.getElementById("passwordLabel").innerHTML = "";
     }
     else
     {
@@ -134,18 +128,14 @@ function Register()
             type: 'POST',
             success: function(data)
             {
-                // If the user was validated...
-                if(data.validation)
-                {
-                    // Set the user's location id
-                    localStorage.setItem("locationId", data.locationId);
-                    
-                    // Set the user id
-                    localStorage.setItem("id", data.id);
-                    
-                    // Redirect to the user main page
-                    window.location.href='../UserMainPage/UserMainPage.html';
-                }
+              // Set the user's location id
+                localStorage.setItem("locationId", data.locationId);
+                
+                // Set the user id
+                localStorage.setItem("id", data.id);
+                
+                // Redirect to the user main page
+                window.location.href='../UserMainPage/UserMainPage.html';
             }
         });
     }
