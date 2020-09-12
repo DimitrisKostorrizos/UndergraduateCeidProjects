@@ -7,6 +7,8 @@
 <title>UserMainPage</title>
 <link rel="stylesheet" type="text/css" id="applicationStylesheet" href="UserMainPage.css"/>
 <script id="applicationScript" type="text/javascript" src="UserMainPage.js"></script>
+<script type="text/javascript" src="UserMainPageFunctions.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
 <div id="UserMainPage">
@@ -38,15 +40,11 @@
 				</rect>
 			</svg>
 			<div id="LastUploadTextBlock" class="LastUploadTextBlock">
-				<svg class="TextBlockArea">
-					<rect id="TextBlockArea" rx="30" ry="30" x="0" y="0" width="650" height="60">
-					</rect>
-				</svg>
 				<div id="HintText">
-					<span>Ημερομηνία τελευταίου Upload:</span>
+					<label>Ημερομηνία τελευταίου Upload:</label>
 				</div>
 				<div id="LastUploadValue">
-					<span>Value</span>
+					<label id="lastUploadValueLabel">fdfdfdfdfdf</label>
 				</div>
 			</div>
 			<div id="EcoScoreTextBlock" class="EcoScoreTextBlock">
