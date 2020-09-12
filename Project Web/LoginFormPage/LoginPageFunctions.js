@@ -68,20 +68,25 @@ function Login()
             type: 'POST',
             success: function(data)
             {
+                // If the user was validated...
                 if(data.validation)
                 {
-                    // Set the 
+                    // Set the error message
+                    document.getElementById("validationLabel").innerHTML = "";
+
+                    // Set the user's location id
                     localStorage.setItem("locationId", data.locationId);
-
-                    localStorage.setItem("Id", data.Id);
-
-                    window.location.href='../SignUpFormPage/SignUpPage.html';
-
+                    
+                    // Set the user id
+                    localStorage.setItem("id", data.id);
+                    
+                    // Redirect to the user main page
+                    window.location.href='../UserMainPage/UserMainPage.html';
                 }
                 else
                 {
                     // Set the error message
-                    document.getElementById("validationLabel").innerHTML = "Invalid username-password combination";
+                    document.getElementById("validationLabel").innerHTML = "Invalid username-password combination.";
                 }
             }
         });

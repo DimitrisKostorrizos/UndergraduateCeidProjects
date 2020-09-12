@@ -1,11 +1,11 @@
 .mediaViewInfo {
-	--web-view-name: MainUserPage;
-	--web-view-id: MainUserPage;
+	--web-view-name: UserMainPage;
+	--web-view-id: UserMainPage;
 	--web-scale-on-resize: true;
 	--web-enable-deep-linking: true;
 }
 :root {
-	--web-view-ids: MainUserPage;
+	--web-view-ids: UserMainPage;
 }
 * {
 	margin: 0;
@@ -13,14 +13,14 @@
 	box-sizing: border-box;
 	border: none;
 }
-#MainUserPage {
+#UserMainPage {
 	position: absolute;
 	width: 1366px;
 	height: 1780px;
 	background-color: rgba(255,255,255,1);
 	overflow: hidden;
-	--web-view-name: MainUserPage;
-	--web-view-id: MainUserPage;
+	--web-view-name: UserMainPage;
+	--web-view-id: UserMainPage;
 	--web-scale-on-resize: true;
 	--web-enable-deep-linking: true;
 }
