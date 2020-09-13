@@ -1,3 +1,62 @@
+function Initialization()
+{
+    // Set the url
+    var url = new URL("http://localhost:8080/user/info");
+
+    // Get the user's location id
+    var locationId = "704d432a-142c-469e-b7c3-3b1b4e57ba10";
+    //var locationId = localStorage.getItem("locationId");
+
+    // Set the url query parameters
+    url.searchParams.set('locationId', locationId);
+
+    // Send the request
+    $.ajax({
+        url: url,
+        headers: 
+        {
+            "Content-Type": "application/json"
+        },
+        type: 'Get',
+        success: function(data)
+        {
+            // Get the last upload date
+            var lastUploadDate = data.lastUploadDate;
+
+            // If the last upload date is not null...
+            if(lastUploadDate != null)
+                // Set the last upload date
+                document.getElementById("lastUploadValueLabel").innerHTML = lastUploadDate;
+            else
+                // Set the last upload date
+                document.getElementById("lastUploadValueLabel").innerHTML = "";
+
+            // Get the period timespan
+            var periodTimespan = data.initialTimestampMS + " - " + data.lastTimestampMS;
+
+            // If period timespan is not null...
+            if(periodTimespan != null)
+                // Set the last upload date
+                document.getElementById("periodTimespanValueLabel").innerHTML = periodTimespan;
+            else
+                // Set the last upload date
+                document.getElementById("periodTimespanValueLabel").innerHTML = "";
+            
+            // Get the current date
+            var currentDate = new Date();
+
+            // Get the current month part
+            var currentMonth = currentDate.getMonth();//String(currentDate.getMonth()).padStart(2, '0'); 
+
+            // Get the current month eco score
+            var currentMonthEcoScore = data.ecoScores[currentMonth].value;
+
+            // Set the current month eco score
+            document.getElementById("ecoScoreValueLabel").innerHTML = currentMonthEcoScore + " %";
+        }
+    });
+}
+
 function GraphSetter()
 {
     var today = new Date();

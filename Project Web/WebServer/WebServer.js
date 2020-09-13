@@ -468,7 +468,7 @@ function GetEcoScore(activityData)
     var bodyActivityPercentage = 0;
 
   // Return the % representation of the percentage 
-  return bodyActivityPercentage + " %";
+  return bodyActivityPercentage;
 }
 
 /**
@@ -481,7 +481,7 @@ async function GetUserRankingAsync(userInfo)
   var locationId = userInfo.LocationId;
   
   // Prepare the query
-  var query = MySQLConnection.format("select InVehicle, OnBicycle, OnFoot, Running, Still, Tilting, Unknown, Walking from activities where ActivitiesId in(SELECT ActivitiesId FROM locations Where LocationId = ? AND ActivitiesId IS NOT null AND (MONTH(TimestampMs) - MONTH(CURDATE()) = 0))", locationId);
+  var query = MySQLConnection.format("SELECT InVehicle, OnBicycle, OnFoot, Running, Still, Tilting, Unknown, Walking from activities where ActivitiesId in(SELECT ActivitiesId FROM locations Where LocationId = ? AND ActivitiesId IS NOT null AND (MONTH(TimestampMs) - MONTH(CURDATE()) = 0))", locationId);
 
   // Get the user's activity data
   var activityData = await GetQueryResultAsync(query);
@@ -630,17 +630,17 @@ async function GetTop3Async()
   // For every user...
   for(const user of users) 
   {
+    // Add the user ranking
     userScores.push(await GetUserRankingAsync(user));
   }
-
   // Descending sort the users based on the eco score
   userScores.sort((a, b) =>
   {
     if (a.ecoScore < b.ecoScore) 
-      return -1;
+      return 1;
 
     if (a.ecoScore > b.ecoScore) 
-      return 1;
+      return -1;
 
     return 0;
   });
@@ -1067,7 +1067,7 @@ expressService.get("/user/info", async (requestObject, responseObject) =>
       // Add the monthly score
       responseBody["ecoScores"].push(
         {
-          key : month,
+          month : month,
           value : ecoScore
         });
     }

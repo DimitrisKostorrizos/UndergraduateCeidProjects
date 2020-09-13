@@ -54,8 +54,6 @@ function Login()
 
         // Set the url
         var url = new URL("http://localhost:8080/login");
-        // url.searchParams.set('username', username);
-        // url.searchParams.set('password', hashedPassword)
 
         // Send the request
         $.ajax({
