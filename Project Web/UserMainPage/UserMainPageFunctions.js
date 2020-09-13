@@ -46,24 +46,49 @@ function Initialization()
             var currentDate = new Date();
 
             // Get the current month part
-            var currentMonth = currentDate.getMonth();//String(currentDate.getMonth()).padStart(2, '0'); 
+            var currentMonth = currentDate.getMonth(); 
 
             // Get the current month eco score
             var currentMonthEcoScore = data.ecoScores[currentMonth].value;
 
             // Set the current month eco score
             document.getElementById("ecoScoreValueLabel").innerHTML = currentMonthEcoScore + " %";
+
+            // Get the top 3 data
+            var top3Data = data.top3;
+
+            // Initialize the leaderboard
+            LeaderboardInitialization(top3Data);
+
+            // Initialize the line chart
+            GraphSetter()
+
         }
     });
 }
 
+function LeaderboardInitialization(top3Data)
+{
+    // Set the first leaderboard position
+    document.getElementById("firstPositionValueLabel").innerHTML = "1ος: " + top3Data[0].abbreviatedFullName;
+
+    // Set the second leaderboard position
+    document.getElementById("secondPositionValueLabel").innerHTML = "2ος: " + top3Data[1].abbreviatedFullName;
+
+    // Set the third leaderboard position
+    document.getElementById("thirdPositionValueLabel").innerHTML = "3ος: " + top3Data[2].abbreviatedFullName;
+
+    // Set the user leaderboard position
+    document.getElementById("userPositionValueLabel").innerHTML = "Χρήσ: " + top3Data[3].abbreviatedFullName;
+}
+
 function GraphSetter()
 {
-    var today = new Date();
-    var mm = String(today.getMonth()).padStart(2, '0');
+    var currentDate = new Date();
+    var mm = currentDate.getMonth();
     var months = ["Ιανουάριος", "Φεβρουάριος", "Μάρτιος", "Απρίλιος", "Μάϊος", "Ιούνιος", "Ιούλιος", "Αύγουστος", "Σεπτέμβριος", "Οκτώβριος", "Νοέμβριος","Δεκέμβριος"];
     labels = [];
-    for(let index = 0; index < 12; index++)
+    for(var index = 0; index < 12; index++)
     {
         if(index <= mm)
         {
@@ -74,7 +99,7 @@ function GraphSetter()
             labels.unshift(months[index]);
         }
     }
-    var ctx = document.getElementById('myChart').getContext('2d');
+    var ctx = document.getElementById('GraphContainer').getContext('2d');
     var myChart = new Chart(ctx, {
         type: 'line',
         data: {
@@ -104,13 +129,4 @@ function GraphSetter()
             }
         }
     });
-}
-
-function LeaderboardSetter(firstid,secondid,thirdid,userid,userposition)
-{
-    document.getElementById(firstid).innerHTML = "first";
-    document.getElementById(secondid).innerHTML = "Second";
-    document.getElementById(thirdid).innerHTML = "Third";
-    document.getElementById(userid).innerHTML = "User";
-    document.getElementById(userposition).innerHTML = "56";
 }

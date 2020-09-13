@@ -547,18 +547,6 @@ async function GetActivitiesPerUserPercentageAsync(userResults, activitiesResult
   return usersArray;
 }
 
-function JsonToCsv(jsonData)
-{
-  var items = json3.items;
-  var replacer = (key, value) => value === null ? '' : value; // specify how you want to handle null values here
-  var header = Object.keys(items[0]);
-  var csv = items.map(row => header.map(fieldName => JSON.stringify(row[fieldName], replacer)).join(','))
-  csv.unshift(header.join(','));
-  csv = csv.join('\r\n');
-
-  return csv;
-}
-
 /**
  * Insert the activities that are associated with the @param location into tha database
  * @param {location} location 
@@ -619,7 +607,7 @@ async function InsertLocationsActivityAsync(location)
 /**
  * Calculates and returns an array that contain the top 3 users, based on the monthly eco score
  */
-async function GetTop3Async()
+async function GetTop3Async(userLocationId)
 {
   // Get the users
   var users = await GetQueryResultAsync("SELECT LocationId, FirstName, LastName FROM users");
@@ -633,6 +621,7 @@ async function GetTop3Async()
     // Add the user ranking
     userScores.push(await GetUserRankingAsync(user));
   }
+
   // Descending sort the users based on the eco score
   userScores.sort((a, b) =>
   {
@@ -645,8 +634,14 @@ async function GetTop3Async()
     return 0;
   });
 
+  // Get the 3 top users
+  var top3Users = userScores.slice(0,3);
+
+  // Add the current user position
+  top3Users.push(userScores.filter(x => x.locationId == userLocationId)[0]);
+
   // Return the 3 top users
-  return userScores.slice(0,3);
+  return top3Users;
 }
 
 // Set the host name
@@ -1015,7 +1010,7 @@ expressService.get("/user/info", async (requestObject, responseObject) =>
   var locationId = queryArguments.locationId;
 
   // Prepare the query
-  var query = MySQLConnection.format("SELECT UploadDate FROM locations Where LocationId = ? Order By TimestampMs DESC Limit 1", locationId);
+  var query = MySQLConnection.format("SELECT UploadDate FROM locations Where LocationId = ? ORDER BY TimestampMs DESC Limit 1", locationId);
 
   // Execute the query
   var results = await GetQueryResultAsync(query);
@@ -1074,7 +1069,7 @@ expressService.get("/user/info", async (requestObject, responseObject) =>
   }
 
   // Get the top 3 users
-  responseBody["top3"] = await GetTop3Async();
+  responseBody["top3"] = await GetTop3Async(locationId);
   
   // Set the response body
   responseObject.json(responseBody);
