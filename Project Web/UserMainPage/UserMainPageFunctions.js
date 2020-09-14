@@ -60,9 +60,43 @@ function Initialization()
             // Initialize the leaderboard
             LeaderboardInitialization(top3Data);
 
-            // Initialize the line chart
-            GraphSetter()
+            // Get the yearly eco scores
+            var yearlyEcoScores = data.ecoScores;
 
+            // Get the current date
+            var currentDate = new Date();
+
+            // Get the current month
+            var currentMonth = currentDate.getMonth();
+
+            // Initialize an array that conntain the months
+            var months = ["Ιανουάριος", "Φεβρουάριος", "Μάρτιος", "Απρίλιος", "Μάϊος", "Ιούνιος", "Ιούλιος", "Αύγουστος", "Σεπτέμβριος", "Οκτώβριος", "Νοέμβριος","Δεκέμβριος"];
+            
+            // Declare an array for the chart labels
+            labels = [];
+
+            // Declare an array for the chart data
+            data = [];
+
+            // For evry month...
+            for(var index = 0; index < 12; index++)
+            {
+                if(index <= currentMonth)
+                {
+                    labels.push(months[index]);
+
+                    data.push(yearlyEcoScores[index].value);
+                }
+                else
+                {
+                    labels.unshift(months[index]);
+
+                    data.push(yearlyEcoScores[index].value);
+                }
+            }
+
+            // Initialize the line chart
+            LineChartSetter(labels, data);
         }
     });
 }
@@ -79,34 +113,19 @@ function LeaderboardInitialization(top3Data)
     document.getElementById("thirdPositionValueLabel").innerHTML = "3ος: " + top3Data[2].abbreviatedFullName;
 
     // Set the user leaderboard position
-    document.getElementById("userPositionValueLabel").innerHTML = "Χρήσ: " + top3Data[3].abbreviatedFullName;
+    document.getElementById("userPositionValueLabel").innerHTML = "Χρήστης: " + top3Data[3].abbreviatedFullName;
 }
 
-function GraphSetter()
+function LineChartSetter(labels, data)
 {
-    var currentDate = new Date();
-    var mm = currentDate.getMonth();
-    var months = ["Ιανουάριος", "Φεβρουάριος", "Μάρτιος", "Απρίλιος", "Μάϊος", "Ιούνιος", "Ιούλιος", "Αύγουστος", "Σεπτέμβριος", "Οκτώβριος", "Νοέμβριος","Δεκέμβριος"];
-    labels = [];
-    for(var index = 0; index < 12; index++)
-    {
-        if(index <= mm)
-        {
-            labels.push(months[index]);
-        }
-        else
-        {
-            labels.unshift(months[index]);
-        }
-    }
-    var ctx = document.getElementById('GraphContainer').getContext('2d');
-    var myChart = new Chart(ctx, {
+    var chartContainer = document.getElementById('GraphContainer');
+    new Chart(chartContainer, {
         type: 'line',
         data: {
             labels: labels,
             datasets: [{
                 label: "% of activity per month",
-                data: [33, 49.2, 55, 67, 22, 11, 45, 78, 21, 45, 67, 33],
+                data: data,
                 backgroundColor: [
                     "rgba(36, 32, 56, 0.2)"
                 ],

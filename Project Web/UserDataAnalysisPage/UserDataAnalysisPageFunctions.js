@@ -1,12 +1,3 @@
-async function JSONParser() 
-{
-    let file = LH.json;
-    let text = await file.text();
-    let JSONObject = JSON.parse(text);
-    MapSetter("mapid", JSONObject);
-    GraphSetter("myChart", JSONObject);
-}
-
 function MapSetter(MapId, JSONObject)
 {
     let CenterCoordinates = [38.230462, 21.753150];
@@ -28,6 +19,75 @@ function MapSetter(MapId, JSONObject)
         }
     }
 }
+
+function Search()
+{
+    // Set the url
+    var url = new URL("http://localhost:8080/user/data");
+
+    // Get the user's location id
+    var locationId = "704d432a-142c-469e-b7c3-3b1b4e57ba10";
+    //var locationId = localStorage.getItem("locationId");
+    
+    // Set the url query parameters
+    url.searchParams.set('locationId', locationId);
+
+    // Get the starting date value
+    var startingDate = document.getElementById('startingMonthInput').value;
+
+    // If the value is not empty...
+    if(startingDate !== "")
+    {
+        // Add the missing day part
+        startingDate = startingDate + "-01";
+
+        // Add the starting date to the url
+        url.searchParams.set('startingDate', startingDate);
+    }
+
+    // Get the ending date value
+    var endingDate = document.getElementById('endingMonthInput').value;
+
+    // If the value is not empty...
+    if(endingDate !== "")
+    {
+        // Add the missing day part
+        endingDate = endingDate + "-01";
+
+        // Add the starting date to the url
+        url.searchParams.set('endingDate', endingDate);
+    }
+
+    // Send the request
+    $.ajax({
+        url: url,
+        headers: 
+        {
+            "Content-Type": "application/json"
+        },
+        type: 'Get',
+        success: function(data)
+        {
+            // Get the activities percentage
+            var activityPercentage = data.activityPercentage;
+
+            // If activities percentage is not empty...
+            if(activityPercentage.length != 0)
+            {
+                // Set the value
+                document.getElementById("activityInVehicleValueLabel").innerHTML = activityPercentage.InVehicle + " %";
+            }
+            else
+            {
+                // Set the value
+                document.getElementById("activityInVehicleValueLabel").innerHTML = "";
+            }
+
+            // Initialize the line chart
+            LineChartSetter(labels, data);
+        }
+    });
+};
 
 function GraphSetter(GraphId, JSONObject)
 {

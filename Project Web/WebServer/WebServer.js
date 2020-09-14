@@ -1171,7 +1171,7 @@ expressService.get("/user/data", async (requestObject, responseObject) =>
   var activitiesQuery = MySQLConnection.format("SELECT TimestampMs, InVehicle, OnBicycle, OnFoot, Running, Still, Tilting, Unknown, Walking FROM activities WHERE ActivitiesId in (SELECT ActivitiesId FROM locations WHERE LocationId = ?");
 
   // If the starting date is not undefined...
-  if(startingDate !== null)
+  if(typeof startingDate !== 'undefined')
   {
     // Add the new query value
     queryValues.push(startingDate);
@@ -1184,7 +1184,7 @@ expressService.get("/user/data", async (requestObject, responseObject) =>
   }
 
   // If the ending date is not undefined...
-  if(endingDate !== null)
+  if(typeof endingDate !== 'undefined')
   {
     // Add the new query value
     queryValues.push(endingDate);
