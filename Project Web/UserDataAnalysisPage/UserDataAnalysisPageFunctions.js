@@ -218,59 +218,51 @@ function Search()
 
                 // Set the value
                 document.getElementById("hourPerActivityWalkingValueLabel").innerHTML = "";
-            } 
+            }
 
-            // Initialize the heat map
-            HeatMapSetter(data.locations);
+            // Get the locations
+            var locations = data.locations;
+
+            // If there is at leats one location...
+            if(locations.length != 0)
+            {
+                // Declare the array that will conatin the coordinates
+                var locationCoordinates = [];
+
+                // For every location...
+                for(const location of locations)
+                {
+                    locationCoordinates.push([location.LatitudeE7/10000000, location.LongitudeE7/10000000, 10]);
+                }
+    
+                // Initialize the heat map
+                HeatMapSetter(locationCoordinates);
+            }
         }
     });
 }
 
+// Initialize the heat map
 function HeatMapSetter(data)
 {
+    // Initialize the map
+    var map = new L.Map("heatMap", 
+    {
+        center: new L.LatLng(38.230462, 21.753150),
+        zoom: 14
+    });
+
+    // Initialize the map layer
     var mapLayer = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
     });
 
-    var cfg = {
-    // radius should be small ONLY if scaleRadius is true (or small radius is intended)
-    "radius": 0.00007,
-    minOpacity: 0.5,
-    maxOpacity: 1, 
+    // Add the map layer to the map
+    map.addLayer(mapLayer);
 
-    // scales the radius based on map zoom
-    "scaleRadius": true, 
-    // if set to false the heatmap uses the global maximum for colorization
-    // if activated: uses the data maximum within the current map boundaries 
-    //   (there will always be a red spot with useLocalExtremas true)
-    "useLocalExtrema": false,
-    // which field name in your data represents the latitude - default "lat"
-    latField: 'lat',
-    // which field name in your data represents the longitude - default "lng"
-    lngField: 'lng',
-    // which field name in your data represents the data value - default "value"
-    value: 'sig',
-    blur:0,
+    // Initialize the heat map layer
+    var heatmapLayer = L.heatLayer(data);
 
-        gradient: {
-            // enter n keys between 0 and 1 here
-            // for gradient color customization
-            '1': 'red',
-            '.3': 'yellow',
-            '0.9': 'green'
-        },
-
-    };
-
-    var heatmapLayer = new HeatmapOverlay(cfg);
-
-    var map = new L.Map('heatMap', {
-    center: new L.LatLng(38.230462, 21.753150),
-    zoom: 14,
-    layers: [mapLayer, heatmapLayer]
-    });
-
-    heatmapLayer.setData(data);
-    // make accessible for debugging
-    layer = heatmapLayer;
+    // Add the heat map layer to the map
+    map.addLayer(heatmapLayer);
 }
