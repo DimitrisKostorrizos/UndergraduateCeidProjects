@@ -1,25 +1,3 @@
-function MapSetter(MapId, JSONObject)
-{
-    let CenterCoordinates = [38.230462, 21.753150];
-    var map = L.map(MapId, { drawControl: true }).setView(CenterCoordinates, 14);
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{
-        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
-    }).addTo(map);
-    
-    let MarkersList = [];
-    for(i = 0; i < JSONObject.locations.length; i++)
-    {
-        let coordinates = [ JSONObject.locations[i].latitudeE7/10000000, JSONObject.locations[i].longitudeE7/10000000]
-        let distance = Math.sqrt( Math.pow((CenterCoordinates[0] - coordinates[0]), 2) + Math.pow((CenterCoordinates[1] - coordinates[1]), 2) );
-        if (distance <= 0.1)
-        {
-            marker = L.marker(coordinates).addTo(map);
-            marker.bindPopup(coordinates.toString()).openPopup();
-            MarkersList.push(marker);
-        }
-    }
-}
-
 function Search()
 {
     // Set the url
@@ -76,64 +54,223 @@ function Search()
             {
                 // Set the value
                 document.getElementById("activityInVehicleValueLabel").innerHTML = activityPercentage.InVehicle + " %";
+
+                // Set the value
+                document.getElementById("activityOnBicycleValueLabel").innerHTML = activityPercentage.OnBicycle + " %";
+
+                // Set the value
+                document.getElementById("activityOnFootValueLabel").innerHTML = activityPercentage.OnFoot + " %";
+
+                // Set the value
+                document.getElementById("activityRunningValueLabel").innerHTML = activityPercentage.Running + " %";
+
+                // Set the value
+                document.getElementById("activityStillValueLabel").innerHTML = activityPercentage.Still + " %";
+
+                // Set the value
+                document.getElementById("activityTiltingValueLabel").innerHTML = activityPercentage.Tilting + " %";
+
+                // Set the value
+                document.getElementById("activityUnknownValueLabel").innerHTML = activityPercentage.Unknown + " %";
+
+                // Set the value
+                document.getElementById("activityWalkingValueLabel").innerHTML = activityPercentage.Unknown + " %";
             }
             else
             {
                 // Set the value
                 document.getElementById("activityInVehicleValueLabel").innerHTML = "";
+
+                // Set the value
+                document.getElementById("activityOnBicycleValueLabel").innerHTML = "";
+
+                // Set the value
+                document.getElementById("activityOnFootValueLabel").innerHTML = "";
+
+                // Set the value
+                document.getElementById("activityRunningValueLabel").innerHTML = "";
+
+                // Set the value
+                document.getElementById("activityStillValueLabel").innerHTML = "";
+
+                // Set the value
+                document.getElementById("activityTiltingValueLabel").innerHTML = "";
+
+                // Set the value
+                document.getElementById("activityUnknownValueLabel").innerHTML = "";
+
+                // Set the value
+                document.getElementById("activityWalkingValueLabel").innerHTML = "";
             }
 
-            // Initialize the line chart
-            LineChartSetter(labels, data);
+            // Get the day per activity percentage
+            var dayPerActivityPercentage = data.dayPerActivity;
+
+            // If the day per activity percentage is not empty...
+            if(dayPerActivityPercentage.length != 0)
+            {
+                // Declare the months names
+                var dayNames = ["Κυριακή", "Δευτέρα", "Τρίτη", "Τετάρτη", "Πέμπτη", "Παρασκευή", "Σάββατο"];
+                
+                // Set the value
+                document.getElementById("dayPerActivityInVehicleValueLabel").innerHTML = dayNames[dayPerActivityPercentage.InVehicle];
+
+                // Set the value
+                document.getElementById("dayPerActivityOnBicycleValueLabel").innerHTML = dayNames[dayPerActivityPercentage.OnBicycle];
+
+                // Set the value
+                document.getElementById("dayPerActivityOnFootValueLabel").innerHTML = dayNames[dayPerActivityPercentage.OnFoot];
+
+                // Set the value
+                document.getElementById("dayPerActivityRunningValueLabel").innerHTML = dayNames[dayPerActivityPercentage.Running];
+
+                // Set the value
+                document.getElementById("dayPerActivityStillValueLabel").innerHTML = dayNames[dayPerActivityPercentage.Still];
+
+                // Set the value
+                document.getElementById("dayPerActivityTiltingValueLabel").innerHTML = dayNames[dayPerActivityPercentage.Tilting];
+
+                // Set the value
+                document.getElementById("dayPerActivityUnknownValueLabel").innerHTML = dayNames[dayPerActivityPercentage.Unknown];
+
+                // Set the value
+                document.getElementById("dayPerActivityWalkingValueLabel").innerHTML = dayNames[dayPerActivityPercentage.Walking];
+            }
+            else
+            {
+                // Set the value
+                document.getElementById("dayPerActivityInVehicleValueLabel").innerHTML = "";
+
+                // Set the value
+                document.getElementById("dayPerActivityOnBicycleValueLabel").innerHTML = "";
+
+                // Set the value
+                document.getElementById("dayPerActivityOnFootValueLabel").innerHTML = "";
+
+                // Set the value
+                document.getElementById("dayPerActivityRunningValueLabel").innerHTML = "";
+
+                // Set the value
+                document.getElementById("dayPerActivityStillValueLabel").innerHTML = "";
+
+                // Set the value
+                document.getElementById("dayPerActivityTiltingValueLabel").innerHTML = "";
+
+                // Set the value
+                document.getElementById("dayPerActivityUnknownValueLabel").innerHTML = "";
+
+                // Set the value
+                document.getElementById("dayPerActivityWalkingValueLabel").innerHTML = "";
+            }
+
+            // Get the hour per activity percentage
+            var hourPerActivityPercentage = data.hourPerActivity;
+
+            // If the hour per activity percentage is not empty...
+            if(hourPerActivityPercentage.length != 0)
+            {
+                // Set the value
+                document.getElementById("hourPerActivityInVehicleValueLabel").innerHTML = hourPerActivityPercentage.InVehicle + ":00";
+
+                // Set the value
+                document.getElementById("hourPerActivityOnBicycleValueLabel").innerHTML = hourPerActivityPercentage.OnBicycle + ":00";
+
+                // Set the value
+                document.getElementById("hourPerActivityOnFootValueLabel").innerHTML = hourPerActivityPercentage.OnFoot + ":00";
+
+                // Set the value
+                document.getElementById("hourPerActivityRunningValueLabel").innerHTML = hourPerActivityPercentage.Running + ":00";
+
+                // Set the value
+                document.getElementById("hourPerActivityStillValueLabel").innerHTML = hourPerActivityPercentage.Still + ":00";
+
+                // Set the value
+                document.getElementById("hourPerActivityTiltingValueLabel").innerHTML = hourPerActivityPercentage.Tilting + ":00";
+
+                // Set the value
+                document.getElementById("hourPerActivityUnknownValueLabel").innerHTML = hourPerActivityPercentage.Unknown + ":00";
+
+                // Set the value
+                document.getElementById("hourPerActivityWalkingValueLabel").innerHTML = hourPerActivityPercentage.Walking + ":00";
+            }
+            else
+            {
+                // Set the value
+                document.getElementById("hourPerActivityInVehicleValueLabel").innerHTML = "";
+
+                // Set the value
+                document.getElementById("hourPerActivityOnBicycleValueLabel").innerHTML = "";
+
+                // Set the value
+                document.getElementById("hourPerActivityOnFootValueLabel").innerHTML = "";
+
+                // Set the value
+                document.getElementById("hourPerActivityRunningValueLabel").innerHTML = "";
+
+                // Set the value
+                document.getElementById("hourPerActivityStillValueLabel").innerHTML = "";
+
+                // Set the value
+                document.getElementById("hourPerActivityTiltingValueLabel").innerHTML = "";
+
+                // Set the value
+                document.getElementById("hourPerActivityUnknownValueLabel").innerHTML = "";
+
+                // Set the value
+                document.getElementById("hourPerActivityWalkingValueLabel").innerHTML = "";
+            } 
+
+            // Initialize the heat map
+            HeatMapSetter(data.locations);
         }
     });
-};
+}
 
-function GraphSetter(GraphId, JSONObject)
+function HeatMapSetter(data)
 {
-    var today = new Date();
-    var mm = String(today.getMonth()).padStart(2, '0');
-    var months = ["Ιανουάριος", "Φεβρουάριος", "Μάρτιος", "Απρίλιος", "Μάϊος", "Ιούνιος", "Ιούλιος", "Αύγουστος", "Σεπτέμβριος", "Οκτώβριος", "Νοέμβριος","Δεκέμβριος"];
-    labels = [];
-    for(let index = 0; index < 12; index++)
-    {
-        if(index <= mm)
-        {
-            labels.push(months[index]);
-        }
-        else
-        {
-            labels.unshift(months[index]);
-        }
-    }
-    var ctx = document.getElementById('myChart').getContext('2d');
-    var myChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: labels,
-            datasets: [{
-                label: "% of activity per month",
-                data: [33, 49.2, 55, 67, 22, 11, 45, 78, 21, 45, 67, 33],
-                backgroundColor: [
-                    "rgba(36, 32, 56, 0.2)"
-                ],
-                borderColor: [
-                    "rgba(36, 32, 56, 1)"
-                ],
-                borderWidth: 2,
-                lineTension: 0,
-                pointBorderWidth: 2,
-                pointBorderColor: "rgba(36, 32, 56, 1)"
-            }]
-        },
-        options: {
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: true
-                    }
-                }]
-            }
-        }
+    var mapLayer = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
     });
+
+    var cfg = {
+    // radius should be small ONLY if scaleRadius is true (or small radius is intended)
+    "radius": 0.00007,
+    minOpacity: 0.5,
+    maxOpacity: 1, 
+
+    // scales the radius based on map zoom
+    "scaleRadius": true, 
+    // if set to false the heatmap uses the global maximum for colorization
+    // if activated: uses the data maximum within the current map boundaries 
+    //   (there will always be a red spot with useLocalExtremas true)
+    "useLocalExtrema": false,
+    // which field name in your data represents the latitude - default "lat"
+    latField: 'lat',
+    // which field name in your data represents the longitude - default "lng"
+    lngField: 'lng',
+    // which field name in your data represents the data value - default "value"
+    value: 'sig',
+    blur:0,
+
+        gradient: {
+            // enter n keys between 0 and 1 here
+            // for gradient color customization
+            '1': 'red',
+            '.3': 'yellow',
+            '0.9': 'green'
+        },
+
+    };
+
+    var heatmapLayer = new HeatmapOverlay(cfg);
+
+    var map = new L.Map('heatMap', {
+    center: new L.LatLng(38.230462, 21.753150),
+    zoom: 14,
+    layers: [mapLayer, heatmapLayer]
+    });
+
+    heatmapLayer.setData(data);
+    // make accessible for debugging
+    layer = heatmapLayer;
 }
