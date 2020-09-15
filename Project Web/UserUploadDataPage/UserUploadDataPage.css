@@ -1,11 +1,11 @@
 .mediaViewInfo {
-	--web-view-name: UserUploadPage;
-	--web-view-id: UserUploadPage;
+	--web-view-name: UserUploadDataPage;
+	--web-view-id: UserUploadDataPage;
 	--web-scale-on-resize: true;
 	--web-enable-deep-linking: true;
 }
 :root {
-	--web-view-ids: UserUploadPage;
+	--web-view-ids: UserUploadDataPage;
 }
 * {
 	margin: 0;
@@ -13,14 +13,14 @@
 	box-sizing: border-box;
 	border: none;
 }
-#UserUploadPage {
+#UserUploadDataPage {
 	position: absolute;
 	width: 1366px;
 	height: 1468px;
 	background-color: rgba(255,255,255,1);
 	overflow: hidden;
-	--web-view-name: UserUploadPage;
-	--web-view-id: UserUploadPage;
+	--web-view-name: UserUploadDataPage;
+	--web-view-id: UserUploadDataPage;
 	--web-scale-on-resize: true;
 	--web-enable-deep-linking: true;
 }
