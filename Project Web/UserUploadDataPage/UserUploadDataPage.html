@@ -58,7 +58,7 @@
 			</div>
 		</div>
 	</div>
-	<input type="file" id="fileInput" style="display: none"/>
+	<input type="file" id="fileInput" accept=".json" onchange="OpenFile(this.files[0])" style="display: none"/>
 	<div id="MainPage" onclick="OpenFileExplorer()">
 		<div class="MainPageContainer">
 			<rect id="MainPageContainer" rx="0" ry="0" x="0" y="0" width="1366" height="1368">

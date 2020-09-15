@@ -1,11 +1,28 @@
 function OpenFileExplorer() 
 {
-    // Set the current month eco score
+    // Click the collapsed input
     document.getElementById("fileInput").click();
-    
-    //let text = await file.text();
-    let JSONObject = JSON.parse(text);
-    MapSetter("mapid", JSONObject)
+}
+
+async function OpenFile(file)
+{
+    // Read the loacl file asynchronously
+    var fileContext = await ReadFileAsync(file);
+
+    // Parse the file context
+    var JSONObject = JSON.parse(fileContext);
+
+    MapSetter(MapId, JSONObject);
+}
+
+// Read the file asynchronously
+async function ReadFileAsync(file)
+{
+    // Get the text context
+    var text = await file.text();
+
+    // Return the text
+    return text;
 }
 
 function MapSetter(MapId, JSONObject)
