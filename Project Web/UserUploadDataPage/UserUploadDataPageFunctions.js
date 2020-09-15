@@ -1,6 +1,9 @@
-async function JSONParser(file) 
+function OpenFileExplorer() 
 {
-    let text = await file.text();
+    // Set the current month eco score
+    document.getElementById("fileInput").click();
+    
+    //let text = await file.text();
     let JSONObject = JSON.parse(text);
     MapSetter("mapid", JSONObject)
 }
@@ -67,42 +70,4 @@ function MapSetter(MapId, JSONObject)
             MarkersList.push(marker);
         }
     }
-
-    // AJAX CALL
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", "test.php",true);
-    xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-    xhr.onreadystatechange = function save() 
-    {
-        if (this.readyState == 4 && this.status == 200) 
-        {
-            var res = JSON.parse(this.response);
-            if (res.status) {
-              // OK - DO SOMETHING
-              alert(res.message);
-            } else {
-              // ERROR - DO SOMETHING
-              alert(res.message);
-            }
-        }
-    };
-    xhr.send(JSON.stringify(JSONObject));
-
-
-    //Second try
-    // var values = JSON.stringify(JSONObject);
-
-    // jQuery.ajax({
-    //     url: "test.php",
-    //     type: "get",
-    //     data: values ,
-    //     success: function (response) 
-    //     {
-    //         console.log(response.headers);
-    //         // You will get response from your PHP page (what you echo or print)
-    //     },
-    //     error: function(jqXHR, textStatus, errorThrown) {
-    //         console.log(textStatus, errorThrown);
-    //     }
-    // });
 }

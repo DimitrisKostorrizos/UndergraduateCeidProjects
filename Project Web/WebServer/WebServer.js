@@ -1093,7 +1093,7 @@ expressService.post("/user/upload", async(requestObject, responseObject) =>
   // Parse the the json file
   var jsonData = requestObject.body;
 
-  // For every location int the json...
+  // For every location in the json...
   for(const location of jsonData.locations)
   {
     // Initialize the activity id

@@ -101,6 +101,7 @@ function Initialization()
     });
 }
 
+// Initialize the leaderboard
 function LeaderboardInitialization(top3Data)
 {
     // Set the first leaderboard position
@@ -116,6 +117,7 @@ function LeaderboardInitialization(top3Data)
     document.getElementById("userPositionValueLabel").innerHTML = "Χρήστης: " + top3Data[3].abbreviatedFullName;
 }
 
+// Initialize the line chart
 function LineChartSetter(labels, data)
 {
     var chartContainer = document.getElementById('GraphContainer');
