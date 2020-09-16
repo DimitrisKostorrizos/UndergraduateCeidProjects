@@ -83,7 +83,7 @@ function MapSetter(MapId, JSONObject)
     var CenterCoordinates = [38.230462, 21.753150];
 
     // Initialize the map layer
-    var map = L.map(MapId, { drawControl: true }).setView(CenterCoordinates, 14);
+    var map = L.map(MapId, { drawControl: true }).setView(CenterCoordinates, 12);
 
     // Initialize a map layer
     var mapLayer = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{
@@ -138,26 +138,6 @@ function MapSetter(MapId, JSONObject)
 
     // Add the draw control to the map
     map.addControl(drawControl);
-
-    // drawControl = new L.Control.Draw({
-    //     draw : {
-    //         position : 'topright',
-    //         polyline : false,
-    //         rectangle : false,
-    //         circle : false,
-    //         polygon: false,
-    //         marker: false
-    //     },
-    //     edit : {
-    //         featureGroup: drawnItems
-    //       }
-    // });
-    // map.addControl(drawControl);
-
-    // map.on(L.Draw.Event.CREATED, function (e) {
-    //     var layer = e.layer;
-    //      drawnItems.addLayer(layer);
-    //  });
     
     let MarkersList = [];
     // let FullJSONObject = JSON.parse(JSON.stringify(JSONObject));
@@ -170,19 +150,20 @@ function MapSetter(MapId, JSONObject)
     //     marker.bindPopup(coordinates.toString()).openPopup();
     // }
 
-    // var circle = L.circle(CenterCoordinates, {
-    //     color: 'red',
-    //     fillColor: '#f03',
-    //     fillOpacity: 0.5,
-    //     radius: 10000
-    // }).addTo(map);
+    var circle = L.circle(CenterCoordinates, {
+        color: 'blue',
+        fillColor: '#02C39A',
+        fillOpacity: 0.3,
+        radius: 10000
+    }).addTo(map);
+
     marker = L.marker(CenterCoordinates).addTo(map);
     let str = "Patras Center: ".concat(CenterCoordinates.toString());
     marker.bindPopup(str).openPopup();
     for(i = 0; i < JSONObject.locations.length; i++)
     {
-        let coordinates = [ JSONObject.locations[i].latitudeE7/10000000, JSONObject.locations[i].longitudeE7/10000000]
-        let distance = Math.sqrt( Math.pow((CenterCoordinates[0] - coordinates[0]), 2) + Math.pow((CenterCoordinates[1] - coordinates[1]), 2) );
+        var coordinates = [ JSONObject.locations[i].latitudeE7/10000000, JSONObject.locations[i].longitudeE7/10000000]
+        var distance = Math.sqrt( Math.pow((CenterCoordinates[0] - coordinates[0]), 2) + Math.pow((CenterCoordinates[1] - coordinates[1]), 2) );
         if (distance <= 0.1)
         {
             marker = L.marker(coordinates).addTo(map);
