@@ -83,7 +83,7 @@ function MapSetter(MapId, JSONObject)
     var CenterCoordinates = [38.230462, 21.753150];
 
     // Initialize the map layer
-    var map = L.map(MapId, { drawControl: true }).setView(CenterCoordinates, 12);
+    var map = L.map(MapId).setView(CenterCoordinates, 12);
 
     // Initialize a map layer
     var mapLayer = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{
@@ -99,6 +99,7 @@ function MapSetter(MapId, JSONObject)
     // Add the feature layer to the map
     map.addLayer(featureGroupLayer);
 
+
     // Intialize the draw plugin options
     var drawPluginOptions = 
     {
@@ -110,22 +111,9 @@ function MapSetter(MapId, JSONObject)
                 weight: 10
             }
             },
-            polygon: {
-            allowIntersection: false, // Restricts shapes to simple polygons
-            drawError: {
-                color: '#e1e100', // Color the shape will turn when intersects
-                message: '<strong>Polygon draw does not allow intersections!<strong> (allowIntersection: false)' // Message that will show when intersect
-            },
-            shapeOptions: {
-                color: '#bada55'
-            }
-            },
-            circle: false, // Turns off this drawing tool
-            rectangle: {
-            shapeOptions: {
-                clickable: false
-            }
-            }
+            polygon: false,
+            circle: false,
+            rectangle: false
         },
         edit: {
             featureGroup: featureGroupLayer,
@@ -140,35 +128,74 @@ function MapSetter(MapId, JSONObject)
     map.addControl(drawControl);
     
     let MarkersList = [];
-    // let FullJSONObject = JSON.parse(JSON.stringify(JSONObject));
-    // let FullMarkersList = [];
-    // for(i = 0; i < FullJSONObject.locations.length; i++)
-    // {
-    //     coordinates = [ FullJSONObject.locations[i].latitudeE7/10000000, FullJSONObject.locations[0].longitudeE7/10000000]
-    //     marker = L.marker(coordinates).addTo(map);
-    //     MarkersList.push(marker);
-    //     marker.bindPopup(coordinates.toString()).openPopup();
-    // }
 
-    var circle = L.circle(CenterCoordinates, {
+    // Draw a circle for the boundaries
+    L.circle(CenterCoordinates, 
+        {
         color: 'blue',
         fillColor: '#02C39A',
         fillOpacity: 0.3,
         radius: 10000
     }).addTo(map);
 
+    // Set a marker for the patras center
     marker = L.marker(CenterCoordinates).addTo(map);
-    let str = "Patras Center: ".concat(CenterCoordinates.toString());
+    var str = "Patras Center: ".concat(CenterCoordinates.toString());
     marker.bindPopup(str).openPopup();
-    for(i = 0; i < JSONObject.locations.length; i++)
+
+    var coordinatesTuples = [];
+
+    map.on('draw:created', function (e) 
     {
-        var coordinates = [ JSONObject.locations[i].latitudeE7/10000000, JSONObject.locations[i].longitudeE7/10000000]
-        var distance = Math.sqrt( Math.pow((CenterCoordinates[0] - coordinates[0]), 2) + Math.pow((CenterCoordinates[1] - coordinates[1]), 2) );
+        // Get the layer
+        const layer = e.layer;
+
+        // When a user finishes editing a shape we get that information here
+        featureGroupLayer.addLayer(layer);
+
+        // Get the selected geo locations
+        var selectedLocations = layer.toGeoJSON();
+
+        // Get the selected coordinates
+        var selectedCoordinates = selectedLocations.geometry.coordinates;
+
+        // If there is at least one coordinates tuple...
+        if(typeof selectedCoordinates !== 'undefined')
+        {
+            // For every coordinates...
+            for(const coordinates of selectedCoordinates)
+            {
+                coordinatesTuples.indexOf(coordinates);
+            }
+        }
+    });
+
+    // For every location...
+    for(const location of JSONObject.locations)
+    {
+        // Get the current locations coordinates
+        var coordinates = [location.latitudeE7/10000000, location.longitudeE7/10000000];
+
+        coordinatesTuples.push(coordinates);
+
+        // Calculate the euclidean distance
+        var distance = Math.sqrt(Math.pow((CenterCoordinates[0] - coordinates[0]), 2) + Math.pow((CenterCoordinates[1] - coordinates[1]), 2));
+        
+        // If the distance is less than 10Km...
         if (distance <= 0.1)
         {
+            // Add the marker
             marker = L.marker(coordinates).addTo(map);
+
+            // Add the popup
             marker.bindPopup(coordinates.toString()).openPopup();
+
+            // Add the markers
             MarkersList.push(marker);
+        }
+        else
+        {
+            JSONObject.locations.splice(JSONObject.locations.indexOf(location), 1);      
         }
     }
 }
