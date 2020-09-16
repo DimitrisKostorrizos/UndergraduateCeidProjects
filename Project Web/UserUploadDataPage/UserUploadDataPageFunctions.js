@@ -165,7 +165,20 @@ function MapSetter(MapId, JSONObject)
             // For every coordinates...
             for(const coordinates of selectedCoordinates)
             {
-                coordinatesTuples.indexOf(coordinates);
+                // Remove the locations entry
+                JSONObject.locations.splice(coordinatesTuples.indexOf(coordinates), 1);
+
+                // // Get the associated marker
+                // var marker = MarkersList.find(x => 
+                //     {
+                //         var markerCoordinates = x.getLatLng();
+
+                //         if(markerCoordinates.lat == coordinates[1] && markerCoordinates.lng == coordinates[0])
+                //             return markerCoordinates == coordinates;
+                //     });
+
+                // // Remove the selected marker
+                // map.removeLayer(marker);
             }
         }
     });
