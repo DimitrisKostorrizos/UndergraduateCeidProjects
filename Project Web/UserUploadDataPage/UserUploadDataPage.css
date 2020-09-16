@@ -266,9 +266,8 @@
 	overflow: visible;
 }
 #ChosenFilename {
-	opacity: 0;
 	position: absolute;
-	width: 1020px;
+	width: 623px;
 	height: 100px;
 	left: 68px;
 	top: 124px;
@@ -286,31 +285,17 @@
 .TextBlockArea {
 	position: absolute;
 	overflow: visible;
-	width: 1020px;
+	width: 623px;
 	height: 100px;
 	left: 0px;
 	top: 0px;
 }
-#HintText {
-	left: 38px;
-	top: 17px;
-	position: absolute;
-	overflow: visible;
-	width: 417px;
-	height: 66px;
-	text-align: left;
-	font-family: Calibri;
-	font-style: normal;
-	font-weight: normal;
-	font-size: 50px;
-	color: rgba(0,0,0,1);
-}
 #Value {
-	left: 478px;
+	left: 28px;
 	top: 17px;
 	position: absolute;
 	overflow: visible;
-	width: 507px;
+	width: 569px;
 	height: 66px;
 	text-align: center;
 	font-family: Calibri;
@@ -320,7 +305,6 @@
 	color: rgba(0,0,0,1);
 }
 #MapContainer {
-	opacity: 0;
 	fill: rgba(255,255,255,1);
 	stroke: rgba(112,112,112,1);
 	stroke-width: 1px;
@@ -338,7 +322,6 @@
 	top: 313px;
 }
 #UploadButton {
-	opacity: 0;
 	position: absolute;
 	width: 359px;
 	height: 100px;
@@ -363,7 +346,7 @@
 	left: 0px;
 	top: 0px;
 }
-#Text_bg {
+#Text_bf {
 	left: 38px;
 	top: 17px;
 	position: absolute;
