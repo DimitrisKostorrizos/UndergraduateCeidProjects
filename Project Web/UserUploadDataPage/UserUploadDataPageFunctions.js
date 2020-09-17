@@ -1,3 +1,9 @@
+// Declare a global variable for the json object
+var JSONObject;
+
+// Declare an array for the coordinates
+var coordinatesTuples = [];
+
 // Initialize the GUI
 function Initialization()
 {
@@ -25,7 +31,7 @@ async function OpenFile(file)
     var fileContext = await ReadFileAsync(file);
 
     // Parse the file context
-    var JSONObject = JSON.parse(fileContext);
+    window.JSONObject = JSON.parse(fileContext);
 
     // Hide the input
     HideElement("JSONFileInput");
@@ -43,7 +49,7 @@ async function OpenFile(file)
     document.getElementById("fileNameValue").innerHTML = file.name;
 
     // Set the map
-    MapSetter("MapContainer", JSONObject);
+    MapSetter("MapContainer");
 }
 
 // Hide the element
@@ -77,7 +83,7 @@ async function ReadFileAsync(file)
 }
 
 // Set the map
-function MapSetter(MapId, JSONObject)
+function MapSetter(MapId)
 {
     // Initialize the coordinates for patra center
     var CenterCoordinates = [38.230462, 21.753150];
@@ -99,21 +105,20 @@ function MapSetter(MapId, JSONObject)
     // Add the feature layer to the map
     map.addLayer(featureGroupLayer);
 
-
-    // Intialize the draw plugin options
+    // Initialize the draw plugin options
     var drawPluginOptions = 
     {
         position: 'topright',
         draw: {
-            polyline: {
-            shapeOptions: {
-                color: '#f357a1',
-                weight: 10
-            }
-            },
+            polyline: false,
             polygon: false,
             circle: false,
-            rectangle: false
+            rectangle: {
+                shapeOptions: {
+                    color: '#f357a1',
+                    weight: 10
+                }
+                }
         },
         edit: {
             featureGroup: featureGroupLayer,
@@ -126,11 +131,9 @@ function MapSetter(MapId, JSONObject)
 
     // Add the draw control to the map
     map.addControl(drawControl);
-    
-    let MarkersList = [];
 
     // Draw a circle for the boundaries
-    L.circle(CenterCoordinates, 
+    var circle = L.circle(CenterCoordinates, 
         {
         color: 'blue',
         fillColor: '#02C39A',
@@ -143,45 +146,8 @@ function MapSetter(MapId, JSONObject)
     var str = "Patras Center: ".concat(CenterCoordinates.toString());
     marker.bindPopup(str).openPopup();
 
-    var coordinatesTuples = [];
-
-    map.on('draw:created', function (e) 
-    {
-        // Get the layer
-        const layer = e.layer;
-
-        // When a user finishes editing a shape we get that information here
-        featureGroupLayer.addLayer(layer);
-
-        // Get the selected geo locations
-        var selectedLocations = layer.toGeoJSON();
-
-        // Get the selected coordinates
-        var selectedCoordinates = selectedLocations.geometry.coordinates;
-
-        // If there is at least one coordinates tuple...
-        if(typeof selectedCoordinates !== 'undefined')
-        {
-            // For every coordinates...
-            for(const coordinates of selectedCoordinates)
-            {
-                // Remove the locations entry
-                JSONObject.locations.splice(coordinatesTuples.indexOf(coordinates), 1);
-
-                // // Get the associated marker
-                // var marker = MarkersList.find(x => 
-                //     {
-                //         var markerCoordinates = x.getLatLng();
-
-                //         if(markerCoordinates.lat == coordinates[1] && markerCoordinates.lng == coordinates[0])
-                //             return markerCoordinates == coordinates;
-                //     });
-
-                // // Remove the selected marker
-                // map.removeLayer(marker);
-            }
-        }
-    });
+    // Get the circle bounds
+    var circleBounds = circle.getBounds();
 
     // For every location...
     for(const location of JSONObject.locations)
@@ -189,26 +155,74 @@ function MapSetter(MapId, JSONObject)
         // Get the current locations coordinates
         var coordinates = [location.latitudeE7/10000000, location.longitudeE7/10000000];
 
-        coordinatesTuples.push(coordinates);
-
-        // Calculate the euclidean distance
-        var distance = Math.sqrt(Math.pow((CenterCoordinates[0] - coordinates[0]), 2) + Math.pow((CenterCoordinates[1] - coordinates[1]), 2));
-        
-        // If the distance is less than 10Km...
-        if (distance <= 0.1)
-        {
-            // Add the marker
-            marker = L.marker(coordinates).addTo(map);
-
-            // Add the popup
-            marker.bindPopup(coordinates.toString()).openPopup();
-
-            // Add the markers
-            MarkersList.push(marker);
-        }
+        if(circleBounds.contains(coordinates))
+            // Add it to the valid coordinates
+            coordinatesTuples.push(coordinates);
         else
+            // Delete the current location
+            JSONObject.locations.splice(JSONObject.locations.indexOf(location), 1);
+    }
+
+    // Set the event when a shape is created
+    map.on('draw:created', function (e) 
+    {
+        // Get the layer
+        var layer = e.layer;
+
+        // Get the rectangle bounds
+        var rectangleBounds = L.latLngBounds(layer.getLatLngs());
+
+        // For every tuple of coordinates...
+        for(var index = 0; index < coordinatesTuples.length; index++)
         {
-            JSONObject.locations.splice(JSONObject.locations.indexOf(location), 1);      
+            // If the coordinates are contained within the bound...
+            if(rectangleBounds.contains(coordinatesTuples[index]))
+            {
+                // Remove the coordinates entry
+                JSONObject.locations.splice(index, 1);
+
+                // Remove the coordinates entry
+                coordinatesTuples.splice(index, 1);
+            }
         }
+    });
+}
+
+// Upload the file
+function Upload()
+{
+    // If the json is not empty...
+    if(JSONObject.locations.length == 0)
+        alert("No locations to upload.");
+    else
+    {
+        // Set the url
+        var url = new URL("http://localhost:8080/user/upload");
+    
+        // Get the user's location id
+        var locationId = "704d432a-142c-469e-b7c3-3b1b4e57ba10";
+        //var locationId = localStorage.getItem("locationId");
+        
+        // Set the url query parameters
+        url.searchParams.set('locationId', locationId);
+    
+        // Send the request
+        $.ajax({
+            url: url,
+            data: JSON.stringify(JSONObject),
+            headers: 
+            {
+                "Content-Type": "application/json"
+            },
+            type: 'Post',
+            success: function(data)
+            {
+                // If the upload was successful...
+                if(data.status)
+                    alert("Upload was cleared successfully.");
+                else
+                    alert("Upload has failed.");
+            }
+        });
     }
 }
