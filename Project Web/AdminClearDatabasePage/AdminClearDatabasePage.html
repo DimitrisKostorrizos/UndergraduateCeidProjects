@@ -7,6 +7,8 @@
 <title>AdminClearDatabasePage</title>
 <link rel="stylesheet" type="text/css" id="applicationStylesheet" href="AdminClearDatabasePage.css"/>
 <script id="applicationScript" type="text/javascript" src="AdminClearDatabasePage.js"></script>
+<script type="text/javascript" src="AdminClearDatabasePageFunctions.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
 <div id="AdminClearDatabasePage">
@@ -26,7 +28,7 @@
 			<rect id="Container" rx="20" ry="20" x="0" y="0" width="1062" height="578">
 			</rect>
 		</svg>
-		<div id="Button" class="Button">
+		<div id="Button" class="Button" onclick="ClearDatabase()">
 			<svg class="TextBlock">
 				<rect id="TextBlock" rx="50" ry="50" x="0" y="0" width="446" height="100">
 				</rect>
@@ -45,13 +47,10 @@
 			</div>
 		</div>
 		<div id="RoundedTextBlock" class="RoundedTextBlock">
-			<svg class="DeleteCodeInput">
-				<rect id="DeleteCodeInput" rx="50" ry="50" x="0" y="0" width="520" height="100">
-				</rect>
-			</svg>
+			<input type="text" id="textInput" height="40" width="400" placeholder="Enter clear code">
 		</div>
 		<div id="DeleteCode">
-			<span>ClearDatabase</span><br>
+			<span>Clear Code:  ClearDatabase</span><br>
 		</div>
 	</div>
 	<div id="AdminTopMenuBar" class="AdminTopMenuBar">
