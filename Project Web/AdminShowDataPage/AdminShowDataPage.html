@@ -7,6 +7,15 @@
 <title>AdminShowDataPage</title>
 <link rel="stylesheet" type="text/css" id="applicationStylesheet" href="AdminShowDataPage.css"/>
 <script id="applicationScript" type="text/javascript" src="AdminShowDataPage.js"></script>
+<script id="applicationScript" type="text/javascript" src="AdminShowDataPageFunctions.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+   integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+   crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+   integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+   crossorigin=""></script>
+<script src="leaflet.heat.js"></script>
 </head>
 <body>
 <div id="AdminShowDataPage">
@@ -89,38 +98,30 @@
 	<div id="_bb">
 		<span>εως</span>
 	</div>
-	<svg class="CheckBox">
-		<rect id="CheckBox" rx="0" ry="0" x="0" y="0" width="34" height="31">
-		</rect>
-	</svg>
-	<svg class="CheckBox_bd">
-		<rect id="CheckBox_bd" rx="0" ry="0" x="0" y="0" width="34" height="31">
-		</rect>
-	</svg>
-	<svg class="CheckBox_be">
-		<rect id="CheckBox_be" rx="0" ry="0" x="0" y="0" width="34" height="31">
-		</rect>
-	</svg>
-	<svg class="CheckBox_bf">
-		<rect id="CheckBox_bf" rx="0" ry="0" x="0" y="0" width="34" height="31">
-		</rect>
-	</svg>
-	<svg class="CheckBox_bg">
-		<rect id="CheckBox_bg" rx="0" ry="0" x="0" y="0" width="34" height="31">
-		</rect>
-	</svg>
-	<svg class="CheckBox_bh">
-		<rect id="CheckBox_bh" rx="0" ry="0" x="0" y="0" width="34" height="31">
-		</rect>
-	</svg>
-	<svg class="CheckBox_bi">
-		<rect id="CheckBox_bi" rx="0" ry="0" x="0" y="0" width="34" height="31">
-		</rect>
-	</svg>
-	<svg class="CheckBox_bj">
-		<rect id="CheckBox_bj" rx="0" ry="0" x="0" y="0" width="34" height="31">
-		</rect>
-	</svg>
+	<div class="CheckBox">
+		<input type="checkbox" id="inVehicleCheckbox">
+	</div>
+	<div class="CheckBox_bd">
+		<input type="checkbox" id="runningCheckbox">
+	</div>
+	<div class="CheckBox_be">
+		<input type="checkbox" id="stillCheckbox">
+	</div>
+	<div class="CheckBox_bf">
+		<input type="checkbox" id="tiltingCheckbox">
+	</div>
+	<div class="CheckBox_bg">
+		<input type="checkbox" id="walkingCheckbox">
+	</div>
+	<div class="CheckBox_bh">
+		<input type="checkbox" id="unknownCheckbox">
+	</div>
+	<div class="CheckBox_bi">
+		<input type="checkbox" id="onFootCheckbox">
+	</div>
+	<div class="CheckBox_bj">
+		<input type="checkbox" id="onBicycleCheckbox">
+	</div>
 	<div id="IconContainer">
 		<img id="Mask" src="data:image/png;base64,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">
 		</svg>
@@ -153,11 +154,11 @@
 		<img id="Mask_bz" src="data:image/png;base64,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">
 		</svg>
 	</div>
-	<svg class="HeatmapContainer">
+	<div class="HeatmapContainer" id="HeatmapContainer">
 		<rect id="HeatmapContainer" rx="0" ry="0" x="0" y="0" width="955" height="671">
 		</rect>
-	</svg>
-	<div id="SearchButton" class="SearchButton">
+	</div>
+	<div id="SearchButton" class="SearchButton" onclick="Search()">
 		<svg class="TextBlock">
 			<rect id="TextBlock" rx="25.5" ry="25.5" x="0" y="0" width="215" height="51">
 			</rect>
@@ -166,7 +167,7 @@
 			<span>Search</span>
 		</div>
 	</div>
-	<div id="ExportButton" class="ExportButton">
+	<div id="ExportButton" class="ExportButton" onclick="Export()">
 		<svg class="TextBlock_b">
 			<rect id="TextBlock_b" rx="25.5" ry="25.5" x="0" y="0" width="215" height="51">
 			</rect>
