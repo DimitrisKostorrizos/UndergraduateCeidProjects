@@ -192,6 +192,24 @@ function Search()
         type: 'Get',
         success: function(data)
         {
+            // Get the locations
+            var locations = data.locations;
+
+            // If there is at least one location...
+            if(locations.length != 0)
+            {
+                // Declare the array that will conatin the coordinates
+                var locationCoordinates = [];
+
+                // For every location...
+                for(const location of locations)
+                {
+                    locationCoordinates.push([location.LatitudeE7/10000000, location.LongitudeE7/10000000, 10]);
+                }
+
+                // Set the heat map
+                HeatMapSetter(locationCoordinates);
+            }
         }
     });    
 }
@@ -201,7 +219,27 @@ function Export()
 
 }
 
-function HeatmapSetter(heatmapId)
+// Initialize the heat map
+function HeatMapSetter(data)
 {
+    // Initialize the map
+    var map = new L.Map("HeatmapContainer", 
+    {
+        center: new L.LatLng(38.230462, 21.753150),
+        zoom: 14
+    });
 
+    // Initialize the map layer
+    var mapLayer = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
+    });
+
+    // Add the map layer to the map
+    map.addLayer(mapLayer);
+
+    // Initialize the heat map layer
+    var heatmapLayer = L.heatLayer(data);
+
+    // Add the heat map layer to the map
+    map.addLayer(heatmapLayer);
 }

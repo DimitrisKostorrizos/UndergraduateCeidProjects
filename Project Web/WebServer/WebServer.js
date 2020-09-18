@@ -857,15 +857,24 @@ expressService.get("/admin/analysis", async (requestObject, responseObject) =>
       // Split the query argument
       var types = activityTypes.split(",");
 
+      //Initialize the activity types
+      var activityTypesQuery = " AND ActivitiesId IN (SELECT ActivitiesId FROM activities WHERE (";
+
+      // Declare an array that will contain the queries for the types
+      var typesQuery = [];
+
       // For every type...
       for(const type of types)
       {
-        // TODO
+        typesQuery.push(type + " > 0 ")
       }
+
+      // Merge the missing parentheses
+      activityTypesQuery = activityTypesQuery + typesQuery.join(" AND ") + "))";
     }
 
     // Merge the missing parentheses
-    locationsQuery = locationsQuery + ")";
+    locationsQuery = locationsQuery + activityTypesQuery + ")";
   }
   
   // Prepare the MySQL query
