@@ -481,7 +481,7 @@ async function GetUserRankingAsync(userInfo)
   var locationId = userInfo.LocationId;
   
   // Prepare the query
-  var query = MySQLConnection.format("SELECT InVehicle, OnBicycle, OnFoot, Running, Still, Tilting, Unknown, Walking from activities where ActivitiesId in(SELECT ActivitiesId FROM locations Where LocationId = ? AND ActivitiesId IS NOT null AND (MONTH(TimestampMs) - MONTH(CURDATE()) = 0))", locationId);
+  var query = MySQLConnection.format("SELECT InVehicle, OnBicycle, OnFoot, Running, Still, Tilting, Unknown, Walking from activities where ActivitiesId in(SELECT ActivitiesId FROM locations Where LocationId = ? AND ActivitiesId IS NOT NULL AND (MONTH(TimestampMs) - MONTH(CURDATE()) = 0))", locationId);
 
   // Get the user's activity data
   var activityData = await GetQueryResultAsync(query);
@@ -745,14 +745,14 @@ expressService.get("/admin/analysis", async (requestObject, responseObject) =>
   // Get the ending day query argument
   var endingDay = queryArguments.endingDay;
 
-  // Get the starting time query argument
-  var startingTime = queryArguments.startingTime;
+  // Get the starting hour query argument
+  var startingHour = queryArguments.startingHour;
 
-  // Get the ending time query argument
-  var endingTime = queryArguments.endingTime;
+  // Get the ending hour query argument
+  var endingHour = queryArguments.endingHour;
 
-  // Get the activities types query argument
-  var activitiesTypes = queryArguments.activitiesType;  
+  // Get the activity types query argument
+  var activityTypes = queryArguments.activityTypes;  
   
   // Initialize the query
   var locationsQuery = "SELECT LatitudeE7, LongitudeE7 FROM locations";
@@ -839,23 +839,23 @@ expressService.get("/admin/analysis", async (requestObject, responseObject) =>
     }
 
     // If a timespan has been selected...
-    if(startingTime !== null && endingTime !== null)
+    if(startingHour !== null && endingHour !== null)
     {
       // Add the staring time
-      queryValues.push(startingTime);
+      queryValues.push(startingHour);
 
       // Add the ending time
-      queryValues.push(endingTime);
+      queryValues.push(endingHour);
 
       // Merge the queries
       locationsQuery = locationsQuery + " HOUR(TimestampMs) BETWEEN ? AND ?";
     }
 
     // If there is at least one type...
-    if(typeof activitiesTypes !== 'undefined')
+    if(typeof activityTypes !== 'undefined')
     {
       // Split the query argument
-      var types = activitiesTypes.split(",");
+      var types = activityTypes.split(",");
 
       // For every type...
       for(const type of types)

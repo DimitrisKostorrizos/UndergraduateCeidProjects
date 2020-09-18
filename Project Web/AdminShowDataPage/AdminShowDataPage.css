@@ -315,6 +315,20 @@ input[type=checkbox] {
 	left: 451px;
 	top: 405px;
 }
+#_bc {
+	left: 362.5px;
+	top: 177.5px;
+	position: absolute;
+	overflow: hidden;
+	width: 60px;
+	height: 29px;
+	text-align: center;
+	font-family: Calibri;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 26px;
+	color: rgba(5,102,141,1);
+}
 #_ba {
 	left: 362.5px;
 	top: 297.5px;

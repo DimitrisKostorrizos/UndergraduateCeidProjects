@@ -65,31 +65,43 @@
 			</div>
 		</div>
 	</div>
-	<svg class="StartingMonthInputContainer">
-		<rect id="StartingMonthInputContainer" rx="0" ry="0" x="0" y="0" width="274" height="56">
-		</rect>
-	</svg>
-	<svg class="EndingMonthInputContainer">
-		<rect id="EndingMonthInputContainer" rx="0" ry="0" x="0" y="0" width="274" height="56">
-		</rect>
-	</svg>
-	<svg class="StartingDayInputContainer">
-		<rect id="StartingDayInputContainer" rx="0" ry="0" x="0" y="0" width="274" height="56">
-		</rect>
-	</svg>
-	<svg class="StartingHourInputContainer">
-		<rect id="StartingHourInputContainer" rx="0" ry="0" x="0" y="0" width="274" height="56">
-		</rect>
-	</svg>
-	<svg class="EndingDayInputContainer">
-		<rect id="EndingDayInputContainer" rx="0" ry="0" x="0" y="0" width="274" height="56">
-		</rect>
-	</svg>
-	<svg class="EndingHourInputContainer">
-		<rect id="EndingHourInputContainer" rx="0" ry="0" x="0" y="0" width="274" height="56">
-		</rect>
-	</svg>
-	<div id="">
+	<div class="StartingMonthInputContainer">
+		<input type="month" id="startingMonthInput">
+	</div>
+	<div class="EndingMonthInputContainer">
+		<input type="month" id="endingMonthInput">
+	</div>
+	<div class="StartingDayInputContainer">
+		<select id="startingDayInput">
+			<option value="">--</option>
+			<option value=0>Κυριακή</option>
+			<option value=1>Δευτέρα</option>
+			<option value=2>Τρίτη</option>
+			<option value=3>Τετάρτη</option>
+			<option value=4>Πέμπτη</option>
+			<option value=5>Παρασκευή</option>
+			<option value=6>Σάββατο</option>
+		</select>
+	</div>
+	<div class="EndingDayInputContainer">
+		<select id="endingDayInput">
+			<option value="">--</option>
+			<option value=0>Κυριακή</option>
+			<option value=1>Δευτέρα</option>
+			<option value=2>Τρίτη</option>
+			<option value=3>Τετάρτη</option>
+			<option value=4>Πέμπτη</option>
+			<option value=5>Παρασκευή</option>
+			<option value=6>Σάββατο</option>
+		</select>
+	</div>
+	<div class="StartingHourInputContainer">
+		<input type="time" id="startingHourInput">
+	</div>
+	<div class="EndingHourInputContainer">
+		<input type="time" id="endingHourInput">
+	</div>
+	<div id="_bc">
 		<span>εως</span>
 	</div>
 	<div id="_ba">
