@@ -165,7 +165,7 @@
 	font-size: 50px;
 	color: rgba(5,102,141,1);
 }
-#UploadDataTab_bc {
+#UploadDataTab_ {
 	position: absolute;
 	width: 400px;
 	height: 100px;
@@ -173,7 +173,7 @@
 	top: 0px;
 	overflow: visible;
 }
-#TabArea_bd {
+#TabArea_bc {
 	fill: rgba(2,195,154,1);
 	stroke: rgba(112,112,112,1);
 	stroke-width: 1px;
@@ -182,7 +182,7 @@
 	stroke-miterlimit: 4;
 	shape-rendering: auto;
 }
-.TabArea_bd {
+.TabArea_bc {
 	position: absolute;
 	overflow: visible;
 	width: 400px;
@@ -190,7 +190,7 @@
 	left: 0px;
 	top: 0px;
 }
-#Text_be {
+#Text_bc {
 	left: 0px;
 	top: 14px;
 	position: absolute;
@@ -202,45 +202,6 @@
 	font-style: normal;
 	font-weight: normal;
 	font-size: 50px;
-	color: rgba(5,102,141,1);
-}
-#LogoutButton {
-	position: absolute;
-	width: 127px;
-	height: 51px;
-	left: 1217px;
-	top: 25px;
-	overflow: visible;
-}
-#TextBlock {
-	fill: rgba(2,195,154,1);
-	stroke: rgba(2,128,144,1);
-	stroke-width: 1px;
-	stroke-linejoin: miter;
-	stroke-linecap: butt;
-	stroke-miterlimit: 4;
-	shape-rendering: auto;
-}
-.TextBlock {
-	position: absolute;
-	overflow: visible;
-	width: 127px;
-	height: 51px;
-	left: 0px;
-	top: 0px;
-}
-#Text_ba {
-	left: 25px;
-	top: 11px;
-	position: absolute;
-	overflow: hidden;
-	width: 78px;
-	height: 30px;
-	text-align: center;
-	font-family: Calibri;
-	font-style: normal;
-	font-weight: normal;
-	font-size: 26px;
 	color: rgba(5,102,141,1);
 }
 #HomePage {
@@ -268,7 +229,7 @@
 	left: 0px;
 	top: 0px;
 }
-#Text_bb {
+#Text_ba {
 	left: 0px;
 	top: 14px;
 	position: absolute;
@@ -307,7 +268,7 @@
 	left: 0px;
 	top: 0px;
 }
-#Text_bc {
+#Text_bb {
 	left: 0px;
 	top: 14px;
 	position: absolute;
@@ -321,7 +282,7 @@
 	font-size: 50px;
 	color: rgba(5,102,141,1);
 }
-#UploadDataTab_bc {
+#UploadDataTab_ {
 	position: absolute;
 	width: 400px;
 	height: 100px;
@@ -329,7 +290,7 @@
 	top: 0px;
 	overflow: visible;
 }
-#TabArea_bd {
+#TabArea_bc {
 	fill: rgba(2,195,154,1);
 	stroke: rgba(112,112,112,1);
 	stroke-width: 1px;
@@ -338,7 +299,7 @@
 	stroke-miterlimit: 4;
 	shape-rendering: auto;
 }
-.TabArea_bd {
+.TabArea_bc {
 	position: absolute;
 	overflow: visible;
 	width: 400px;
@@ -346,7 +307,7 @@
 	left: 0px;
 	top: 0px;
 }
-#Text_be {
+#Text_bc {
 	left: 0px;
 	top: 14px;
 	position: absolute;
@@ -381,11 +342,11 @@
 	position: absolute;
 	width: 215px;
 	height: 51px;
-	left: 1019px;
-	top: 136px;
+	left: 1033px;
+	top: 134px;
 	overflow: visible;
 }
-#TextBlock_bh {
+#TextBlock {
 	fill: rgba(2,195,154,1);
 	stroke: rgba(2,128,144,1);
 	stroke-width: 1px;
@@ -394,7 +355,7 @@
 	stroke-miterlimit: 4;
 	shape-rendering: auto;
 }
-.TextBlock_bh {
+.TextBlock {
 	position: absolute;
 	overflow: visible;
 	width: 215px;
@@ -402,7 +363,7 @@
 	left: 0px;
 	top: 0px;
 }
-#Text_bi {
+#Text_bf {
 	left: 26px;
 	top: 11px;
 	position: absolute;
@@ -472,7 +433,7 @@
 	top: 222px;
 	overflow: visible;
 }
-#ActivitiesContainer_bn {
+#ActivitiesContainer_bk {
 	opacity: 0;
 	fill: rgba(255,255,255,1);
 	stroke: rgba(112,112,112,1);
@@ -482,7 +443,7 @@
 	stroke-miterlimit: 4;
 	shape-rendering: auto;
 }
-.ActivitiesContainer_bn {
+.ActivitiesContainer_bk {
 	position: absolute;
 	overflow: visible;
 	width: 362px;
@@ -531,7 +492,7 @@
 }
 #InVehicle {
 	position: absolute;
-	width: 363px;
+	width: 328px;
 	height: 76px;
 	left: 0px;
 	top: 88px;
@@ -555,11 +516,11 @@
 	top: 0px;
 }
 #ActivityInVehicleValue {
-	left: 182px;
-	top: 10px;
+	left: 115px;
+	top: 17px;
 	position: absolute;
 	overflow: hidden;
-	width: 163px;
+	width: 213px;
 	height: 51px;
 	text-align: center;
 	font-family: Calibri;
@@ -592,10 +553,10 @@
 	top: 183px;
 	overflow: visible;
 }
-#TextBlockContainer_bx {
+#TextBlockContainer_bu {
 	fill: rgba(255,255,255,1);
 }
-.TextBlockContainer_bx {
+.TextBlockContainer_bu {
 	position: absolute;
 	overflow: visible;
 	width: 364px;
@@ -604,11 +565,11 @@
 	top: 0px;
 }
 #ActivityOnBicycleValue {
-	left: 182px;
+	left: 152px;
 	top: 19px;
 	position: absolute;
 	overflow: hidden;
-	width: 157px;
+	width: 187px;
 	height: 45px;
 	text-align: center;
 	font-family: Calibri;
@@ -617,7 +578,7 @@
 	font-size: 26px;
 	color: rgba(0,0,0,1);
 }
-#IconContainer_bz {
+#IconContainer_bw {
 	position: absolute;
 	width: 100px;
 	height: 66px;
@@ -625,7 +586,7 @@
 	top: 8.947px;
 	overflow: visible;
 }
-#Mask_b {
+#Mask_bx {
 	position: absolute;
 	width: 100px;
 	height: 66px;
@@ -641,10 +602,10 @@
 	top: 278px;
 	overflow: visible;
 }
-#TextBlockContainer_b {
+#TextBlockContainer_bz {
 	fill: rgba(255,255,255,1);
 }
-.TextBlockContainer_b {
+.TextBlockContainer_bz {
 	position: absolute;
 	overflow: visible;
 	width: 365px;
@@ -653,11 +614,11 @@
 	top: 0px;
 }
 #ActivityOnFootValue {
-	left: 182px;
+	left: 127px;
 	top: 9px;
 	position: absolute;
 	overflow: hidden;
-	width: 158px;
+	width: 213px;
 	height: 59px;
 	text-align: center;
 	font-family: Calibri;
@@ -674,7 +635,7 @@
 	top: 9px;
 	overflow: visible;
 }
-#Mask_ca {
+#Mask_b {
 	position: absolute;
 	width: 100px;
 	height: 59px;
@@ -688,6 +649,61 @@
 	height: 76px;
 	left: 0px;
 	top: 373px;
+	overflow: visible;
+}
+#TextBlockContainer_b {
+	fill: rgba(255,255,255,1);
+	stroke: rgba(2,128,144,1);
+	stroke-width: 1px;
+	stroke-linejoin: miter;
+	stroke-linecap: butt;
+	stroke-miterlimit: 4;
+	shape-rendering: auto;
+}
+.TextBlockContainer_b {
+	position: absolute;
+	overflow: visible;
+	width: 364px;
+	height: 76px;
+	left: 0px;
+	top: 0px;
+}
+#ActivityRunningValue {
+	left: 128px;
+	top: 11px;
+	position: absolute;
+	overflow: hidden;
+	width: 213px;
+	height: 54px;
+	text-align: center;
+	font-family: Calibri;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 26px;
+	color: rgba(0,0,0,1);
+}
+#IconContainer_ca {
+	position: absolute;
+	width: 100px;
+	height: 66px;
+	left: 28px;
+	top: 5px;
+	overflow: visible;
+}
+#Mask_ca {
+	position: absolute;
+	width: 100px;
+	height: 66px;
+	left: 0px;
+	top: 0px;
+	overflow: visible;
+}
+#Still {
+	position: absolute;
+	width: 364px;
+	height: 76px;
+	left: 0px;
+	top: 468px;
 	overflow: visible;
 }
 #TextBlockContainer_ca {
@@ -707,67 +723,12 @@
 	left: 0px;
 	top: 0px;
 }
-#ActivityRunningValue {
-	left: 182px;
-	top: 11px;
-	position: absolute;
-	overflow: hidden;
-	width: 159px;
-	height: 54px;
-	text-align: center;
-	font-family: Calibri;
-	font-style: normal;
-	font-weight: normal;
-	font-size: 26px;
-	color: rgba(0,0,0,1);
-}
-#IconContainer_ca {
-	position: absolute;
-	width: 100px;
-	height: 66px;
-	left: 28px;
-	top: 5px;
-	overflow: visible;
-}
-#Mask_cb {
-	position: absolute;
-	width: 100px;
-	height: 66px;
-	left: 0px;
-	top: 0px;
-	overflow: visible;
-}
-#Still {
-	position: absolute;
-	width: 364px;
-	height: 76px;
-	left: 0px;
-	top: 468px;
-	overflow: visible;
-}
-#TextBlockContainer_cc {
-	fill: rgba(255,255,255,1);
-	stroke: rgba(2,128,144,1);
-	stroke-width: 1px;
-	stroke-linejoin: miter;
-	stroke-linecap: butt;
-	stroke-miterlimit: 4;
-	shape-rendering: auto;
-}
-.TextBlockContainer_cc {
-	position: absolute;
-	overflow: visible;
-	width: 364px;
-	height: 76px;
-	left: 0px;
-	top: 0px;
-}
 #ActivityStillValue {
-	left: 182px;
+	left: 133px;
 	top: 16px;
 	position: absolute;
 	overflow: hidden;
-	width: 164px;
+	width: 213px;
 	height: 45px;
 	text-align: center;
 	font-family: Calibri;
@@ -776,7 +737,7 @@
 	font-size: 26px;
 	color: rgba(0,0,0,1);
 }
-#IconContainer_ce {
+#IconContainer_cb {
 	position: absolute;
 	width: 100px;
 	height: 66px;
@@ -784,7 +745,7 @@
 	top: 5px;
 	overflow: visible;
 }
-#Mask_cf {
+#Mask_cc {
 	position: absolute;
 	width: 100px;
 	height: 66px;
@@ -800,7 +761,7 @@
 	top: 563px;
 	overflow: visible;
 }
-#TextBlockContainer_ch {
+#TextBlockContainer_ce {
 	fill: rgba(255,255,255,1);
 	stroke: rgba(2,128,144,1);
 	stroke-width: 1px;
@@ -809,7 +770,7 @@
 	stroke-miterlimit: 4;
 	shape-rendering: auto;
 }
-.TextBlockContainer_ch {
+.TextBlockContainer_ce {
 	position: absolute;
 	overflow: visible;
 	width: 354px;
@@ -818,11 +779,11 @@
 	top: 0px;
 }
 #ActivityTiltingValue {
-	left: 177px;
+	left: 142px;
 	top: 12px;
 	position: absolute;
 	overflow: hidden;
-	width: 162px;
+	width: 213px;
 	height: 53px;
 	text-align: center;
 	font-family: Calibri;
@@ -831,7 +792,7 @@
 	font-size: 26px;
 	color: rgba(0,0,0,1);
 }
-#IconContainer_cj {
+#IconContainer_cg {
 	position: absolute;
 	width: 100px;
 	height: 66px;
@@ -839,7 +800,7 @@
 	top: 5px;
 	overflow: visible;
 }
-#Mask_ck {
+#Mask_ch {
 	position: absolute;
 	width: 100px;
 	height: 66px;
@@ -855,7 +816,7 @@
 	top: 658px;
 	overflow: visible;
 }
-#TextBlockContainer_cm {
+#TextBlockContainer_cj {
 	fill: rgba(255,255,255,1);
 	stroke: rgba(2,128,144,1);
 	stroke-width: 1px;
@@ -864,7 +825,7 @@
 	stroke-miterlimit: 4;
 	shape-rendering: auto;
 }
-.TextBlockContainer_cm {
+.TextBlockContainer_cj {
 	position: absolute;
 	overflow: visible;
 	width: 364px;
@@ -873,11 +834,11 @@
 	top: 0px;
 }
 #ActivityUnknownValue {
-	left: 182px;
+	left: 130px;
 	top: 11px;
 	position: absolute;
 	overflow: hidden;
-	width: 161px;
+	width: 213px;
 	height: 54px;
 	text-align: center;
 	font-family: Calibri;
@@ -886,7 +847,7 @@
 	font-size: 26px;
 	color: rgba(0,0,0,1);
 }
-#IconContainer_co {
+#IconContainer_cl {
 	position: absolute;
 	width: 100px;
 	height: 66px;
@@ -894,7 +855,7 @@
 	top: 5px;
 	overflow: visible;
 }
-#Mask_cp {
+#Mask_cm {
 	position: absolute;
 	width: 100px;
 	height: 66px;
@@ -910,7 +871,7 @@
 	top: 753px;
 	overflow: visible;
 }
-#TextBlockContainer_cr {
+#TextBlockContainer_co {
 	fill: rgba(255,255,255,1);
 	stroke: rgba(2,128,144,1);
 	stroke-width: 1px;
@@ -919,7 +880,7 @@
 	stroke-miterlimit: 4;
 	shape-rendering: auto;
 }
-.TextBlockContainer_cr {
+.TextBlockContainer_co {
 	position: absolute;
 	overflow: visible;
 	width: 364px;
@@ -928,11 +889,11 @@
 	top: 0px;
 }
 #ActivityWalkingValue {
-	left: 182px;
+	left: 136px;
 	top: 15px;
 	position: absolute;
 	overflow: hidden;
-	width: 159px;
+	width: 213px;
 	height: 47px;
 	text-align: center;
 	font-family: Calibri;
@@ -941,7 +902,7 @@
 	font-size: 26px;
 	color: rgba(0,0,0,1);
 }
-#IconContainer_ct {
+#IconContainer_cq {
 	position: absolute;
 	width: 100px;
 	height: 66px;
@@ -949,7 +910,7 @@
 	top: 5px;
 	overflow: visible;
 }
-#Mask_cu {
+#Mask_cr {
 	position: absolute;
 	width: 100px;
 	height: 66px;
@@ -959,13 +920,13 @@
 }
 #DayPerActivityContainer {
 	position: absolute;
-	width: 365px;
+	width: 364px;
 	height: 836px;
 	left: 476px;
 	top: 222px;
 	overflow: visible;
 }
-#DayPerActivityContainer_cw {
+#DayPerActivityContainer_ct {
 	opacity: 0;
 	fill: rgba(255,255,255,1);
 	stroke: rgba(112,112,112,1);
@@ -975,7 +936,7 @@
 	stroke-miterlimit: 4;
 	shape-rendering: auto;
 }
-.DayPerActivityContainer_cw {
+.DayPerActivityContainer_ct {
 	position: absolute;
 	overflow: visible;
 	width: 362px;
@@ -983,7 +944,7 @@
 	left: 0px;
 	top: 0px;
 }
-#RoundedTextBlock_cx {
+#RoundedTextBlock_cu {
 	position: absolute;
 	width: 362px;
 	height: 59px;
@@ -991,7 +952,7 @@
 	top: 0px;
 	overflow: visible;
 }
-#RankingTextBlock_cy {
+#RankingTextBlock_cv {
 	fill: rgba(255,255,255,1);
 	stroke: rgba(2,128,144,1);
 	stroke-width: 1px;
@@ -1000,7 +961,7 @@
 	stroke-miterlimit: 4;
 	shape-rendering: auto;
 }
-.RankingTextBlock_cy {
+.RankingTextBlock_cv {
 	position: absolute;
 	overflow: visible;
 	width: 362px;
@@ -1008,7 +969,7 @@
 	left: 0px;
 	top: 0px;
 }
-#RankingText_cz {
+#RankingText_cw {
 	left: 33px;
 	top: 14px;
 	position: absolute;
@@ -1022,15 +983,15 @@
 	font-size: 26px;
 	color: rgba(0,0,0,1);
 }
-#InVehicle_c {
+#InVehicle_cx {
 	position: absolute;
-	width: 363px;
+	width: 328px;
 	height: 76px;
 	left: 0px;
 	top: 88px;
 	overflow: visible;
 }
-#TextBlockContainer_c {
+#TextBlockContainer_cy {
 	fill: rgba(255,255,255,1);
 	stroke: rgba(2,128,144,1);
 	stroke-width: 1px;
@@ -1039,7 +1000,7 @@
 	stroke-miterlimit: 4;
 	shape-rendering: auto;
 }
-.TextBlockContainer_c {
+.TextBlockContainer_cy {
 	position: absolute;
 	overflow: visible;
 	width: 363px;
@@ -1048,11 +1009,11 @@
 	top: 0px;
 }
 #DayPerActivityInVehicleValue {
-	left: 181px;
+	left: 115px;
 	top: 17px;
 	position: absolute;
 	overflow: hidden;
-	width: 147px;
+	width: 213px;
 	height: 51px;
 	text-align: center;
 	font-family: Calibri;
@@ -1085,10 +1046,10 @@
 	top: 183px;
 	overflow: visible;
 }
-#TextBlockContainer_da {
+#TextBlockContainer_c {
 	fill: rgba(255,255,255,1);
 }
-.TextBlockContainer_da {
+.TextBlockContainer_c {
 	position: absolute;
 	overflow: visible;
 	width: 364px;
@@ -1097,11 +1058,11 @@
 	top: 0px;
 }
 #DayPerActivityOnBicycleValue {
-	left: 182px;
+	left: 152px;
 	top: 19px;
 	position: absolute;
 	overflow: hidden;
-	width: 157px;
+	width: 187px;
 	height: 45px;
 	text-align: center;
 	font-family: Calibri;
@@ -1126,18 +1087,18 @@
 	top: 0px;
 	overflow: visible;
 }
-#OnFoot_da {
+#OnFoot_c {
 	position: absolute;
-	width: 365px;
+	width: 328px;
 	height: 76px;
 	left: 0px;
 	top: 278px;
 	overflow: visible;
 }
-#TextBlockContainer_db {
+#TextBlockContainer_da {
 	fill: rgba(255,255,255,1);
 }
-.TextBlockContainer_db {
+.TextBlockContainer_da {
 	position: absolute;
 	overflow: visible;
 	width: 365px;
@@ -1146,11 +1107,11 @@
 	top: 0px;
 }
 #DayPerActivityOnFootValue {
-	left: 182px;
+	left: 127px;
 	top: 9px;
 	position: absolute;
 	overflow: hidden;
-	width: 158px;
+	width: 213px;
 	height: 59px;
 	text-align: center;
 	font-family: Calibri;
@@ -1159,7 +1120,7 @@
 	font-size: 26px;
 	color: rgba(0,0,0,1);
 }
-#IconContainer_dd {
+#IconContainer_db {
 	position: absolute;
 	width: 100px;
 	height: 59px;
@@ -1167,7 +1128,7 @@
 	top: 9px;
 	overflow: visible;
 }
-#Mask_de {
+#Mask_db {
 	position: absolute;
 	width: 100px;
 	height: 59px;
@@ -1175,7 +1136,7 @@
 	top: 0px;
 	overflow: visible;
 }
-#Running_df {
+#Running_dc {
 	position: absolute;
 	width: 364px;
 	height: 76px;
@@ -1183,7 +1144,7 @@
 	top: 373px;
 	overflow: visible;
 }
-#TextBlockContainer_dg {
+#TextBlockContainer_dd {
 	fill: rgba(255,255,255,1);
 	stroke: rgba(2,128,144,1);
 	stroke-width: 1px;
@@ -1192,7 +1153,7 @@
 	stroke-miterlimit: 4;
 	shape-rendering: auto;
 }
-.TextBlockContainer_dg {
+.TextBlockContainer_dd {
 	position: absolute;
 	overflow: visible;
 	width: 364px;
@@ -1201,11 +1162,11 @@
 	top: 0px;
 }
 #DayPerActivityRunningValue {
-	left: 182px;
+	left: 128px;
 	top: 11px;
 	position: absolute;
 	overflow: hidden;
-	width: 159px;
+	width: 213px;
 	height: 54px;
 	text-align: center;
 	font-family: Calibri;
@@ -1214,7 +1175,7 @@
 	font-size: 26px;
 	color: rgba(0,0,0,1);
 }
-#IconContainer_di {
+#IconContainer_df {
 	position: absolute;
 	width: 100px;
 	height: 66px;
@@ -1222,7 +1183,7 @@
 	top: 5px;
 	overflow: visible;
 }
-#Mask_dj {
+#Mask_dg {
 	position: absolute;
 	width: 100px;
 	height: 66px;
@@ -1230,7 +1191,7 @@
 	top: 0px;
 	overflow: visible;
 }
-#Still_dk {
+#Still_dh {
 	position: absolute;
 	width: 364px;
 	height: 76px;
@@ -1238,7 +1199,7 @@
 	top: 468px;
 	overflow: visible;
 }
-#TextBlockContainer_dl {
+#TextBlockContainer_di {
 	fill: rgba(255,255,255,1);
 	stroke: rgba(2,128,144,1);
 	stroke-width: 1px;
@@ -1247,7 +1208,7 @@
 	stroke-miterlimit: 4;
 	shape-rendering: auto;
 }
-.TextBlockContainer_dl {
+.TextBlockContainer_di {
 	position: absolute;
 	overflow: visible;
 	width: 364px;
@@ -1256,11 +1217,11 @@
 	top: 0px;
 }
 #DayPerActivityStillValue {
-	left: 182px;
+	left: 133px;
 	top: 16px;
 	position: absolute;
 	overflow: hidden;
-	width: 164px;
+	width: 213px;
 	height: 45px;
 	text-align: center;
 	font-family: Calibri;
@@ -1269,7 +1230,7 @@
 	font-size: 26px;
 	color: rgba(0,0,0,1);
 }
-#IconContainer_dn {
+#IconContainer_dk {
 	position: absolute;
 	width: 100px;
 	height: 66px;
@@ -1277,7 +1238,7 @@
 	top: 5px;
 	overflow: visible;
 }
-#Mask_do {
+#Mask_dl {
 	position: absolute;
 	width: 100px;
 	height: 66px;
@@ -1285,7 +1246,7 @@
 	top: 0px;
 	overflow: visible;
 }
-#Tilting_dp {
+#Tilting_dm {
 	position: absolute;
 	width: 354px;
 	height: 76px;
@@ -1293,7 +1254,7 @@
 	top: 563px;
 	overflow: visible;
 }
-#TextBlockContainer_dq {
+#TextBlockContainer_dn {
 	fill: rgba(255,255,255,1);
 	stroke: rgba(2,128,144,1);
 	stroke-width: 1px;
@@ -1302,7 +1263,7 @@
 	stroke-miterlimit: 4;
 	shape-rendering: auto;
 }
-.TextBlockContainer_dq {
+.TextBlockContainer_dn {
 	position: absolute;
 	overflow: visible;
 	width: 354px;
@@ -1311,11 +1272,11 @@
 	top: 0px;
 }
 #DayPerActivityTiltingValue {
-	left: 177px;
+	left: 142px;
 	top: 12px;
 	position: absolute;
 	overflow: hidden;
-	width: 159px;
+	width: 213px;
 	height: 53px;
 	text-align: center;
 	font-family: Calibri;
@@ -1324,7 +1285,7 @@
 	font-size: 26px;
 	color: rgba(0,0,0,1);
 }
-#IconContainer_ds {
+#IconContainer_dp {
 	position: absolute;
 	width: 100px;
 	height: 66px;
@@ -1332,7 +1293,7 @@
 	top: 5px;
 	overflow: visible;
 }
-#Mask_dt {
+#Mask_dq {
 	position: absolute;
 	width: 100px;
 	height: 66px;
@@ -1340,7 +1301,7 @@
 	top: 0px;
 	overflow: visible;
 }
-#Unknown_du {
+#Unknown_dr {
 	position: absolute;
 	width: 364px;
 	height: 76px;
@@ -1348,7 +1309,7 @@
 	top: 658px;
 	overflow: visible;
 }
-#TextBlockContainer_dv {
+#TextBlockContainer_ds {
 	fill: rgba(255,255,255,1);
 	stroke: rgba(2,128,144,1);
 	stroke-width: 1px;
@@ -1357,7 +1318,7 @@
 	stroke-miterlimit: 4;
 	shape-rendering: auto;
 }
-.TextBlockContainer_dv {
+.TextBlockContainer_ds {
 	position: absolute;
 	overflow: visible;
 	width: 364px;
@@ -1366,11 +1327,11 @@
 	top: 0px;
 }
 #DayPerActivityUnknownValue {
-	left: 182px;
+	left: 130px;
 	top: 11px;
 	position: absolute;
 	overflow: hidden;
-	width: 161px;
+	width: 213px;
 	height: 54px;
 	text-align: center;
 	font-family: Calibri;
@@ -1379,7 +1340,7 @@
 	font-size: 26px;
 	color: rgba(0,0,0,1);
 }
-#IconContainer_dx {
+#IconContainer_du {
 	position: absolute;
 	width: 100px;
 	height: 66px;
@@ -1387,7 +1348,7 @@
 	top: 5px;
 	overflow: visible;
 }
-#Mask_dy {
+#Mask_dv {
 	position: absolute;
 	width: 100px;
 	height: 66px;
@@ -1395,7 +1356,7 @@
 	top: 0px;
 	overflow: visible;
 }
-#Walking_dz {
+#Walking_dw {
 	position: absolute;
 	width: 364px;
 	height: 76px;
@@ -1403,7 +1364,7 @@
 	top: 753px;
 	overflow: visible;
 }
-#TextBlockContainer_d {
+#TextBlockContainer_dx {
 	fill: rgba(255,255,255,1);
 	stroke: rgba(2,128,144,1);
 	stroke-width: 1px;
@@ -1412,7 +1373,7 @@
 	stroke-miterlimit: 4;
 	shape-rendering: auto;
 }
-.TextBlockContainer_d {
+.TextBlockContainer_dx {
 	position: absolute;
 	overflow: visible;
 	width: 364px;
@@ -1421,11 +1382,11 @@
 	top: 0px;
 }
 #DayPerActivityWalkingValue {
-	left: 182px;
+	left: 136px;
 	top: 15px;
 	position: absolute;
 	overflow: hidden;
-	width: 167px;
+	width: 213px;
 	height: 47px;
 	text-align: center;
 	font-family: Calibri;
@@ -1434,7 +1395,7 @@
 	font-size: 26px;
 	color: rgba(0,0,0,1);
 }
-#IconContainer_d {
+#IconContainer_dz {
 	position: absolute;
 	width: 100px;
 	height: 66px;
@@ -1452,7 +1413,7 @@
 }
 #HourPerActivityContainer {
 	position: absolute;
-	width: 365px;
+	width: 364px;
 	height: 836px;
 	left: 870px;
 	top: 222px;
@@ -1517,13 +1478,13 @@
 }
 #InVehicle_d {
 	position: absolute;
-	width: 363px;
+	width: 328px;
 	height: 76px;
 	left: 0px;
 	top: 88px;
 	overflow: visible;
 }
-#TextBlockContainer_ea {
+#TextBlockContainer_d {
 	fill: rgba(255,255,255,1);
 	stroke: rgba(2,128,144,1);
 	stroke-width: 1px;
@@ -1532,7 +1493,7 @@
 	stroke-miterlimit: 4;
 	shape-rendering: auto;
 }
-.TextBlockContainer_ea {
+.TextBlockContainer_d {
 	position: absolute;
 	overflow: visible;
 	width: 363px;
@@ -1541,11 +1502,11 @@
 	top: 0px;
 }
 #HourPerActivityInVehicleValue {
-	left: 181px;
+	left: 115px;
 	top: 17px;
 	position: absolute;
 	overflow: hidden;
-	width: 147px;
+	width: 213px;
 	height: 51px;
 	text-align: center;
 	font-family: Calibri;
@@ -1554,7 +1515,7 @@
 	font-size: 26px;
 	color: rgba(0,0,0,1);
 }
-#IconContainer_ec {
+#IconContainer_d {
 	position: absolute;
 	width: 91px;
 	height: 58px;
@@ -1562,7 +1523,7 @@
 	top: 10px;
 	overflow: visible;
 }
-#Mask_ed {
+#Mask_ea {
 	position: absolute;
 	width: 91px;
 	height: 58px;
@@ -1570,7 +1531,7 @@
 	top: 0px;
 	overflow: visible;
 }
-#OnBicycle_ee {
+#OnBicycle_eb {
 	position: absolute;
 	width: 364px;
 	height: 76px;
@@ -1578,10 +1539,10 @@
 	top: 183px;
 	overflow: visible;
 }
-#TextBlockContainer_ef {
+#TextBlockContainer_ec {
 	fill: rgba(255,255,255,1);
 }
-.TextBlockContainer_ef {
+.TextBlockContainer_ec {
 	position: absolute;
 	overflow: visible;
 	width: 364px;
@@ -1590,11 +1551,11 @@
 	top: 0px;
 }
 #HourPerActivityOnBicycleValue {
-	left: 182px;
+	left: 152px;
 	top: 19px;
 	position: absolute;
 	overflow: hidden;
-	width: 157px;
+	width: 187px;
 	height: 45px;
 	text-align: center;
 	font-family: Calibri;
@@ -1603,7 +1564,7 @@
 	font-size: 26px;
 	color: rgba(0,0,0,1);
 }
-#IconContainer_eh {
+#IconContainer_ee {
 	position: absolute;
 	width: 100px;
 	height: 66px;
@@ -1611,7 +1572,7 @@
 	top: 8.947px;
 	overflow: visible;
 }
-#Mask_ei {
+#Mask_ef {
 	position: absolute;
 	width: 100px;
 	height: 66px;
@@ -1619,18 +1580,18 @@
 	top: 0px;
 	overflow: visible;
 }
-#OnFoot_ej {
+#OnFoot_eg {
 	position: absolute;
-	width: 365px;
+	width: 328px;
 	height: 76px;
 	left: 0px;
 	top: 278px;
 	overflow: visible;
 }
-#TextBlockContainer_ek {
+#TextBlockContainer_eh {
 	fill: rgba(255,255,255,1);
 }
-.TextBlockContainer_ek {
+.TextBlockContainer_eh {
 	position: absolute;
 	overflow: visible;
 	width: 365px;
@@ -1639,12 +1600,12 @@
 	top: 0px;
 }
 #HourPerActivityOnFootValue {
-	left: 182px;
-	top: 21px;
+	left: 127px;
+	top: 9px;
 	position: absolute;
 	overflow: hidden;
-	width: 158px;
-	height: 47px;
+	width: 213px;
+	height: 59px;
 	text-align: center;
 	font-family: Calibri;
 	font-style: normal;
@@ -1652,7 +1613,7 @@
 	font-size: 26px;
 	color: rgba(0,0,0,1);
 }
-#IconContainer_em {
+#IconContainer_ej {
 	position: absolute;
 	width: 100px;
 	height: 59px;
@@ -1660,7 +1621,7 @@
 	top: 9px;
 	overflow: visible;
 }
-#Mask_en {
+#Mask_ek {
 	position: absolute;
 	width: 100px;
 	height: 59px;
@@ -1668,7 +1629,7 @@
 	top: 0px;
 	overflow: visible;
 }
-#Running_eo {
+#Running_el {
 	position: absolute;
 	width: 364px;
 	height: 76px;
@@ -1676,7 +1637,7 @@
 	top: 373px;
 	overflow: visible;
 }
-#TextBlockContainer_ep {
+#TextBlockContainer_em {
 	fill: rgba(255,255,255,1);
 	stroke: rgba(2,128,144,1);
 	stroke-width: 1px;
@@ -1685,7 +1646,7 @@
 	stroke-miterlimit: 4;
 	shape-rendering: auto;
 }
-.TextBlockContainer_ep {
+.TextBlockContainer_em {
 	position: absolute;
 	overflow: visible;
 	width: 364px;
@@ -1694,12 +1655,12 @@
 	top: 0px;
 }
 #HourPerActivityRunningValue {
-	left: 182px;
-	top: 20px;
+	left: 128px;
+	top: 11px;
 	position: absolute;
 	overflow: hidden;
-	width: 159px;
-	height: 45px;
+	width: 213px;
+	height: 54px;
 	text-align: center;
 	font-family: Calibri;
 	font-style: normal;
@@ -1707,7 +1668,7 @@
 	font-size: 26px;
 	color: rgba(0,0,0,1);
 }
-#IconContainer_er {
+#IconContainer_eo {
 	position: absolute;
 	width: 100px;
 	height: 66px;
@@ -1715,7 +1676,7 @@
 	top: 5px;
 	overflow: visible;
 }
-#Mask_es {
+#Mask_ep {
 	position: absolute;
 	width: 100px;
 	height: 66px;
@@ -1723,7 +1684,7 @@
 	top: 0px;
 	overflow: visible;
 }
-#Still_et {
+#Still_eq {
 	position: absolute;
 	width: 364px;
 	height: 76px;
@@ -1731,7 +1692,7 @@
 	top: 468px;
 	overflow: visible;
 }
-#TextBlockContainer_eu {
+#TextBlockContainer_er {
 	fill: rgba(255,255,255,1);
 	stroke: rgba(2,128,144,1);
 	stroke-width: 1px;
@@ -1740,7 +1701,7 @@
 	stroke-miterlimit: 4;
 	shape-rendering: auto;
 }
-.TextBlockContainer_eu {
+.TextBlockContainer_er {
 	position: absolute;
 	overflow: visible;
 	width: 364px;
@@ -1749,11 +1710,11 @@
 	top: 0px;
 }
 #HourPerActivityStillValue {
-	left: 182px;
+	left: 133px;
 	top: 16px;
 	position: absolute;
 	overflow: hidden;
-	width: 164px;
+	width: 213px;
 	height: 45px;
 	text-align: center;
 	font-family: Calibri;
@@ -1762,7 +1723,7 @@
 	font-size: 26px;
 	color: rgba(0,0,0,1);
 }
-#IconContainer_ew {
+#IconContainer_et {
 	position: absolute;
 	width: 100px;
 	height: 66px;
@@ -1770,7 +1731,7 @@
 	top: 5px;
 	overflow: visible;
 }
-#Mask_ex {
+#Mask_eu {
 	position: absolute;
 	width: 100px;
 	height: 66px;
@@ -1778,7 +1739,7 @@
 	top: 0px;
 	overflow: visible;
 }
-#Tilting_ey {
+#Tilting_ev {
 	position: absolute;
 	width: 354px;
 	height: 76px;
@@ -1786,7 +1747,7 @@
 	top: 563px;
 	overflow: visible;
 }
-#TextBlockContainer_ez {
+#TextBlockContainer_ew {
 	fill: rgba(255,255,255,1);
 	stroke: rgba(2,128,144,1);
 	stroke-width: 1px;
@@ -1795,7 +1756,7 @@
 	stroke-miterlimit: 4;
 	shape-rendering: auto;
 }
-.TextBlockContainer_ez {
+.TextBlockContainer_ew {
 	position: absolute;
 	overflow: visible;
 	width: 354px;
@@ -1804,11 +1765,11 @@
 	top: 0px;
 }
 #HourPerActivityTiltingValue {
-	left: 177px;
+	left: 142px;
 	top: 12px;
 	position: absolute;
 	overflow: hidden;
-	width: 166px;
+	width: 213px;
 	height: 53px;
 	text-align: center;
 	font-family: Calibri;
@@ -1817,7 +1778,7 @@
 	font-size: 26px;
 	color: rgba(0,0,0,1);
 }
-#IconContainer_e {
+#IconContainer_ey {
 	position: absolute;
 	width: 100px;
 	height: 66px;
@@ -1825,7 +1786,7 @@
 	top: 5px;
 	overflow: visible;
 }
-#Mask_e {
+#Mask_ez {
 	position: absolute;
 	width: 100px;
 	height: 66px;
@@ -1859,11 +1820,11 @@
 	top: 0px;
 }
 #HourPerActivityUnknownValue {
-	left: 182px;
+	left: 130px;
 	top: 11px;
 	position: absolute;
 	overflow: hidden;
-	width: 161px;
+	width: 213px;
 	height: 54px;
 	text-align: center;
 	font-family: Calibri;
@@ -1872,7 +1833,7 @@
 	font-size: 26px;
 	color: rgba(0,0,0,1);
 }
-#IconContainer_fa {
+#IconContainer_e {
 	position: absolute;
 	width: 100px;
 	height: 66px;
@@ -1880,7 +1841,7 @@
 	top: 5px;
 	overflow: visible;
 }
-#Mask_fa {
+#Mask_e {
 	position: absolute;
 	width: 100px;
 	height: 66px;
@@ -1914,11 +1875,11 @@
 	top: 0px;
 }
 #HourPerActivityWalkingValue {
-	left: 182px;
+	left: 136px;
 	top: 15px;
 	position: absolute;
 	overflow: hidden;
-	width: 167px;
+	width: 213px;
 	height: 47px;
 	text-align: center;
 	font-family: Calibri;
@@ -1927,7 +1888,7 @@
 	font-size: 26px;
 	color: rgba(0,0,0,1);
 }
-#IconContainer_fb {
+#IconContainer_fa {
 	position: absolute;
 	width: 100px;
 	height: 66px;
@@ -1935,7 +1896,7 @@
 	top: 5px;
 	overflow: visible;
 }
-#Mask_fc {
+#Mask_fa {
 	position: absolute;
 	width: 100px;
 	height: 66px;
