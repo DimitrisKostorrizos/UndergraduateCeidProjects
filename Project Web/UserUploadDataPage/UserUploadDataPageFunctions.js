@@ -200,8 +200,7 @@ function Upload()
         var url = new URL("http://localhost:8080/user/upload");
     
         // Get the user's location id
-        var locationId = "704d432a-142c-469e-b7c3-3b1b4e57ba10";
-        //var locationId = localStorage.getItem("locationId");
+        var locationId = localStorage.getItem("locationId");
         
         // Set the url query parameters
         url.searchParams.set('locationId', locationId);
