@@ -217,7 +217,7 @@ function Search()
 function Export()
 {
     // Set the url
-    var url = new URL("http://localhost:8080/admin/analysis");
+    var url = new URL("http://localhost:8080/admin/export");
 
     // Get the staring month value
     var startingMonthValue = document.getElementById("startingMonthInput").value;
@@ -426,24 +426,41 @@ function Export()
 
                       break;
                     }
-                  }
-                
-                URL.createObjectURL(new Blob([typedArray.buffer], {type: mimeType}))
+                }
 
                 if(exportFileExtension == "CSV")
                 {
+                    // Get the JSON data
+                    var stringData = JsonToCsv(locations);
 
+                    // Create the file containing
+                    var blob = new Blob([stringData], {type: 'application/json'});
+                    
+                    // Download the file
+                    SaveLocalFile(blob, 'data.csv');
                 }
                 else if(exportFileExtension == "XML")
                 {
+                    // Get the JSON data
+                    var stringData = JSONtoXML(locations);
 
+                    // Create the file containing
+                    var blob = new Blob([stringData], {type: 'application/json'});
+                    
+                    // Download the file
+                    SaveLocalFile(blob, 'data.xml');
                 }
                 else if(exportFileExtension == "JSON")
                 {
-                    
-                }
+                    // Get the JSON data
+                    var stringData = JSON.stringify(locations);
 
-                alert("Your selected locations where exported successfully.");
+                    // Create the file containing
+                    var blob = new Blob([stringData], {type: 'application/json'});
+                    
+                    // Download the file
+                    SaveLocalFile(blob, 'data.json');
+                }
             }
         }
     });
@@ -519,7 +536,7 @@ function LoadClearDatabasePage()
 function JsonToCsv(jsonData)
 {
     // Get the Json items
-  var JsonItems = json3.items;
+  var JsonItems = Object.entries(jsonData);
 
   // Set the replacer for the null values
   var nullValueReplacer = (key, value) => value === null ? '' : value;
@@ -552,13 +569,13 @@ function JSONtoXML(obj)
         for (var array in obj[prop]) 
         {
           xml += "<" + prop + ">";
-          xml += OBJtoXML(new Object(obj[prop][array]));
+          xml += JSONtoXML(new Object(obj[prop][array]));
           xml += "</" + prop + ">";
         }
       } 
       else if (typeof obj[prop] == "object") 
       {
-        xml += OBJtoXML(new Object(obj[prop]));
+        xml += JSONtoXML(new Object(obj[prop]));
       } 
       else 
       {
@@ -570,4 +587,15 @@ function JSONtoXML(obj)
     xml = xml.replace(/<\/?[0-9]{1,}>/g, '');
 
     return xml;
-}  
+}
+
+function SaveLocalFile(blob, filename)
+{
+    var url = URL.createObjectURL(blob);
+    var link = document.createElement('a');
+    link.setAttribute('href', url);
+    link.setAttribute('download', filename);
+    var event = document.createEvent('MouseEvents');
+    event.initMouseEvent('click', true, true, window, 1, 0, 0, 0, 0, false, false, false, false, 0, null);
+    link.dispatchEvent(event);
+}

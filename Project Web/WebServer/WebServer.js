@@ -894,6 +894,191 @@ expressService.get("/admin/analysis", async (requestObject, responseObject) =>
   responseObject.json(responseBody);
 });
 
+// The service for the admin export page
+expressService.get("/admin/export", async (requestObject, responseObject) => 
+{
+  // Set the response status
+  responseObject.status(200);
+
+  // Initialize the response body
+  var responseBody = 
+  {
+    locations : []
+  };
+
+  // Get the url object
+  var urlObject = urlModule.parse(requestObject.url, true);
+
+  // Get the query arguments
+  var queryArguments = urlObject.query;
+
+  // Get the starting year query argument
+  var startingYear = queryArguments.startingYear;
+
+  // Get the ending year query argument
+  var endingYear = queryArguments.endingYear;
+
+  // Get the starting month query argument
+  var startingMonth = queryArguments.startingMonth;
+
+  // Get the ending month query argument
+  var endingMonth = queryArguments.endingMonth;
+
+  // Get the starting day query argument
+  var startingDay = queryArguments.startingDay;
+
+  // Get the ending day query argument
+  var endingDay = queryArguments.endingDay;
+
+  // Get the starting hour query argument
+  var startingHour = queryArguments.startingHour;
+
+  // Get the ending hour query argument
+  var endingHour = queryArguments.endingHour;
+
+  // Get the activity types query argument
+  var activityTypes = queryArguments.activityTypes;  
+  
+  // Initialize the query
+  var locationsQuery = "SELECT LatitudeE7, LongitudeE7, users.Id FROM locations INNER JOIN users ON users.LocationId = locations.LocationId";
+
+  // Declare an array that will contain the query values
+  var queryValues = [];
+
+  // If there is at least one query argument...
+  if(Object.keys(queryArguments).length != 0)
+  {
+    // Calculate the number of ands in the query
+    var numberOfAnds = (Object.keys(queryArguments).length - 1) / 2 - 1;
+
+    // Merge the queries
+    locationsQuery = locationsQuery + " WHERE (";
+
+    // If a timespan has been selected...
+    if(startingYear !== null && endingYear !== null)
+    {
+      // Add the staring year
+      queryValues.push(startingYear);
+
+      // Add the ending year
+      queryValues.push(endingYear);
+
+      // Merge the queries
+      locationsQuery = locationsQuery + " YEAR(TimestampMs) BETWEEN ? AND ?";
+    }
+
+    // If an "AND" must be added...
+    if(numberOfAnds != 0)
+    {
+      // Merge the queries
+      locationsQuery = locationsQuery + " AND";
+
+      // Reduce the counter
+      numberOfAnds--;
+    }
+
+    // If a timespan has been selected...
+    if(startingDay !== null && endingDay !== null)
+    {
+      // Add the staring month
+      queryValues.push(startingDay);
+
+      // Add the ending month
+      queryValues.push(endingDay);
+
+      // Merge the queries
+      locationsQuery = locationsQuery + " DAY(TimestampMs) BETWEEN ? AND ?";
+    }
+
+    // If an "AND" must be added...
+    if(numberOfAnds != 0)
+    {
+      // Merge the queries
+      locationsQuery = locationsQuery + " AND";
+
+      // Reduce the counter
+      numberOfAnds--;
+    }
+
+    // If a timespan has been selected...
+    if(startingMonth !== null && endingMonth !== null)
+    {
+      // Add the staring month
+      queryValues.push(startingMonth);
+
+      // Add the ending month
+      queryValues.push(endingMonth);
+
+      // Merge the queries
+      locationsQuery = locationsQuery + " MONTH(TimestampMs) BETWEEN ? AND ?";
+    }
+
+    // If an "AND" must be added...
+    if(numberOfAnds != 0)
+    {
+      // Merge the queries
+      locationsQuery = locationsQuery + " AND";
+
+      // Reduce the counter
+      numberOfAnds--;
+    }
+
+    // If a timespan has been selected...
+    if(startingHour !== null && endingHour !== null)
+    {
+      // Add the staring time
+      queryValues.push(startingHour);
+
+      // Add the ending time
+      queryValues.push(endingHour);
+
+      // Merge the queries
+      locationsQuery = locationsQuery + " HOUR(TimestampMs) BETWEEN ? AND ?";
+    }
+
+    // If there is at least one type...
+    if(typeof activityTypes !== 'undefined')
+    {
+      // Split the query argument
+      var types = activityTypes.split(",");
+
+      //Initialize the activity types
+      var activityTypesQuery = " AND ActivitiesId IN (SELECT ActivitiesId FROM activities WHERE (";
+
+      // Declare an array that will contain the queries for the types
+      var typesQuery = [];
+
+      // For every type...
+      for(const type of types)
+      {
+        typesQuery.push(type + " > 0 ")
+      }
+
+      // Merge the missing parentheses
+      activityTypesQuery = activityTypesQuery + typesQuery.join(" AND ") + "))";
+    }
+
+    // Merge the missing parentheses
+    locationsQuery = locationsQuery + activityTypesQuery + ")";
+  }
+  
+  // Prepare the MySQL query
+  var locationsQuery = MySQLConnection.format(locationsQuery, queryValues);
+
+  // Get the query results
+  var locationsResults = await GetQueryResultAsync(locationsQuery);
+
+  // If there is at least one result...
+  if(locationsResults.length != 0)
+  {
+    // Get the locations
+    responseBody["locations"] = locationsResults;
+  }
+
+  // Set the response body
+  responseObject.json(responseBody);
+});
+
 // The service for the login page
 expressService.post("/login", async (requestObject, responseObject) => 
 {
