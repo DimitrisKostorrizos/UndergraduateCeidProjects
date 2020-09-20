@@ -82,8 +82,8 @@
 }
 #GraphContainer {
 	position: absolute;
-	width: 1226px;
-	height: 775px;
+	width: 200px;
+	height: 400px;
 	left: 63px;
 	top: 786px;
 	overflow: visible;
@@ -100,8 +100,8 @@
 .GraphContainer_u {
 	position: absolute;
 	overflow: visible;
-	width: 1226px;
-	height: 775px;
+	width: 900px;
+	height: 400px;
 	left: 0px;
 	top: 0px;
 }
@@ -156,7 +156,7 @@
 	position: absolute;
 	overflow: hidden;
 	width: 354px;
-	height: 26px;
+	height: 30px;
 	text-align: left;
 	font-family: Calibri;
 	font-style: normal;
@@ -261,7 +261,7 @@
 	top: 17px;
 	position: absolute;
 	overflow: visible;
-	width: 316px;
+	width: 500px;
 	height: 33px;
 	text-align: left;
 	font-family: Calibri;
@@ -426,7 +426,7 @@
 	position: absolute;
 	overflow: hidden;
 	width: 168px;
-	height: 26px;
+	height: 30px;
 	text-align: center;
 	font-family: Calibri;
 	font-style: normal;
@@ -479,7 +479,7 @@
 	position: absolute;
 	overflow: hidden;
 	width: 168px;
-	height: 26px;
+	height: 30px;
 	text-align: center;
 	font-family: Calibri;
 	font-style: normal;
@@ -527,12 +527,12 @@
 	top: 0px;
 }
 #RankingText_bs {
-	left: 18px;
+	left: 10px;
 	top: 17px;
 	position: absolute;
-	overflow: hidden;
-	width: 168px;
-	height: 26px;
+	overflow: visible;
+	width: 300px;
+	height: 30px;
 	text-align: center;
 	font-family: Calibri;
 	font-style: normal;

@@ -36,7 +36,7 @@ function Initialization()
             // If period timespan is not null...
             if(periodTimespan != null)
                 // Set the last upload date
-                document.getElementById("periodTimespanValueLabel").innerHTML = periodTimespan;
+                document.getElementById("periodTimespanValueLabel").innerHTML = "Περίοδος Εγγραφών: " + periodTimespan;
             else
                 // Set the last upload date
                 document.getElementById("periodTimespanValueLabel").innerHTML = "";

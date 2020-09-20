@@ -1,0 +1,7 @@
+Id,Status,LocationId,Username,HashedPassword,FirstName,LastName
+1,0,704d432a-142c-469e-b7c3-3b1b4e57ba10,User1,f09cd0b40c9e891e753d5c5cd2f309afda0bee7b390da1d176d39e05d20afcb1,Δημήτρης,Κωστορρίζος
+2,0,01c6b345-edae-4af7-b061-8870575a456a,User2,7d35456c70a4136544a2e06b5bcfcaff3f160fb65f13a736032cfc90135040cc,Φωτεινή,Στεργιοπούλου
+3,0,95c59fea-896b-4f1c-b3ab-0e6d26f742c6,User3,0a986be6836eb14001918352dc41b85035793f512921311ba069d1954c7a1868,Κώστας,Αναστασίου
+4,0,db5ce0c3-a51d-4f6c-bced-d9e6aa178825,User4,1422dbd5b78e71a9ccf6a0ada01d39cac861b87147c6b1780a6e4d11aacf4e82,Λάμπρος,Παπαδόπουλος
+5,0,f1e78dc2-cbd6-4615-ac66-3546ac3a5691,User5,9e231cf44037e4d0b4cb52de4ceda1c79ee3f569e50abc157a04b307c325fbd6,Γιώργος,Τασιόπουλος
+6,1,b16f865f-50e2-4960-a16a-6d9c7cae70c1,Admin,ac605073546165b9be9e65f24faa40467aba9592915b2713f2d00f99dcdd52c2,Διαχειριστής,Διαχειριστής

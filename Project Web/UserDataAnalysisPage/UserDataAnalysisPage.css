@@ -1226,6 +1226,20 @@ input[type=month]
 	font-size: 26px;
 	color: rgba(0,0,0,1);
 }
+#DayPerActivityTiltingValueValue {
+	left: 133px;
+	top: 16px;
+	position: absolute;
+	overflow: hidden;
+	width: 213px;
+	height: 45px;
+	text-align: center;
+	font-family: Calibri;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 26px;
+	color: rgba(0,0,0,1);
+}
 #IconContainer_dk {
 	position: absolute;
 	width: 100px;

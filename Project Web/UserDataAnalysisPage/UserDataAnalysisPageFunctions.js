@@ -52,28 +52,28 @@ function Search()
             if(activityPercentage.length != 0)
             {
                 // Set the value
-                document.getElementById("activityInVehicleValueLabel").innerHTML = activityPercentage.InVehicle + " %";
+                document.getElementById("activityInVehicleValueLabel").innerHTML = Math.round(activityPercentage.InVehicle) + " %";
 
                 // Set the value
-                document.getElementById("activityOnBicycleValueLabel").innerHTML = activityPercentage.OnBicycle + " %";
+                document.getElementById("activityOnBicycleValueLabel").innerHTML = Math.round(activityPercentage.OnBicycle) + " %";
 
                 // Set the value
-                document.getElementById("activityOnFootValueLabel").innerHTML = activityPercentage.OnFoot + " %";
+                document.getElementById("activityOnFootValueLabel").innerHTML = Math.round(activityPercentage.OnFoot) + " %";
 
                 // Set the value
-                document.getElementById("activityRunningValueLabel").innerHTML = activityPercentage.Running + " %";
+                document.getElementById("activityRunningValueLabel").innerHTML = Math.round(activityPercentage.Running) + " %";
 
                 // Set the value
-                document.getElementById("activityStillValueLabel").innerHTML = activityPercentage.Still + " %";
+                document.getElementById("activityStillValueLabel").innerHTML = Math.round(activityPercentage.Still) + " %";
 
                 // Set the value
-                document.getElementById("activityTiltingValueLabel").innerHTML = activityPercentage.Tilting + " %";
+                document.getElementById("activityTiltingValueLabel").innerHTML = Math.round(activityPercentage.Tilting) + " %";
 
                 // Set the value
-                document.getElementById("activityUnknownValueLabel").innerHTML = activityPercentage.Unknown + " %";
+                document.getElementById("activityUnknownValueLabel").innerHTML = Math.round(activityPercentage.Unknown) + " %";
 
                 // Set the value
-                document.getElementById("activityWalkingValueLabel").innerHTML = activityPercentage.Unknown + " %";
+                document.getElementById("activityWalkingValueLabel").innerHTML = Math.round(activityPercentage.Walking) + " %";
             }
             else
             {
