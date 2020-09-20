@@ -905,7 +905,8 @@ expressService.post("/login", async (requestObject, responseObject) =>
   {
     validation : false,
     locationId : null,
-    id : null
+    id : null,
+    status : null
   };
 
   // Parse the request body
@@ -918,7 +919,7 @@ expressService.post("/login", async (requestObject, responseObject) =>
   var password = userInfo.hashedPassword;
 
   // Prepare the MySQL query
-  var query = MySQLConnection.format("SELECT HashedPassword, Id, LocationId FROM users WHERE Username = ?", username);
+  var query = MySQLConnection.format("SELECT HashedPassword, Id, LocationId, Status FROM users WHERE Username = ?", username);
 
   // Get the query results
   var results = await GetQueryResultAsync(query);
@@ -933,15 +934,19 @@ expressService.post("/login", async (requestObject, responseObject) =>
     var locationId = results[0].LocationId;
 
     // Get the user id
-    var Id = results[0].Id;
+    var id = results[0].Id;
+
+    // Get the user status
+    var status = results[0].Status;
 
     // Check if the password is correct...
     if(hashedPassword == password)
     {
       // Set the body of the response
       responseBody["locationId"] = locationId;
-      responseBody["id"] = Id;
+      responseBody["id"] = id;
       responseBody["validation"] = true;
+      responseBody["status"] = status;
     }
   }
   // Set the response body
@@ -980,7 +985,7 @@ expressService.post("/signup", async (requestObject, responseObject) =>
   var locationId = uniqueIdGeneratorModule();
 
   // Prepare the query
-  var query = MySQLConnection.format("INSERT INTO users(LocationId, Username, HashedPassword, FirstName, LastName) VALUES (?, ?, ?, ?, ?)", [locationId, username, hashedPassword, firstName, lastName]);
+  var query = MySQLConnection.format("INSERT INTO users(Status, LocationId, Username, HashedPassword, FirstName, LastName) VALUES (0, ?, ?, ?, ?, ?)", [locationId, username, hashedPassword, firstName, lastName]);
   
   // Execute the query
   var result = await GetQueryResultAsync(query);
@@ -988,6 +993,7 @@ expressService.post("/signup", async (requestObject, responseObject) =>
   // Set the response body
   responseBody["locationId"] = locationId;
   responseBody["id"] = result.insertId;
+  responseBody["status"] = 0;
 
   // Set the body of the response
   responseObject.json(responseBody);

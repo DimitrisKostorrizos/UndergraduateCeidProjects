@@ -411,19 +411,15 @@
 	left: 433px;
 	top: 136px;
 }
-# {
-	left: 355.5px;
-	top: 140.5px;
-	position: absolute;
-	overflow: hidden;
-	width: 60px;
-	height: 29px;
-	text-align: center;
-	font-family: Calibri;
-	font-style: normal;
-	font-weight: normal;
-	font-size: 26px;
-	color: rgba(5,102,141,1);
+input[type=month]
+{
+	width: 100%;
+	padding: 12px 20px;
+	margin: 8px 0;
+	display: inline-block;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-sizing: border-box;
 }
 #ActivitiesContainer {
 	position: absolute;

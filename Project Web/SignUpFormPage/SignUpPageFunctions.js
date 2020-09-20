@@ -140,3 +140,8 @@ function Register()
         });
     }
 }
+
+function LoadLoginPage()
+{
+    window.location.href='../LoginFormPage/LoginFormPage.html';
+}

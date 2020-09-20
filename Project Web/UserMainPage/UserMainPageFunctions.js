@@ -4,8 +4,7 @@ function Initialization()
     var url = new URL("http://localhost:8080/user/info");
 
     // Get the user's location id
-    var locationId = "704d432a-142c-469e-b7c3-3b1b4e57ba10";
-    //var locationId = localStorage.getItem("locationId");
+    var locationId = localStorage.getItem("locationId");
 
     // Set the url query parameters
     url.searchParams.set('locationId', locationId);
@@ -150,4 +149,46 @@ function LineChartSetter(labels, data)
             }
         }
     });
+}
+
+function LoadMainPage()
+{
+    // Get the user's status
+    var status = localStorage.getItem("status");
+
+    // If the user has user status...
+    if(status == 0)
+        // Redirect to the user main page
+        window.location.href='../UserMainPage/UserMainPage.html';
+    else
+        // Redirect to the user main page
+        window.location.href='../LoginFormPage/LoginFormPage.html';
+}
+
+function LoadDataAnalysisPage()
+{
+    // Get the user's status
+    var status = localStorage.getItem("status");
+
+    // If the user has user status...
+    if(status == 0)
+        // Redirect to the user data analysis page
+        window.location.href='../UserDataAnalysisPage/UserDataAnalysisPage.html';
+    else
+        // Redirect to the user main page
+        window.location.href='../LoginFormPage/LoginFormPage.html';
+}
+
+function LoadUploadDataPage()
+{
+    // Get the user's status
+    var status = localStorage.getItem("status");
+
+    // If the user has user status...
+    if(status == 0)
+        // Redirect to the user upload data page
+        window.location.href='../UserUploadDataPage/UserUploadDataPage.html';
+    else
+        // Redirect to the user main page
+        window.location.href='../LoginFormPage/LoginFormPage.html';
 }

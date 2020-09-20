@@ -77,9 +77,17 @@ function Login()
                     
                     // Set the user id
                     localStorage.setItem("id", data.id);
+
+                    // Set the user id
+                    localStorage.setItem("status", data.status);
                     
-                    // Redirect to the user main page
-                    window.location.href='../UserMainPage/UserMainPage.html';
+                    // If the user has user status...
+                    if(data.status == 0)
+                        // Redirect to the user main page
+                        window.location.href='../UserMainPage/UserMainPage.html';
+                    else
+                        // Redirect to the user main page
+                        window.location.href='../AdminDashboardPage/AdminDashboardPage.html';
                 }
                 else
                 {
@@ -89,4 +97,9 @@ function Login()
             }
         });
     }
+}
+
+function LoadSignUpPage()
+{
+    window.location.href='../SignUpFormPage/SignUpPage.html';
 }
