@@ -155,6 +155,7 @@ function MapSetter(MapId)
         // Get the current locations coordinates
         var coordinates = [location.latitudeE7/10000000, location.longitudeE7/10000000];
 
+        // If coordinates are contained in the circle...
         if(circleBounds.contains(coordinates))
             // Add it to the valid coordinates
             coordinatesTuples.push(coordinates);
@@ -218,7 +219,7 @@ function Upload()
             {
                 // If the upload was successful...
                 if(data.status)
-                    alert("Upload was cleared successfully.");
+                    alert("Upload was successfull.");
                 else
                     alert("Upload has failed.");
             }
