@@ -2,7 +2,6 @@
 #include <time.h>
 #include <boost/graph/adjacency_list.hpp>
 #include <boost/graph/random.hpp>
-#include <boost/heap/pairing_heap.hpp>
 #include <LEDA/graph/graph.h>
 
 //#include <LEDA/graph/shortest_path.h>
@@ -14,9 +13,6 @@
 using namespace std;
 using namespace boost;
 using namespace leda;
-
-// Defien the boost priority Heap
-typedef heap::pairing_heap<Vertex> Heap;
 
 // Define the boost edge weight property
 typedef property<edge_weight_t, int> EdgeWeightProperty;
@@ -67,10 +63,11 @@ void AStarSearch(DirectedGraph& directedGraph, Vertex startingVertex, Vertex tar
 	// Set the initial vertex
 	Vertex currentVertex = startingVertex;
 
+	// Initialize the path cost
 	double pathCost = 0;
 
-  
-	while (currentVertex != NULL) 
+	// While there is a vertex to search...
+	while (currentVertex != 0) 
 	{
 		// Clear the cost map
 		currentPathCostMap.clear();
@@ -100,7 +97,7 @@ void AStarSearch(DirectedGraph& directedGraph, Vertex startingVertex, Vertex tar
 
 		double minimumCost = INT_MAX;
 
-		Vertex minimumCostVertex;
+		Vertex minimumCostVertex = 0;
 
 		for (std::map<Vertex, double>::iterator mapIterator=currentPathCostMap.begin(); mapIterator!=currentPathCostMap.end(); ++mapIterator)
 		{
@@ -150,83 +147,6 @@ void CopyLedaGraphToBoostGraph(DirectedGraph& BoostDirectedGraph, leda::graph& L
 
 	// Update the boost directed graph
 	BoostDirectedGraph = boostGraph;
-}
-
-/**
- * Applies the Bellman Ford algorithm to the @param directedGraph, using @param startingVertex
- * @param directedGraph The inserted boost directed graph
- * @param startingVertex The node that will be used as the minimum path's starting node
- * @return False if the graph contains a negative weight circle or true otherwise
- */
-bool BellmanFord(DirectedGraph& directedGraph, Vertex startingVertex)
-{
-	// Initialize a node map containg the node minimum path cost
-	std::map<Vertex, int> nodeCostMap;
-
-	// Initialize the property map that contain the edges's weights
-	EdgeWeightMap boostEdgeWeightMap = get(edge_weight, directedGraph);
-
-	// Initialise the boost vertex iterators
-	VertexIterator vertexIteratorBegin, vertexIteratorEnd;
-
-	// For every vertex in the boost directed graph...
-	for(tie(vertexIteratorBegin, vertexIteratorEnd) = vertices(directedGraph); vertexIteratorBegin != vertexIteratorEnd; vertexIteratorBegin++)
-	{
-		// Set the vertex initial cost to INT_MAX
-		nodeCostMap.insert(pair<Vertex,int>(*vertexIteratorBegin, INT_MAX));
-	}
-
-	// Set the starting node cost to 0
-	nodeCostMap[startingVertex] = 0;
-
-	// Initialise the boost edge iterators
-	EdgeIterator edgeIteratorBegin, edgeIteratorEnd;
-
-	// For every vertex in the boost directed graph...
-	for(tie(vertexIteratorBegin, vertexIteratorEnd) = vertices(directedGraph); vertexIteratorBegin != vertexIteratorEnd; vertexIteratorBegin++)
-	{
-		// For every out edge of the current vertex... 
-		for(tie(edgeIteratorBegin, edgeIteratorEnd) = edges(directedGraph); edgeIteratorBegin != edgeIteratorEnd; edgeIteratorBegin++)
-		{
-			// Get the current edge's source node
-			int sourceNodeCost = nodeCostMap[source(*edgeIteratorBegin, directedGraph)];
-
-			// Get the current edge's target node
-			int targetNodeCost = nodeCostMap[target(*edgeIteratorBegin, directedGraph)];
-
-			// Get the current edge's weight
-			int edgeWeight = boostEdgeWeightMap[*edgeIteratorBegin];
-			
-			// If the current edge verifies the triangular inequality and has already been accessed...
-			if(sourceNodeCost != INT_MAX && (sourceNodeCost + edgeWeight < targetNodeCost))
-			{
-				nodeCostMap[target(*edgeIteratorBegin, directedGraph)] = sourceNodeCost + edgeWeight;
-			}
-	 	}
-	}
-
-	// For all edges in the boost directed graph...
-	for(tie(edgeIteratorBegin, edgeIteratorEnd) = edges(directedGraph); edgeIteratorBegin != edgeIteratorEnd; edgeIteratorBegin++)
-	{
-		// Get the current edge's source node
-		int sourceNodeCost = nodeCostMap[source(*edgeIteratorBegin, directedGraph)];
-
-		// Get the current edge's target node
-		int targetNodeCost = nodeCostMap[target(*edgeIteratorBegin, directedGraph)];
-
-		// Get the current edge's weight
-		int edgeWeight = boostEdgeWeightMap[*edgeIteratorBegin];
-
-		// If negative cycle is detected...
-		if(sourceNodeCost != INT_MAX && (sourceNodeCost + edgeWeight < targetNodeCost))
-		{
-			// Return false if a negative weight cycle is present in the directed graph
-			return false;
-		}
-	}
-
-	// Return true since the directed graph doesn't contain a negative weight cycle
-	return true;
 }
 
 // Main function
@@ -280,53 +200,10 @@ int main()
 		// For every edge in the undirected graph...
 		forall_edges(tempEdge, ledaDirectedGraph)
 		{
-			// Get the current edge source node index
-			int tempEdgeSourceNodeIndex = ledaDirectedGraph.index(ledaDirectedGraph.source(tempEdge));
-
-			// Get the current edge target node index
-			int tempEdgeTargetNodeIndex = ledaDirectedGraph.index(ledaDirectedGraph.target(tempEdge));
-
-			// Get the point representation of the edge's source node index
-			div_t tempEdgeSourceNodeIndexDivResult = div(tempEdgeSourceNodeIndex, numberOfNodes);
-
-			// Get the point representation of the edge's target node index
-			div_t tempEdgeTargetNodeIndexDivResult = div(tempEdgeTargetNodeIndex, numberOfNodes);
-
-			// Check if the edge is a vertical edge that belong in the third quarter
-			bool verticalEdgeThirdQuarterPresence = (tempEdgeSourceNodeIndexDivResult.quot >= (numberOfNodes/2)) && (tempEdgeSourceNodeIndexDivResult.rem <= (numberOfNodes/2)) && (tempEdgeTargetNodeIndexDivResult.quot > (numberOfNodes/2)) && (tempEdgeTargetNodeIndexDivResult.rem < (numberOfNodes/2));
-
-			// Check if the edge is a horizontal edge that belong in the third quarter
-			bool horizontalEdgeThirdQuarterPresence = (tempEdgeSourceNodeIndexDivResult.quot > (numberOfNodes/2)) && (tempEdgeSourceNodeIndexDivResult.rem < (numberOfNodes/2)) && (tempEdgeTargetNodeIndexDivResult.quot >= (numberOfNodes/2)) && (tempEdgeTargetNodeIndexDivResult.rem <= (numberOfNodes/2));
-
-			// If the edge belongs into the third quarter...
-			if(verticalEdgeThirdQuarterPresence || horizontalEdgeThirdQuarterPresence)
-			{
-				// If the current edge, was randomly chosen to reversed...
-				if((rand() % 2) == 0)
-				{
-					// Reverse the current edge
-					ledaDirectedGraph.rev_edge(tempEdge);
-				}
-				
-				// Check if the edge is the special horizontal edge
-				bool specialThirdQuarterHorizontalEdge = (tempEdgeSourceNodeIndexDivResult.quot == (numberOfNodes/2 + 1)) && (tempEdgeSourceNodeIndexDivResult.rem == (numberOfNodes/2 - 1)) && (tempEdgeTargetNodeIndexDivResult.quot == (numberOfNodes/2 + 1)) && (tempEdgeTargetNodeIndexDivResult.rem == (numberOfNodes/2));
-
-				// Check if the edge is the special vertical edge
-				bool specialThirdQuarterVerticalEdge = (tempEdgeSourceNodeIndexDivResult.quot == (numberOfNodes/2)) && (tempEdgeSourceNodeIndexDivResult.rem == (numberOfNodes/2 - 1)) && (tempEdgeTargetNodeIndexDivResult.quot == (numberOfNodes/2 + 1)) && (tempEdgeTargetNodeIndexDivResult.rem == (numberOfNodes/2 - 1));
-
-				// If the edge is either the special negative weight vertical edge or the special negative weight horizontal edge...
-				if(specialThirdQuarterVerticalEdge || specialThirdQuarterHorizontalEdge)
-				{
-					// Assign -100000 as weight to the current special edge
-					ledaEdgeWeightArray[tempEdge] = -100000;
-				}
-			}
-			else
-			{
-				// Assign random integer values as costs between 0 and 10000
-				ledaEdgeWeightArray[tempEdge] = (rand() % 10000);
-			}
+			// Assign random integer values as costs between 10 and 10000
+			ledaEdgeWeightArray[tempEdge] = rand() % 100;
 		}
+
 		// Get the grid graph number of nodes
 		numberOfNodes = ledaDirectedGraph.number_of_nodes();
 
@@ -366,7 +243,7 @@ int main()
 			forall_edges(tempEdge, ledaDirectedGraph)
 			{
 				// Assign random integer values as costs between 10 and 10000
-				ledaEdgeWeightArray[tempEdge] = (rand() % 10100) - 100;
+				ledaEdgeWeightArray[tempEdge] = rand() % 100;
 			}
 
 			// Copy the leda directed graph to the boost directed graph
@@ -422,8 +299,10 @@ int main()
 	// Initialise the starting CPU time
 	float CPUTime = used_time();
 
+	AStarSearch(boostDirectedGraph, randomBoostVertex, randomBoostVertex);
+
 	// Print the user defined Bellman Ford function execution time
-	cout << "User defined Bellman Ford function execution time: " << used_time(CPUTime) << " seconds."<< endl;
+	cout << "User defined A* function execution time: " << used_time(CPUTime) << " seconds."<< endl;
 
 	#pragma endregion Simulation
 
