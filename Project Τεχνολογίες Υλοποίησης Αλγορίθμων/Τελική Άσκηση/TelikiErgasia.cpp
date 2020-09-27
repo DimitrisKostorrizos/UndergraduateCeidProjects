@@ -49,7 +49,7 @@ inline double Heuristic()
  * @param
  * @param
  */
-bool AStarSearch(DirectedGraph& directedGraph, Vertex startingVertex, Vertex targetVertex)
+bool ALT(DirectedGraph& directedGraph, Vertex startingVertex, Vertex targetVertex)
 {
 	// Initialize the property map that contain the edges's weights
 	EdgeWeightMap boostEdgeWeightMap = get(edge_weight, directedGraph);
@@ -78,6 +78,8 @@ bool AStarSearch(DirectedGraph& directedGraph, Vertex startingVertex, Vertex tar
 		// If the target node was reached...
 		if (lastVisitedVertex == targetVertex) 
 		{
+			cout << "Traversed path total cost: " << totalPathCost << endl;
+
 			// Return true
 			return true;
 		}
@@ -287,7 +289,7 @@ int main()
 	Vertex startingRandomBoostVertex = vertex(ledaDirectedGraph.index(startingRandomLedaNode), boostDirectedGraph);
 
 	// Get the index of the Boost directed graph vertex that correspond to the appropriate Leda random chosen node
-	Vertex targetRandomBoostVertex = vertex(ledaDirectedGraph.index(startingRandomLedaNode), boostDirectedGraph);
+	Vertex targetRandomBoostVertex = vertex(ledaDirectedGraph.index(targetRandomLedaNode), boostDirectedGraph);
 	
 	// Initialise a node array the will contain the last edge on a shortest path from the starting node to a node
 	node_array<leda::edge> ledaPredecessorNodeArray(ledaDirectedGraph);
@@ -312,7 +314,7 @@ int main()
 	float CPUTime = used_time();
 
 	// Execute user defined ALT function
-	bool targetVertexFound = AStarSearch(boostDirectedGraph, startingRandomBoostVertex, targetRandomBoostVertex);
+	bool targetVertexFound = ALT(boostDirectedGraph, startingRandomBoostVertex, targetRandomBoostVertex);
 
 	// If the target was found...
 	if(targetVertexFound)
@@ -320,8 +322,8 @@ int main()
 	else
 		cout << "Target not found." << endl;
 
-	// Print the user defined Bellman Ford function execution time
-	cout << "User defined A* function execution time: " << used_time(CPUTime) << " seconds."<< endl;
+	// Print the user defined ALT function execution time
+	cout << "User defined ALT function execution time: " << used_time(CPUTime) << " seconds."<< endl;
 
 	#pragma endregion Simulation
 
