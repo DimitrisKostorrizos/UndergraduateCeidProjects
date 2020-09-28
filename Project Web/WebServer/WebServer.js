@@ -769,8 +769,11 @@ expressService.get("/admin/analysis", async (requestObject, responseObject) =>
     // Merge the queries
     locationsQuery = locationsQuery + " WHERE (";
 
+    // Initialize a flag for and
+    var flag = false;
+
     // If a timespan has been selected...
-    if(startingYear !== null && endingYear !== null)
+    if(typeof startingYear !== 'undefined' && typeof endingYear !== 'undefined')
     {
       // Add the staring year
       queryValues.push(startingYear);
@@ -780,20 +783,24 @@ expressService.get("/admin/analysis", async (requestObject, responseObject) =>
 
       // Merge the queries
       locationsQuery = locationsQuery + " YEAR(TimestampMs) BETWEEN ? AND ?";
+
+      flag = true;
     }
 
     // If an "AND" must be added...
-    if(numberOfAnds != 0)
+    if(numberOfAnds != 0 && flag)
     {
       // Merge the queries
       locationsQuery = locationsQuery + " AND";
 
       // Reduce the counter
       numberOfAnds--;
+
+      flag = false;
     }
 
     // If a timespan has been selected...
-    if(startingDay !== null && endingDay !== null)
+    if(typeof startingDay !== 'undefined' && typeof endingDay !== 'undefined')
     {
       // Add the staring month
       queryValues.push(startingDay);
@@ -803,20 +810,24 @@ expressService.get("/admin/analysis", async (requestObject, responseObject) =>
 
       // Merge the queries
       locationsQuery = locationsQuery + " DAY(TimestampMs) BETWEEN ? AND ?";
+
+      flag = true;
     }
 
     // If an "AND" must be added...
-    if(numberOfAnds != 0)
+    if(numberOfAnds != 0 && flag)
     {
       // Merge the queries
       locationsQuery = locationsQuery + " AND";
 
       // Reduce the counter
       numberOfAnds--;
+
+      flag = false;
     }
 
     // If a timespan has been selected...
-    if(startingMonth !== null && endingMonth !== null)
+    if(typeof startingMonth !== 'undefined' && typeof endingMonth !== 'undefined')
     {
       // Add the staring month
       queryValues.push(startingMonth);
@@ -826,20 +837,24 @@ expressService.get("/admin/analysis", async (requestObject, responseObject) =>
 
       // Merge the queries
       locationsQuery = locationsQuery + " MONTH(TimestampMs) BETWEEN ? AND ?";
+
+      flag = true;
     }
 
     // If an "AND" must be added...
-    if(numberOfAnds != 0)
+    if(numberOfAnds != 0 && flag)
     {
       // Merge the queries
       locationsQuery = locationsQuery + " AND";
 
       // Reduce the counter
       numberOfAnds--;
+
+      flag = false;
     }
 
     // If a timespan has been selected...
-    if(startingHour !== null && endingHour !== null)
+    if(typeof startingHour !== 'undefined' && typeof endingHour !== 'undefined')
     {
       // Add the staring time
       queryValues.push(startingHour);
@@ -849,6 +864,8 @@ expressService.get("/admin/analysis", async (requestObject, responseObject) =>
 
       // Merge the queries
       locationsQuery = locationsQuery + " HOUR(TimestampMs) BETWEEN ? AND ?";
+
+      flag = true;
     }
 
     // If there is at least one type...
@@ -858,7 +875,17 @@ expressService.get("/admin/analysis", async (requestObject, responseObject) =>
       var types = activityTypes.split(",");
 
       //Initialize the activity types
-      var activityTypesQuery = " AND ActivitiesId IN (SELECT ActivitiesId FROM activities WHERE (";
+      var activityTypesQuery = "";
+
+      // If an "AND" must be added...
+      if(flag)
+      {
+        // Merge the queries
+        activityTypesQuery = activityTypesQuery + " AND";
+      }
+
+      // Merge the queries
+      activityTypesQuery = activityTypesQuery + " ActivitiesId IN (SELECT ActivitiesId FROM activities WHERE (";
 
       // Declare an array that will contain the queries for the types
       var typesQuery = [];
@@ -954,8 +981,11 @@ expressService.get("/admin/export", async (requestObject, responseObject) =>
     // Merge the queries
     locationsQuery = locationsQuery + " WHERE (";
 
+    // Initialize a flag for and
+    var flag = false;
+
     // If a timespan has been selected...
-    if(startingYear !== null && endingYear !== null)
+    if(typeof startingYear !== 'undefined' && typeof endingYear !== 'undefined')
     {
       // Add the staring year
       queryValues.push(startingYear);
@@ -965,20 +995,24 @@ expressService.get("/admin/export", async (requestObject, responseObject) =>
 
       // Merge the queries
       locationsQuery = locationsQuery + " YEAR(TimestampMs) BETWEEN ? AND ?";
+
+      flag = true;
     }
 
     // If an "AND" must be added...
-    if(numberOfAnds != 0)
+    if(numberOfAnds != 0 && flag)
     {
       // Merge the queries
       locationsQuery = locationsQuery + " AND";
 
       // Reduce the counter
       numberOfAnds--;
+
+      flag = false;
     }
 
     // If a timespan has been selected...
-    if(startingDay !== null && endingDay !== null)
+    if(typeof startingDay !== 'undefined' && typeof endingDay !== 'undefined')
     {
       // Add the staring month
       queryValues.push(startingDay);
@@ -988,20 +1022,24 @@ expressService.get("/admin/export", async (requestObject, responseObject) =>
 
       // Merge the queries
       locationsQuery = locationsQuery + " DAY(TimestampMs) BETWEEN ? AND ?";
+
+      flag = true;
     }
 
     // If an "AND" must be added...
-    if(numberOfAnds != 0)
+    if(numberOfAnds != 0 && flag)
     {
       // Merge the queries
       locationsQuery = locationsQuery + " AND";
 
       // Reduce the counter
       numberOfAnds--;
+
+      flag = false;
     }
 
     // If a timespan has been selected...
-    if(startingMonth !== null && endingMonth !== null)
+    if(typeof startingMonth !== 'undefined' && typeof endingMonth !== 'undefined')
     {
       // Add the staring month
       queryValues.push(startingMonth);
@@ -1011,20 +1049,24 @@ expressService.get("/admin/export", async (requestObject, responseObject) =>
 
       // Merge the queries
       locationsQuery = locationsQuery + " MONTH(TimestampMs) BETWEEN ? AND ?";
+
+      flag = true;
     }
 
     // If an "AND" must be added...
-    if(numberOfAnds != 0)
+    if(numberOfAnds != 0 && flag)
     {
       // Merge the queries
       locationsQuery = locationsQuery + " AND";
 
       // Reduce the counter
       numberOfAnds--;
+
+      flag = false;
     }
 
     // If a timespan has been selected...
-    if(startingHour !== null && endingHour !== null)
+    if(typeof startingHour !== 'undefined' && typeof endingHour !== 'undefined')
     {
       // Add the staring time
       queryValues.push(startingHour);
@@ -1034,6 +1076,8 @@ expressService.get("/admin/export", async (requestObject, responseObject) =>
 
       // Merge the queries
       locationsQuery = locationsQuery + " HOUR(TimestampMs) BETWEEN ? AND ?";
+
+      flag = true;
     }
 
     // If there is at least one type...
@@ -1043,7 +1087,17 @@ expressService.get("/admin/export", async (requestObject, responseObject) =>
       var types = activityTypes.split(",");
 
       //Initialize the activity types
-      var activityTypesQuery = " AND ActivitiesId IN (SELECT ActivitiesId FROM activities WHERE (";
+      var activityTypesQuery = "";
+
+      // If an "AND" must be added...
+      if(flag)
+      {
+        // Merge the queries
+        activityTypesQuery = activityTypesQuery + " AND";
+      }
+
+      // Merge the queries
+      activityTypesQuery = activityTypesQuery + " ActivitiesId IN (SELECT ActivitiesId FROM activities WHERE (";
 
       // Declare an array that will contain the queries for the types
       var typesQuery = [];
