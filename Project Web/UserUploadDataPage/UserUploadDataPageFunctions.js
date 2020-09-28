@@ -219,7 +219,7 @@ function Upload()
             {
                 // If the upload was successful...
                 if(data.status)
-                    alert("Upload was successfull.");
+                    alert("Upload was successful.");
                 else
                     alert("Upload has failed.");
             }
