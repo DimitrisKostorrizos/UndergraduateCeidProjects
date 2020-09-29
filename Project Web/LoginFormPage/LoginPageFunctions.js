@@ -24,7 +24,7 @@ function Login()
     // Get the password
     var password = document.getElementById("psw").value;
 
-    // If the username is empty...
+    // If the password is empty...
     if(password.length == 0)
     {
         // Set the error message
