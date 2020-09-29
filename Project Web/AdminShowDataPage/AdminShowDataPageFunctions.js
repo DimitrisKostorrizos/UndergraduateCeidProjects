@@ -160,17 +160,17 @@ function Search()
     // If the tilting checkbox is checked...
     if(document.getElementById("tiltingCheckbox").checked)
         // Add the activity type
-        selectedActivityTypes.push("tilting");
+        selectedActivityTypes.push("Tilting");
 
     // If the unknown checkbox is checked...
     if(document.getElementById("unknownCheckbox").checked)
         // Add the activity type
-        selectedActivityTypes.push("unknown");
+        selectedActivityTypes.push("Unknown");
 
     // If the walking checkbox is checked...
     if(document.getElementById("walkingCheckbox").checked)
         // Add the activity type
-        selectedActivityTypes.push("walking");
+        selectedActivityTypes.push("Walking");
 
     // If there was selected at least one activity...
     if(selectedActivityTypes.length != 0)
@@ -376,17 +376,17 @@ function Export()
     // If the tilting checkbox is checked...
     if(document.getElementById("tiltingCheckbox").checked)
         // Add the activity type
-        selectedActivityTypes.push("tilting");
+        selectedActivityTypes.push("Tilting");
 
     // If the unknown checkbox is checked...
     if(document.getElementById("unknownCheckbox").checked)
         // Add the activity type
-        selectedActivityTypes.push("unknown");
+        selectedActivityTypes.push("Unknown");
 
     // If the walking checkbox is checked...
     if(document.getElementById("walkingCheckbox").checked)
         // Add the activity type
-        selectedActivityTypes.push("walking");
+        selectedActivityTypes.push("Walking");
 
     // If there was selected at least one activity...
     if(selectedActivityTypes.length != 0)
