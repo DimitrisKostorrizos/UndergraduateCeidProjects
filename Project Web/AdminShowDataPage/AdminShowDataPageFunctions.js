@@ -198,7 +198,7 @@ function Search()
             // If there is at least one location...
             if(locations.length != 0)
             {
-                // Declare the array that will conatin the coordinates
+                // Declare the array that will contain the coordinates
                 var locationCoordinates = [];
 
                 // For every location...
