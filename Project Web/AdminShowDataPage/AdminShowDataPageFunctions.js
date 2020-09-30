@@ -145,7 +145,7 @@ function Search()
     // If the OnFoot checkbox is checked...
     if(document.getElementById("onFootCheckbox").checked)
         // Add the activity type
-        selectedActivityTypes.push("onFoot");
+        selectedActivityTypes.push("ΟnFoot");
 
     // If the Running checkbox is checked...
     if(document.getElementById("runningCheckbox").checked)
@@ -361,7 +361,7 @@ function Export()
     // If the OnFoot checkbox is checked...
     if(document.getElementById("onFootCheckbox").checked)
         // Add the activity type
-        selectedActivityTypes.push("onFoot");
+        selectedActivityTypes.push("ΟnFoot");
 
     // If the Running checkbox is checked...
     if(document.getElementById("runningCheckbox").checked)
