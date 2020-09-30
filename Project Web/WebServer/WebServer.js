@@ -375,7 +375,7 @@ function GetActivitiesPerYearPercentage(activitiesResults)
   // Get the minimum year
   var minimumYear = activitiesResults[0].TimestampMs.getFullYear();
 
-  // For every user...
+  // For every year...
   for(var year = minimumYear; year <= currentYear; year++)
   {
     // Get the daily results 
