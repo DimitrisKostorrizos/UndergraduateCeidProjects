@@ -1,108 +1,270 @@
-async function JSONParser(file) 
+// Declare a global variable for the json object
+var JSONObject;
+
+// Declare an array for the coordinates
+var coordinatesTuples = [];
+
+// Initialize the GUI
+function Initialization()
 {
-    let text = await file.text();
-    let JSONObject = JSON.parse(text);
-    MapSetter("mapid", JSONObject)
+    // Hide the input
+    HideElement("UploadButton");
+
+    // Show the text box
+    HideElement("ChosenFilename");
+
+    // Show the text box
+    HideElement("MapContainer");
 }
 
-function MapSetter(MapId, JSONObject)
+// Open the file explorer
+function OpenFileExplorer() 
 {
-    let CenterCoordinates = [38.230462, 21.753150];
-    var map = L.map(MapId, { drawControl: true }).setView(CenterCoordinates, 14);
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{
+    // Click the collapsed input
+    document.getElementById("fileInput").click();
+}
+
+// Open the file and set the map
+async function OpenFile(file)
+{
+    // Read the local file asynchronously
+    var fileContext = await ReadFileAsync(file);
+
+    // Parse the file context
+    window.JSONObject = JSON.parse(fileContext);
+
+    // Hide the input
+    HideElement("JSONFileInput");
+
+    // Show the text box
+    ShowElement("ChosenFilename");
+
+    // Show the text box
+    ShowElement("MapContainer");
+
+    // Show the input
+    ShowElement("UploadButton");
+
+    // Set the file name
+    document.getElementById("fileNameValue").innerHTML = file.name;
+
+    // Set the map
+    MapSetter("MapContainer");
+}
+
+// Hide the element
+function HideElement(elementId)
+{
+    // Get the element by id
+    var element = document.getElementById(elementId);
+
+    // Hide the element
+    element.style.display = "none"; 
+}
+
+// Show the element
+function ShowElement(elementId)
+{
+    // Get the element by id
+    var element = document.getElementById(elementId);
+
+    // Show the element
+    element.style.display = "block";     
+}
+
+// Read the file asynchronously
+async function ReadFileAsync(file)
+{
+    // Get the text context
+    var text = await file.text();
+
+    // Return the text
+    return text;
+}
+
+// Set the map
+function MapSetter(MapId)
+{
+    // Initialize the coordinates for patra center
+    var CenterCoordinates = [38.230462, 21.753150];
+
+    // Initialize the map layer
+    var map = L.map(MapId).setView(CenterCoordinates, 12);
+
+    // Initialize a map layer
+    var mapLayer = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
-    }).addTo(map);
-
-    var drawnItems = new L.FeatureGroup();
-    map.addLayer(drawnItems);
-
-    drawControl = new L.Control.Draw({
-        draw : {
-            position : 'topright',
-            polyline : false,
-            rectangle : false,
-            circle : false,
-            polygon: false,
-            marker: false
-        },
-        edit : {
-            featureGroup: drawnItems
-          }
     });
-    map.addControl(drawControl);
 
-    // map.on(L.Draw.Event.CREATED, function (e) {
-    //     var layer = e.layer;
-    //      drawnItems.addLayer(layer);
-    //  });
-    
-    let MarkersList = [];
-    // let FullJSONObject = JSON.parse(JSON.stringify(JSONObject));
-    // let FullMarkersList = [];
-    // for(i = 0; i < FullJSONObject.locations.length; i++)
-    // {
-    //     coordinates = [ FullJSONObject.locations[i].latitudeE7/10000000, FullJSONObject.locations[0].longitudeE7/10000000]
-    //     marker = L.marker(coordinates).addTo(map);
-    //     MarkersList.push(marker);
-    //     marker.bindPopup(coordinates.toString()).openPopup();
-    // }
+    // Add the map layer to the map
+    map.addLayer(mapLayer);
 
-    // var circle = L.circle(CenterCoordinates, {
-    //     color: 'red',
-    //     fillColor: '#f03',
-    //     fillOpacity: 0.5,
-    //     radius: 10000
-    // }).addTo(map);
-    marker = L.marker(CenterCoordinates).addTo(map);
-    let str = "Patras Center: ".concat(CenterCoordinates.toString());
-    marker.bindPopup(str).openPopup();
-    for(i = 0; i < JSONObject.locations.length; i++)
+    // Initialize a group for the editable layers
+    var featureGroupLayer = new L.FeatureGroup();
+
+    // Add the feature layer to the map
+    map.addLayer(featureGroupLayer);
+
+    // Initialize the draw plugin options
+    var drawPluginOptions = 
     {
-        let coordinates = [ JSONObject.locations[i].latitudeE7/10000000, JSONObject.locations[i].longitudeE7/10000000]
-        let distance = Math.sqrt( Math.pow((CenterCoordinates[0] - coordinates[0]), 2) + Math.pow((CenterCoordinates[1] - coordinates[1]), 2) );
-        if (distance <= 0.1)
-        {
-            marker = L.marker(coordinates).addTo(map);
-            marker.bindPopup(coordinates.toString()).openPopup();
-            MarkersList.push(marker);
-        }
-    }
-
-    // AJAX CALL
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", "test.php",true);
-    xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-    xhr.onreadystatechange = function save() 
-    {
-        if (this.readyState == 4 && this.status == 200) 
-        {
-            var res = JSON.parse(this.response);
-            if (res.status) {
-              // OK - DO SOMETHING
-              alert(res.message);
-            } else {
-              // ERROR - DO SOMETHING
-              alert(res.message);
-            }
+        position: 'topright',
+        draw: {
+            polyline: false,
+            polygon: false,
+            circle: false,
+            rectangle: {
+                shapeOptions: {
+                    color: '#f357a1',
+                    weight: 10
+                }
+                }
+        },
+        edit: {
+            featureGroup: featureGroupLayer,
+            remove: false
         }
     };
-    xhr.send(JSON.stringify(JSONObject));
 
+    // Initialize the draw control
+    var drawControl = new L.Control.Draw(drawPluginOptions);
 
-    //Second try
-    // var values = JSON.stringify(JSONObject);
+    // Add the draw control to the map
+    map.addControl(drawControl);
 
-    // jQuery.ajax({
-    //     url: "test.php",
-    //     type: "get",
-    //     data: values ,
-    //     success: function (response) 
-    //     {
-    //         console.log(response.headers);
-    //         // You will get response from your PHP page (what you echo or print)
-    //     },
-    //     error: function(jqXHR, textStatus, errorThrown) {
-    //         console.log(textStatus, errorThrown);
-    //     }
-    // });
+    // Draw a circle for the boundaries
+    var circle = L.circle(CenterCoordinates, 
+        {
+        color: 'blue',
+        fillColor: '#02C39A',
+        fillOpacity: 0.3,
+        radius: 10000
+    }).addTo(map);
+
+    // Set a marker for the patras center
+    marker = L.marker(CenterCoordinates).addTo(map);
+    var str = "Patras Center: ".concat(CenterCoordinates.toString());
+    marker.bindPopup(str).openPopup();
+
+    // Get the circle bounds
+    var circleBounds = circle.getBounds();
+
+    // For every location...
+    for(const location of JSONObject.locations)
+    {
+        // Get the current locations coordinates
+        var coordinates = [location.latitudeE7/10000000, location.longitudeE7/10000000];
+
+        // If coordinates are contained in the circle...
+        if(circleBounds.contains(coordinates))
+            // Add it to the valid coordinates
+            coordinatesTuples.push(coordinates);
+        else
+            // Delete the current location
+            JSONObject.locations.splice(JSONObject.locations.indexOf(location), 1);
+    }
+
+    // Set the event when a shape is created
+    map.on('draw:created', function (e) 
+    {
+        // Get the layer
+        var layer = e.layer;
+
+        // Get the rectangle bounds
+        var rectangleBounds = L.latLngBounds(layer.getLatLngs());
+
+        // For every tuple of coordinates...
+        for(var index = 0; index < coordinatesTuples.length; index++)
+        {
+            // If the coordinates are contained within the bound...
+            if(rectangleBounds.contains(coordinatesTuples[index]))
+            {
+                // Remove the coordinates entry
+                JSONObject.locations.splice(index, 1);
+
+                // Remove the coordinates entry
+                coordinatesTuples.splice(index, 1);
+            }
+        }
+    });
+}
+
+// Upload the file
+function Upload()
+{
+    // If the json is not empty...
+    if(JSONObject.locations.length == 0)
+        alert("No locations to upload.");
+    else
+    {
+        // Set the url
+        var url = new URL("http://localhost:8080/user/upload");
+    
+        // Get the user's location id
+        var locationId = localStorage.getItem("locationId");
+        
+        // Set the url query parameters
+        url.searchParams.set('locationId', locationId);
+    
+        // Send the request
+        $.ajax({
+            url: url,
+            data: JSON.stringify(JSONObject),
+            headers: 
+            {
+                "Content-Type": "application/json"
+            },
+            type: 'Post',
+            success: function(data)
+            {
+                // If the upload was successful...
+                if(data.status)
+                    alert("Upload was successful.");
+                else
+                    alert("Upload has failed.");
+            }
+        });
+    }
+}
+
+function LoadMainPage()
+{
+    // Get the user's status
+    var status = localStorage.getItem("status");
+
+    // If the user has user status...
+    if(status == 0)
+        // Redirect to the user main page
+        window.location.href='../UserMainPage/UserMainPage.html';
+    else
+        // Redirect to the user main page
+        window.location.href='../LoginFormPage/LoginFormPage.html';
+}
+
+function LoadDataAnalysisPage()
+{
+    // Get the user's status
+    var status = localStorage.getItem("status");
+
+    // If the user has user status...
+    if(status == 0)
+        // Redirect to the user data analysis page
+        window.location.href='../UserDataAnalysisPage/UserDataAnalysisPage.html';
+    else
+        // Redirect to the user main page
+        window.location.href='../LoginFormPage/LoginFormPage.html';
+}
+
+function LoadUploadDataPage()
+{
+    // Get the user's status
+    var status = localStorage.getItem("status");
+
+    // If the user has user status...
+    if(status == 0)
+        // Redirect to the user upload data page
+        window.location.href='../UserUploadDataPage/UserUploadDataPage.html';
+    else
+        // Redirect to the user main page
+        window.location.href='../LoginFormPage/LoginFormPage.html';
 }
