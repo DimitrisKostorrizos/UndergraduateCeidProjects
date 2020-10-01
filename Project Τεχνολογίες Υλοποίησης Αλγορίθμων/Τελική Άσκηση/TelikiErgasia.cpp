@@ -1,5 +1,6 @@
 #include <iostream>
 #include <time.h>
+#include <queue>
 #include <boost/graph/adjacency_list.hpp>
 #include <boost/graph/random.hpp>
 #include <LEDA/graph/graph.h>
@@ -63,29 +64,32 @@ bool ALT(DirectedGraph& directedGraph, Vertex startingVertex, Vertex targetVerte
 	// Initialise the boost edge iterators
 	OutEdgeIterator edgeIteratorBegin, edgeIteratorEnd;
 
-	// Set the initial vertex
-	Vertex lastVisitedVertex = startingVertex;
+	set<Vertex> openVertexSet;
 
-	// Initialize the path cost
-	double totalPathCost = 0;
+	openVertexSet.insert(startingVertex);
+
+	std::map<Vertex, double> vertexCostMap;
+
+	outgoingPathCostMap[startingVertex] = 0;
+
+	vertexCostMap[startingVertex] = Heuristic();
 
 	// While there is a vertex to search...
-	while (lastVisitedVertex != 0) 
+	while (!openVertexSet.empty()) 
 	{
-		// Clear the cost map
-		outgoingPathCostMap.clear();
+		Vertex currentVertex = 0;
 
 		// If the target node was reached...
-		if (lastVisitedVertex == targetVertex) 
+		if (currentVertex == targetVertex) 
 		{
-			cout << "Traversed path total cost: " << totalPathCost << endl;
-
 			// Return true
 			return true;
 		}
+
+		openVertexSet.erase(currentVertex);
 		
 		// For every out edge of the current vertex... 
-		for(tie(edgeIteratorBegin, edgeIteratorEnd) = out_edges(startingVertex, directedGraph); edgeIteratorBegin != edgeIteratorEnd; edgeIteratorBegin++)
+		for(tie(edgeIteratorBegin, edgeIteratorEnd) = out_edges(currentVertex, directedGraph); edgeIteratorBegin != edgeIteratorEnd; edgeIteratorBegin++)
 		{
 			// Get the current edge's target node
 			Vertex currentEdgeTargetVertex = target(*edgeIteratorBegin, directedGraph);
@@ -94,7 +98,7 @@ bool ALT(DirectedGraph& directedGraph, Vertex startingVertex, Vertex targetVerte
 			double edgeWeight = boostEdgeWeightMap[*edgeIteratorBegin];
 
 			// Calculate the new cost
-			double newCost = totalPathCost + edgeWeight + Heuristic();
+			double newCost = outgoingPathCostMap[currentVertex] + edgeWeight;
 
 			// Set the cost to the edge's target
 			outgoingPathCostMap[currentEdgeTargetVertex] = newCost;
@@ -299,12 +303,6 @@ int main()
 
 	// Initialize a property map that contain the edges's weights
 	EdgeWeightMap boostEdgeWeightMap = get(edge_weight, boostDirectedGraph);
-
-	// Initialize a vector that will contain the distance to each node and set the initial distance to INT_MAX
-	std::vector<int> boostDistanceVector(numberOfNodes,INT_MAX);
-
-	// Initialize a vector that will contain the predeccesor of each node
-	std::vector<std::size_t> boostPredeccesorVector(numberOfNodes);
 	
 	#pragma endregion Initialization
 
