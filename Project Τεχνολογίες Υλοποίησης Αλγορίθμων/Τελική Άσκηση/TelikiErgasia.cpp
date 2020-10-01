@@ -1,6 +1,6 @@
 #include <iostream>
 #include <time.h>
-#include <queue>
+#include <algorithm>
 #include <boost/graph/adjacency_list.hpp>
 #include <boost/graph/random.hpp>
 #include <LEDA/graph/graph.h>
@@ -41,43 +41,66 @@ typedef property_map<DirectedGraph, edge_weight_t>::type EdgeWeightMap;
 
 inline double Heuristic() 
 {
-  return 5;
+	// Initialise a random seed
+	srand(time(NULL));
+
+	return rand() % 10;
 }
 
 /**
- * 
- * @param
- * @param
- * @param
+ * Executes the ALT algorithm, namely a A* algorithm implementation, using landmarks and the triangle inequality 
+ * @param DirectedGraph The boost directed Graph
+ * @param Vertex The starting vertex
+ * @param Vertex The target vertex
+ * @return True if the target vertex is found, or false if the target vertex is not found
  */
 bool ALT(DirectedGraph& directedGraph, Vertex startingVertex, Vertex targetVertex)
 {
 	// Initialize the property map that contain the edges's weights
 	EdgeWeightMap boostEdgeWeightMap = get(edge_weight, directedGraph);
 
-	// Declare a map for the the vertexes and the cost to traverse them
-	std::map<Vertex, double> outgoingPathCostMap;
+	// Declare a map for the the vertexes and the cost to visit them
+	std::map<Vertex, double> vertexVisitCostMap;
 
-	// Initialise the boost vertex iterators
+	// Declare a map for the the vertexes and the next visisted vertexes
+	std::map<Vertex, Vertex> vertexSuccessorMap;
+
+	// Declare the boost vertex iterators
 	VertexIterator vertexIteratorBegin, vertexIteratorEnd;
+
+	// For every vertex in the boost directed graph...
+	for(tie(vertexIteratorBegin, vertexIteratorEnd) = vertices(directedGraph); vertexIteratorBegin != vertexIteratorEnd; vertexIteratorBegin++)
+	{
+		// Set the vertex initial cost to DBL_MAX
+		vertexVisitCostMap.insert(pair<Vertex, double>(*vertexIteratorBegin, DBL_MAX));
+	}
 	
-	// Initialise the boost edge iterators
+	// Declare the boost out edge iterators
 	OutEdgeIterator edgeIteratorBegin, edgeIteratorEnd;
 
-	set<Vertex> openVertexSet;
+	// Declare the set for possible vertex successors
+	set<Vertex> possibleVertexSuccesorSet;
 
-	openVertexSet.insert(startingVertex);
+	// Insert the starting vertex
+	possibleVertexSuccesorSet.insert(startingVertex);
 
-	std::map<Vertex, double> vertexCostMap;
+	// Declare a map for the the vertexes and the heuristic cost to visit them 
+	std::map<Vertex, double> vertexHeuristicCostMap;
 
-	outgoingPathCostMap[startingVertex] = 0;
+	// Set the starting vertex visit cost to 0
+	vertexVisitCostMap[startingVertex] = 0;
 
-	vertexCostMap[startingVertex] = Heuristic();
+	// Set the starting vertex heuristic cost
+	vertexHeuristicCostMap[startingVertex] = Heuristic();
 
 	// While there is a vertex to search...
-	while (!openVertexSet.empty()) 
+	while (!possibleVertexSuccesorSet.empty()) 
 	{
-		Vertex currentVertex = 0;
+		// Get an iterator that point to the vertex with the minimum heuristic value
+		auto it = std::min_element(std::begin(vertexHeuristicCostMap), std::end(vertexHeuristicCostMap),[](const auto& l, const auto& r) { return l.second < r.second; });
+		
+		// Get the vertex from the iterator
+		Vertex currentVertex = it->first;
 
 		// If the target node was reached...
 		if (currentVertex == targetVertex) 
@@ -86,7 +109,8 @@ bool ALT(DirectedGraph& directedGraph, Vertex startingVertex, Vertex targetVerte
 			return true;
 		}
 
-		openVertexSet.erase(currentVertex);
+		// Remove the current vertex
+		possibleVertexSuccesorSet.erase(currentVertex);
 		
 		// For every out edge of the current vertex... 
 		for(tie(edgeIteratorBegin, edgeIteratorEnd) = out_edges(currentVertex, directedGraph); edgeIteratorBegin != edgeIteratorEnd; edgeIteratorBegin++)
@@ -95,43 +119,32 @@ bool ALT(DirectedGraph& directedGraph, Vertex startingVertex, Vertex targetVerte
 			Vertex currentEdgeTargetVertex = target(*edgeIteratorBegin, directedGraph);
 
 			// Get the current edge's weight
-			double edgeWeight = boostEdgeWeightMap[*edgeIteratorBegin];
+			double currentEdgeWeight = boostEdgeWeightMap[*edgeIteratorBegin];
 
-			// Calculate the new cost
-			double newCost = outgoingPathCostMap[currentVertex] + edgeWeight;
+			// Calculate the target vertex visit cost
+			double targetVertexVisitCost = vertexVisitCostMap[currentVertex] + currentEdgeWeight;
 
-			// Set the cost to the edge's target
-			outgoingPathCostMap[currentEdgeTargetVertex] = newCost;
-		}
-
-		// Set the minimum cost to maximum double
-		double minimumCost = DBL_MAX;
-
-		// Declare the vertex with the minimum cost
-		Vertex minimumCostVertex = 0;
-
-		// For every selected vertex...
-		for (std::map<Vertex, double>::iterator mapIterator = outgoingPathCostMap.begin(); mapIterator!=outgoingPathCostMap.end(); ++mapIterator)
-		{
-			// If the vertex travel cost is less the the previous minimum cost...
-			if(mapIterator->second < minimumCost)
+			// If the the path to this node is better than the previous one...
+			if(targetVertexVisitCost < vertexVisitCostMap[currentEdgeTargetVertex])
 			{
-				// Set the vertex as the new vertex
-				minimumCostVertex = mapIterator->first;
+				// Add the new vertex into the visisted vertexes
+				vertexSuccessorMap.insert(pair<Vertex, Vertex>(currentVertex, currentEdgeTargetVertex));
+				
+				// Set the visit cost to the edge's target
+				vertexVisitCostMap[currentEdgeTargetVertex] = targetVertexVisitCost;
 
-				// Set the vertex's costs as the minimum cost
-				minimumCost = mapIterator->second;
+				// Set the heuristic cost to the edge's target
+				vertexHeuristicCostMap[currentEdgeTargetVertex] = Heuristic();
+
+				// If the edge's target doesn't exist in the set...
+				if(possibleVertexSuccesorSet.find(currentEdgeTargetVertex) == possibleVertexSuccesorSet.end())
+				{
+					// Add it
+					possibleVertexSuccesorSet.insert(currentEdgeTargetVertex);
+				}
 			}
 		}
-
-		// Set the last visited vertex
-		lastVisitedVertex = minimumCostVertex;
-
-		// Add the traversal cost to the path cost
-		totalPathCost += minimumCost;
 	}
-
-	cout << "Traversed path total cost: " << totalPathCost << endl;
 
 	// Return false
 	return false;
@@ -161,10 +174,10 @@ void CopyLedaGraphToBoostGraph(DirectedGraph& BoostDirectedGraph, leda::graph& L
 		node target = LedaGraph.target(tempEdge);
 
 		// Get the weight of the edge
-		int edgeWeight = LedaEdgeWeightMap[tempEdge];
+		int currentEdgeWeight = LedaEdgeWeightMap[tempEdge];
 
 		// Add the edge in the boost directed graph
-		add_edge(LedaGraph.index(source), LedaGraph.index(target), edgeWeight, boostGraph);
+		add_edge(LedaGraph.index(source), LedaGraph.index(target), currentEdgeWeight, boostGraph);
 	}
 
 	// Update the boost directed graph
