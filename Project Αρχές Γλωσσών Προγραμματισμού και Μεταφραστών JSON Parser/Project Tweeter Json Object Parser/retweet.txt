@@ -1,0 +1,19 @@
+{
+    "retweeted_status":
+	{
+      "text": "original message"
+        "user": 
+		{
+            "screen_name": "OriginalTweeter"
+        }
+    },
+  "tweet": {
+  
+    "text": "RT @OriginalTweeter original message"
+    "user": 
+	{
+          "screen_name": "Retweeter"
+    }
+  }
+}
+
