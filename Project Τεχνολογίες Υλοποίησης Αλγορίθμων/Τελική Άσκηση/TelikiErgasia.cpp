@@ -329,6 +329,9 @@ int main()
 	
 	// Initialise a node array the will contain the last edge on a shortest path from the starting node to a node
 	node_array<leda::edge> ledaPredecessorNodeArray(ledaDirectedGraph);
+
+	// Initialise a node array the will contain the shortest path langth from the starting node to a node
+	node_array<int> ledaDistanceNodeArray(ledaDirectedGraph);
 	
 	#pragma endregion Initialization
 
@@ -342,6 +345,8 @@ int main()
 
 	// Print the user defined ALT function execution time
 	cout << "User defined ALT function execution time: " << used_time(CPUTime) << " seconds."<< endl;
+
+	SHORTEST_PATH_T(ledaDirectedGraph, startingRandomLedaNode, ledaEdgeWeightArray, ledaDistanceNodeArray, ledaPredecessorNodeArray);
 
 	// Execute leda defined shortest path function
 	COMPUTE_SHORTEST_PATH(ledaDirectedGraph, startingRandomLedaNode, targetRandomLedaNode, ledaPredecessorNodeArray);
