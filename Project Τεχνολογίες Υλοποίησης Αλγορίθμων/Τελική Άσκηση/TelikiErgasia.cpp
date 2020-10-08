@@ -98,7 +98,7 @@ bool ALT(DirectedGraph& directedGraph, Vertex startingVertex, Vertex targetVerte
 		vertexVisitCostMap.insert(pair<Vertex, double>(*vertexIteratorBegin, DBL_MAX));
 
 		// Set the vertex initial cost to DBL_MAX
-		vertexHeuristicCostMap.insert(pair<Vertex, double>(*vertexIteratorBegin, 0));
+		vertexHeuristicCostMap.insert(pair<Vertex, double>(*vertexIteratorBegin, DBL_MAX));
 	}
 	
 	// Declare the boost out edge iterators
