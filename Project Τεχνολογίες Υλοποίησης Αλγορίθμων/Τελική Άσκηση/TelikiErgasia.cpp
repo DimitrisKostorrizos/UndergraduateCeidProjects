@@ -5,12 +5,7 @@
 #include <boost/graph/adjacency_list.hpp>
 #include <boost/graph/random.hpp>
 #include <LEDA/graph/graph.h>
-#include <boost/graph/johnson_all_pairs_shortest.hpp>
-#include <boost/graph/exterior_property.hpp>
 #include <LEDA/graph/shortest_path.h>
-
-//export LEDAROOT=/home/jim/Project/Leda/LEDA-6.3-free-fedora-core-8-64-g++-4.1.2; export LD_LIBRARY_PATH=$LEDAROOT
-//g++ TelikiErgasia.cpp -o testcode -I$LEDAROOT/incl -L$LEDAROOT -lleda -lX11 -lm -O3
 
 using namespace std;
 using namespace boost;
