@@ -1,16 +1,16 @@
 #include <iostream>
 #include <time.h>
 #include <algorithm>
+#include <vector>
 #include <boost/graph/adjacency_list.hpp>
 #include <boost/graph/random.hpp>
 #include <LEDA/graph/graph.h>
-
-
-//#include <LEDA/graph/shortest_path.h>
+#include <boost/graph/johnson_all_pairs_shortest.hpp>
+#include <boost/graph/exterior_property.hpp>
+#include <LEDA/graph/shortest_path.h>
 
 //export LEDAROOT=/home/jim/Project/Leda/LEDA-6.3-free-fedora-core-8-64-g++-4.1.2; export LD_LIBRARY_PATH=$LEDAROOT
-//g++ TelikiErgasia.cpp -o testcode -I$LEDAROOT/incl -L$LEDAROOT -lleda -lX11 -lm
-//./testcode
+//g++ TelikiErgasia.cpp -o testcode -I$LEDAROOT/incl -L$LEDAROOT -lleda -lX11 -lm -O3
 
 using namespace std;
 using namespace boost;
@@ -39,13 +39,40 @@ typedef graph_traits<DirectedGraph>::vertex_iterator VertexIterator;
 // Define the edge weight map as a property map
 typedef property_map<DirectedGraph, edge_weight_t>::type EdgeWeightMap;
 
-inline double Heuristic() 
+/**
+ * Calculates the heuristic value for the @param selectedVertex and @param targetVertex
+ * @param Vertex The selected vertex
+ * @param Vertex The target vertex
+ * @return The heuristic value
+ */
+inline double HeuristicFunction(Vertex selectedVertex, Vertex targetVertex) 
 {
-	// Initialise a random seed
-	srand(time(NULL));
+	// If the vertexes are the same...
+	if(targetVertex == selectedVertex)
+		// Return the heuristic
+		return 0;
 
-	return rand() % 10;
+	// Calculate the heuristic
+	double heuristicValue = selectedVertex - targetVertex;
+
+	// Return the heuristic
+	return abs(heuristicValue);
 }
+
+// The struct for the bool operation overloading
+struct PairCompare
+{
+	/**
+	 * Compares the pairs
+	 * @param right The rightt operand
+	 * @param left The left operand
+	 * @return Comparison boolean value
+	 */
+	bool operator()(const pair<Vertex, double>& right, const pair<Vertex, double>& left)
+	{
+		return right.second < left.second;
+	}
+};
 
 /**
  * Executes the ALT algorithm, namely a A* algorithm implementation, using landmarks and the triangle inequality 
@@ -62,8 +89,8 @@ bool ALT(DirectedGraph& directedGraph, Vertex startingVertex, Vertex targetVerte
 	// Declare a map for the the vertexes and the cost to visit them
 	std::map<Vertex, double> vertexVisitCostMap;
 
-	// Declare a map for the the vertexes and the next visisted vertexes
-	std::map<Vertex, Vertex> vertexSuccessorMap;
+	// Declare a map for the the vertexes and the heuristic cost to visit them 
+	std::map<Vertex, double> vertexHeuristicCostMap;
 
 	// Declare the boost vertex iterators
 	VertexIterator vertexIteratorBegin, vertexIteratorEnd;
@@ -73,31 +100,31 @@ bool ALT(DirectedGraph& directedGraph, Vertex startingVertex, Vertex targetVerte
 	{
 		// Set the vertex initial cost to DBL_MAX
 		vertexVisitCostMap.insert(pair<Vertex, double>(*vertexIteratorBegin, DBL_MAX));
+
+		// Set the vertex initial cost to DBL_MAX
+		vertexHeuristicCostMap.insert(pair<Vertex, double>(*vertexIteratorBegin, 0));
 	}
 	
 	// Declare the boost out edge iterators
 	OutEdgeIterator edgeIteratorBegin, edgeIteratorEnd;
 
-	// Declare the set for possible vertex successors
-	set<Vertex> possibleVertexSuccesorSet;
+	// Declare the vector for possible vertex successors
+	std::vector<Vertex> possibleVertexSuccesorVector;
 
 	// Insert the starting vertex
-	possibleVertexSuccesorSet.insert(startingVertex);
-
-	// Declare a map for the the vertexes and the heuristic cost to visit them 
-	std::map<Vertex, double> vertexHeuristicCostMap;
+	possibleVertexSuccesorVector.push_back(startingVertex);
 
 	// Set the starting vertex visit cost to 0
 	vertexVisitCostMap[startingVertex] = 0;
 
 	// Set the starting vertex heuristic cost
-	vertexHeuristicCostMap[startingVertex] = Heuristic();
+	vertexHeuristicCostMap[startingVertex] = HeuristicFunction(startingVertex, startingVertex);
 
 	// While there is a vertex to search...
-	while (!possibleVertexSuccesorSet.empty()) 
+	while (!possibleVertexSuccesorVector.empty()) 
 	{
 		// Get an iterator that point to the vertex with the minimum heuristic value
-		auto it = std::min_element(std::begin(vertexHeuristicCostMap), std::end(vertexHeuristicCostMap),[](const auto& l, const auto& r) { return l.second < r.second; });
+		auto it = *min_element(vertexHeuristicCostMap.begin(), vertexHeuristicCostMap.end(), PairCompare());
 		
 		// Get the vertex from the iterator
 		Vertex currentVertex = it->first;
@@ -109,8 +136,16 @@ bool ALT(DirectedGraph& directedGraph, Vertex startingVertex, Vertex targetVerte
 			return true;
 		}
 
-		// Remove the current vertex
-		possibleVertexSuccesorSet.erase(currentVertex);
+		// Search the target vertex
+		auto iterator = find(possibleVertexSuccesorVector.begin(), possibleVertexSuccesorVector.end(), currentVertex);
+
+		// If the element doesn't exist...
+		if(iterator == possibleVertexSuccesorVector.end())
+			// Clear the vector
+			possibleVertexSuccesorVector.clear();
+		else
+			// Remove the current vertex
+			possibleVertexSuccesorVector.erase(iterator, possibleVertexSuccesorVector.end());
 		
 		// For every out edge of the current vertex... 
 		for(tie(edgeIteratorBegin, edgeIteratorEnd) = out_edges(currentVertex, directedGraph); edgeIteratorBegin != edgeIteratorEnd; edgeIteratorBegin++)
@@ -127,20 +162,20 @@ bool ALT(DirectedGraph& directedGraph, Vertex startingVertex, Vertex targetVerte
 			// If the the path to this node is better than the previous one...
 			if(targetVertexVisitCost < vertexVisitCostMap[currentEdgeTargetVertex])
 			{
-				// Add the new vertex into the visisted vertexes
-				vertexSuccessorMap.insert(pair<Vertex, Vertex>(currentVertex, currentEdgeTargetVertex));
-				
 				// Set the visit cost to the edge's target
 				vertexVisitCostMap[currentEdgeTargetVertex] = targetVertexVisitCost;
 
 				// Set the heuristic cost to the edge's target
-				vertexHeuristicCostMap[currentEdgeTargetVertex] = Heuristic();
+				vertexHeuristicCostMap[currentEdgeTargetVertex] = targetVertexVisitCost + HeuristicFunction(startingVertex, currentEdgeTargetVertex);
 
-				// If the edge's target doesn't exist in the set...
-				if(possibleVertexSuccesorSet.find(currentEdgeTargetVertex) == possibleVertexSuccesorSet.end())
+				// Search the target vertex
+				auto iterator = find(possibleVertexSuccesorVector.begin(), possibleVertexSuccesorVector.end(), currentEdgeTargetVertex);
+
+				// If the edge's target doesn't exist in the vector...
+				if(iterator == possibleVertexSuccesorVector.end())
 				{
 					// Add it
-					possibleVertexSuccesorSet.insert(currentEdgeTargetVertex);
+					possibleVertexSuccesorVector.push_back(currentEdgeTargetVertex);
 				}
 			}
 		}
@@ -162,19 +197,19 @@ void CopyLedaGraphToBoostGraph(DirectedGraph& BoostDirectedGraph, leda::graph& L
 	DirectedGraph boostGraph(LedaGraph.number_of_nodes());
 
 	// Leda edge that will be used for iteration
-	leda::edge tempEdge;
+	leda::edge iterationEdge;
 
 	// For all edges in the leda directed graph
-	forall_edges(tempEdge, LedaGraph)
+	forall_edges(iterationEdge, LedaGraph)
 	{
 		// Get the source node of the edge
-		node source = LedaGraph.source(tempEdge);
+		node source = LedaGraph.source(iterationEdge);
 
 		// Get the target node of the edge
-		node target = LedaGraph.target(tempEdge);
+		node target = LedaGraph.target(iterationEdge);
 
 		// Get the weight of the edge
-		int currentEdgeWeight = LedaEdgeWeightMap[tempEdge];
+		int currentEdgeWeight = LedaEdgeWeightMap[iterationEdge];
 
 		// Add the edge in the boost directed graph
 		add_edge(LedaGraph.index(source), LedaGraph.index(target), currentEdgeWeight, boostGraph);
@@ -204,7 +239,7 @@ int main()
 	// Number of nodes
 	int numberOfNodes;
 
-	cout << "Choose the testing graph between grid or random." << endl; 
+	cout << "Choose the testing graph between grid, complete or random." << endl; 
 
 	// Read the graph type
 	cin >> graphOption;
@@ -219,34 +254,6 @@ int main()
 	{
 		// Create a grid graph
 		grid_graph(ledaDirectedGraph, numberOfNodes);
-
-		// Intialise an edge array that will contain the leda graph edges weights
-		edge_array<int> edgeWeightArray(ledaDirectedGraph);
-
-		// Copy the edge array
-		ledaEdgeWeightArray = edgeWeightArray;
-
-		// Initialise a random seed
-		srand(time(NULL));
-
-		// Edge that will be used for the iteration
-		leda::edge tempEdge;
-
-		// For every edge in the undirected graph...
-		forall_edges(tempEdge, ledaDirectedGraph)
-		{
-			// Assign random integer values as costs between 10 and 10000
-			ledaEdgeWeightArray[tempEdge] = rand() % 100;
-		}
-
-		// Get the grid graph number of nodes
-		numberOfNodes = ledaDirectedGraph.number_of_nodes();
-
-		// Copy the leda directed graph to the boost directed graph
-		CopyLedaGraphToBoostGraph(boostDirectedGraph, ledaDirectedGraph, ledaEdgeWeightArray);
-
-		// Initialise a property map that contain the boost graph edges weights
-		EdgeWeightMap boostEdgeWeightMap = get(edge_weight, boostDirectedGraph);
 	}
 	else
 	{
@@ -254,47 +261,59 @@ int main()
 		if(graphOption == "random")
 		{
 			// Calculate the number of edges
-			int numberOfEdges = ceil(20 * numberOfNodes * log2(numberOfNodes));
+			int numberOfEdges = ceil(numberOfNodes * (numberOfNodes - 1));
 
 			// Generate a random directed graph
 			random_graph(ledaDirectedGraph, numberOfNodes, numberOfEdges, false, true, true);
 
 			// Make the graph cohesive
 			Make_Connected(ledaDirectedGraph);
-
-			// Intialise an edge array that will contain the leda graph edges weights
-			edge_array<int> edgeWeightArray(ledaDirectedGraph);
-
-			// Copy the edge array
-			ledaEdgeWeightArray = edgeWeightArray;
-
-			// Initialise a random seed
-			srand(time(NULL));
-
-			// Edge that will be used for the iteration
-			leda::edge tempEdge;
-
-			// For every edge in the undirected graph...
-			forall_edges(tempEdge, ledaDirectedGraph)
-			{
-				// Assign random integer values as costs between 10 and 10000
-				ledaEdgeWeightArray[tempEdge] = rand() % 100;
-			}
-
-			// Copy the leda directed graph to the boost directed graph
-			CopyLedaGraphToBoostGraph(boostDirectedGraph, ledaDirectedGraph, ledaEdgeWeightArray);
-
-			// Initialise a property map that contain the boost graph edges weights
-			EdgeWeightMap boostEdgeWeightMap = get(edge_weight, boostDirectedGraph);
 		}
 		else
 		{
-			cout << "Choose between grid or random." << endl;
+			// If the complete graph is selected...
+			if(graphOption == "complete")
+			{
+				// Create a complete graph
+				complete_graph(ledaDirectedGraph, numberOfNodes);
+			}
+			else
+			{
+				cout << "Choose between grid, complete or random." << endl;
 
-			// Exit if another option is selected
-			exit(0);
+				// Exit if another option is selected
+				exit(0);
+			}
 		}
 	}
+
+	// Intialise an edge array that will contain the leda graph edges weights
+	edge_array<int> edgeWeightArray(ledaDirectedGraph);
+
+	// Copy the edge array
+	ledaEdgeWeightArray = edgeWeightArray;
+
+	// Initialise a random seed
+	srand(time(NULL));
+
+	// Edge that will be used for the iteration
+	leda::edge iterationEdge;
+
+	// For every edge in the undirected graph...
+	forall_edges(iterationEdge, ledaDirectedGraph)
+	{
+		// Assign random integer values as costs between 10 and 10000
+		ledaEdgeWeightArray[iterationEdge] = (rand() % 100) + 1;
+	}
+
+	// Get the grid graph number of nodes
+	numberOfNodes = ledaDirectedGraph.number_of_nodes();
+
+	// Copy the leda directed graph to the boost directed graph
+	CopyLedaGraphToBoostGraph(boostDirectedGraph, ledaDirectedGraph, ledaEdgeWeightArray);
+
+	// Initialise a property map that contain the boost graph edges weights
+	EdgeWeightMap boostEdgeWeightMap = get(edge_weight, boostDirectedGraph);
 
 	// Choose a random node from the Leda directed graph
 	node startingRandomLedaNode = ledaDirectedGraph.choose_node();
@@ -310,12 +329,6 @@ int main()
 	
 	// Initialise a node array the will contain the last edge on a shortest path from the starting node to a node
 	node_array<leda::edge> ledaPredecessorNodeArray(ledaDirectedGraph);
-
-	// Initialise a node array the will contain the shortest path langth from the starting node to a node
-	node_array<int> ledaDistanceNodeArray(ledaDirectedGraph);
-
-	// Initialize a property map that contain the edges's weights
-	EdgeWeightMap boostEdgeWeightMap = get(edge_weight, boostDirectedGraph);
 	
 	#pragma endregion Initialization
 
@@ -325,16 +338,16 @@ int main()
 	float CPUTime = used_time();
 
 	// Execute user defined ALT function
-	bool targetVertexFound = ALT(boostDirectedGraph, startingRandomBoostVertex, targetRandomBoostVertex);
-
-	// If the target was found...
-	if(targetVertexFound)
-		cout << "Target found." << endl;
-	else
-		cout << "Target not found." << endl;
+	ALT(boostDirectedGraph, startingRandomBoostVertex, targetRandomBoostVertex);
 
 	// Print the user defined ALT function execution time
 	cout << "User defined ALT function execution time: " << used_time(CPUTime) << " seconds."<< endl;
+
+	// Execute leda defined shortest path function
+	COMPUTE_SHORTEST_PATH(ledaDirectedGraph, startingRandomLedaNode, targetRandomLedaNode, ledaPredecessorNodeArray);
+
+	// Print the leda defined shortest path function execution time
+	cout << "Leda defined shortest path function execution time: " << used_time(CPUTime) << " seconds."<< endl;
 
 	#pragma endregion Simulation
 
