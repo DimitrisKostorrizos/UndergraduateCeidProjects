@@ -1,4 +1,4 @@
-name = Ergasia_2
+name = TelikiErgasia
 src = $(wildcard *.cpp)
 obj = $(src:/c=.o)
 
