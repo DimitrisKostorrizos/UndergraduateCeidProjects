@@ -127,7 +127,7 @@ bool ALT(DirectedGraph& directedGraph, Vertex startingVertex, Vertex targetVerte
 		auto it = *min_element(vertexHeuristicCostMap.begin(), vertexHeuristicCostMap.end(), PairCompare());
 		
 		// Get the vertex from the iterator
-		Vertex currentVertex = it->first;
+		Vertex currentVertex = it.first;
 
 		// If the target node was reached...
 		if (currentVertex == targetVertex) 
