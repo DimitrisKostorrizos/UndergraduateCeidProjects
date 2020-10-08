@@ -12,9 +12,9 @@ using namespace boost;
 using namespace leda;
 
 // Define the boost edge weight property
-typedef property<edge_weight_t, int> EdgeWeightProperty;
+typedef property<edge_weight_t, double> EdgeWeightProperty;
 
-// Define the boost directed graph: std::vector, std::vector, directed, no vertex property, int edge property, no graph property, std::list
+// Define the boost directed graph: std::vector, std::vector, directed, no vertex property, double edge property, no graph property, std::list
 typedef adjacency_list<vecS, vecS, directedS, no_property, EdgeWeightProperty, no_property, listS> DirectedGraph;
 
 // Define the vertex class as vertex_desciptor
@@ -186,7 +186,7 @@ bool ALT(DirectedGraph& directedGraph, Vertex startingVertex, Vertex targetVerte
  * @param LedaGraph The leda directed graph
  * @param LedaEdgeWeightMap The edge array that contain the leda directed graph edges weights
 */
-void CopyLedaGraphToBoostGraph(DirectedGraph& BoostDirectedGraph, leda::graph& LedaGraph, edge_array<int>& LedaEdgeWeightMap)
+void CopyLedaGraphToBoostGraph(DirectedGraph& BoostDirectedGraph, leda::graph& LedaGraph, edge_array<double>& LedaEdgeWeightMap)
 {
 	// Create a new boost directed graph containing the smae number of nodes as the leda directed graph
 	DirectedGraph boostGraph(LedaGraph.number_of_nodes());
@@ -204,7 +204,7 @@ void CopyLedaGraphToBoostGraph(DirectedGraph& BoostDirectedGraph, leda::graph& L
 		node target = LedaGraph.target(iterationEdge);
 
 		// Get the weight of the edge
-		int currentEdgeWeight = LedaEdgeWeightMap[iterationEdge];
+		double currentEdgeWeight = LedaEdgeWeightMap[iterationEdge];
 
 		// Add the edge in the boost directed graph
 		add_edge(LedaGraph.index(source), LedaGraph.index(target), currentEdgeWeight, boostGraph);
@@ -226,7 +226,7 @@ int main()
 	leda::graph ledaDirectedGraph;
 
 	//Create an empty edge array
-	edge_array<int> ledaEdgeWeightArray;
+	edge_array<double> ledaEdgeWeightArray;
 	
 	// User graph option
 	std::string graphOption;
@@ -283,7 +283,7 @@ int main()
 	}
 
 	// Intialise an edge array that will contain the leda graph edges weights
-	edge_array<int> edgeWeightArray(ledaDirectedGraph);
+	edge_array<double> edgeWeightArray(ledaDirectedGraph);
 
 	// Copy the edge array
 	ledaEdgeWeightArray = edgeWeightArray;
@@ -326,7 +326,7 @@ int main()
 	node_array<leda::edge> ledaPredecessorNodeArray(ledaDirectedGraph);
 
 	// Initialise a node array the will contain the shortest path langth from the starting node to a node
-	node_array<int> ledaDistanceNodeArray(ledaDirectedGraph);
+	node_array<double> ledaDistanceNodeArray(ledaDirectedGraph);
 	
 	#pragma endregion Initialization
 
