@@ -346,13 +346,14 @@ int main()
 	// Print the user defined ALT function execution time
 	cout << "User defined ALT function execution time: " << used_time(CPUTime) << " seconds."<< endl;
 
+	// Execute leda defined shortest path function
 	SHORTEST_PATH_T(ledaDirectedGraph, startingRandomLedaNode, ledaEdgeWeightArray, ledaDistanceNodeArray, ledaPredecessorNodeArray);
 
-	// Execute leda defined shortest path function
+	// Execute leda defined compute shortest path function
 	COMPUTE_SHORTEST_PATH(ledaDirectedGraph, startingRandomLedaNode, targetRandomLedaNode, ledaPredecessorNodeArray);
 
-	// Print the leda defined shortest path function execution time
-	cout << "Leda defined shortest path function execution time: " << used_time(CPUTime) << " seconds."<< endl;
+	// Print the leda defined compute shortest path function execution time
+	cout << "Leda defined compute shortest path function execution time: " << used_time(CPUTime) << " seconds."<< endl;
 
 	#pragma endregion Simulation
 
