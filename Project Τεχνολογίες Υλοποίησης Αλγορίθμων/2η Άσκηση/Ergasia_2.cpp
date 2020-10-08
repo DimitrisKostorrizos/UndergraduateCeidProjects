@@ -4,9 +4,7 @@
 #include <boost/graph/adjacency_list.hpp>
 #include <boost/graph/random.hpp>
 #include <LEDA/graph/graph.h>
-
-//export LEDAROOT=/home/jim/Project/Leda/LEDA-6.3-free-fedora-core-8-64-g++-4.1.2; export LD_LIBRARY_PATH=$LEDAROOT
-//g++ Ergasia_2.cpp -o testcode -I$LEDAROOT/incl -L$LEDAROOT -lleda -lX11 -lm
+#include <LEDA/graph/shortest_path.h>
 
 using namespace std;
 using namespace boost;
@@ -29,9 +27,6 @@ typedef graph_traits<DirectedGraph>::edge_iterator EdgeIterator;
 
 // Define the edge iterator as edge_iterator
 typedef graph_traits<DirectedGraph>::vertex_iterator VertexIterator;
-
-// Define the edge iterator as edge_iterator
-typedef graph_traits<DirectedGraph>::out_edge_iterator OutEdgeIterator;
 
 // Define the edge weight map as a property map
 typedef property_map<DirectedGraph, edge_weight_t>::type EdgeWeightMap;
@@ -82,7 +77,7 @@ bool BellmanFord(DirectedGraph& directedGraph, Vertex startingVertex)
 	std::map<Vertex, int> nodeCostMap;
 
 	// Initialize the property map that contain the edges's weights
-	EdgeWeightMap edgeWeightMap = get(edge_weight, directedGraph);
+	EdgeWeightMap boostEdgeWeightMap = get(edge_weight, directedGraph);
 
 	// Initialise the boost vertex iterators
 	VertexIterator vertexIteratorBegin, vertexIteratorEnd;
@@ -103,10 +98,6 @@ bool BellmanFord(DirectedGraph& directedGraph, Vertex startingVertex)
 	// For every vertex in the boost directed graph...
 	for(tie(vertexIteratorBegin, vertexIteratorEnd) = vertices(directedGraph); vertexIteratorBegin != vertexIteratorEnd; vertexIteratorBegin++)
 	{
-		// Get the current vertex
-		Vertex currentNode = vertex(*vertexIteratorBegin, directedGraph);
-		
-		// TODO####################################
 		// For every out edge of the current vertex... 
 		for(tie(edgeIteratorBegin, edgeIteratorEnd) = edges(directedGraph); edgeIteratorBegin != edgeIteratorEnd; edgeIteratorBegin++)
 		{
@@ -117,9 +108,9 @@ bool BellmanFord(DirectedGraph& directedGraph, Vertex startingVertex)
 			int targetNodeCost = nodeCostMap[target(*edgeIteratorBegin, directedGraph)];
 
 			// Get the current edge's weight
-			int edgeWeight = edgeWeightMap[*edgeIteratorBegin];
+			int edgeWeight = boostEdgeWeightMap[*edgeIteratorBegin];
 			
-			// If the current edge verifies the triangular inequality and has been accessed already...
+			// If the current edge verifies the triangular inequality and has already been accessed...
 			if(sourceNodeCost != INT_MAX && (sourceNodeCost + edgeWeight < targetNodeCost))
 			{
 				nodeCostMap[target(*edgeIteratorBegin, directedGraph)] = sourceNodeCost + edgeWeight;
@@ -137,15 +128,11 @@ bool BellmanFord(DirectedGraph& directedGraph, Vertex startingVertex)
 		int targetNodeCost = nodeCostMap[target(*edgeIteratorBegin, directedGraph)];
 
 		// Get the current edge's weight
-		int edgeWeight = edgeWeightMap[*edgeIteratorBegin];
-
-		//cout << "{" << source(*edgeIteratorBegin, directedGraph) << " -> " << target(*edgeIteratorBegin,directedGraph) <<"}" << " Edge Cost:" << edgeWeight << endl;
+		int edgeWeight = boostEdgeWeightMap[*edgeIteratorBegin];
 
 		// If negative cycle is detected...
 		if(sourceNodeCost != INT_MAX && (sourceNodeCost + edgeWeight < targetNodeCost))
 		{
-			cout << "Graph contains negative weight cycle" << endl; 
-			
 			// Return false if a negative weight cycle is present in the directed graph
 			return false;
 		}
@@ -162,9 +149,12 @@ int main()
 
 	// Create an empty boost directed graph
 	DirectedGraph boostDirectedGraph;
-	
+
 	// Create an empty leda directed graph
 	leda::graph ledaDirectedGraph;
+
+	//Create an empty edge array
+	edge_array<int> ledaEdgeWeightArray;
 	
 	// User graph option
 	std::string graphOption;
@@ -177,39 +167,95 @@ int main()
 	// Read the graph type
 	cin >> graphOption;
 
+	cout << "Enter the number of nodes." << endl;
+
+	// Read the number of nodes
+	cin >> numberOfNodes;
+
 	// If the grid graph is selected...
 	if(graphOption == "grid")
 	{
-		cout << "Enter the number of nodes." << endl;
-
-		// Read the number of nodes
-		cin >> numberOfNodes;
-
 		// Create a grid graph
-		
-		
-		// Initialize a random seed
+		grid_graph(ledaDirectedGraph, numberOfNodes);
+
+		// Intialise an edge array that will contain the leda graph edges weights
+		edge_array<int> edgeWeightArray(ledaDirectedGraph);
+
+		// Copy the edge array
+		ledaEdgeWeightArray = edgeWeightArray;
+
+		// Initialise a random seed
 		srand(time(NULL));
 
+		// Edge that will be used for the iteration
+		leda::edge tempEdge;
+
 		// For every edge in the undirected graph...
-		// forall_edges(tempEdge, directedGraph)
-		// {
-		// 	// Assign random integer values as costs between 10 and 10000
-		// 	directedGraph.assign(tempEdge, (rand() % 10000) - 100);
-		// }
+		forall_edges(tempEdge, ledaDirectedGraph)
+		{
+			// Get the current edge source node index
+			int tempEdgeSourceNodeIndex = ledaDirectedGraph.index(ledaDirectedGraph.source(tempEdge));
+
+			// Get the current edge target node index
+			int tempEdgeTargetNodeIndex = ledaDirectedGraph.index(ledaDirectedGraph.target(tempEdge));
+
+			// Get the point representation of the edge's source node index
+			div_t tempEdgeSourceNodeIndexDivResult = div(tempEdgeSourceNodeIndex, numberOfNodes);
+
+			// Get the point representation of the edge's target node index
+			div_t tempEdgeTargetNodeIndexDivResult = div(tempEdgeTargetNodeIndex, numberOfNodes);
+
+			// Check if the edge is a vertical edge that belong in the third quarter
+			bool verticalEdgeThirdQuarterPresence = (tempEdgeSourceNodeIndexDivResult.quot >= (numberOfNodes/2)) && (tempEdgeSourceNodeIndexDivResult.rem <= (numberOfNodes/2)) && (tempEdgeTargetNodeIndexDivResult.quot > (numberOfNodes/2)) && (tempEdgeTargetNodeIndexDivResult.rem < (numberOfNodes/2));
+
+			// Check if the edge is a horizontal edge that belong in the third quarter
+			bool horizontalEdgeThirdQuarterPresence = (tempEdgeSourceNodeIndexDivResult.quot > (numberOfNodes/2)) && (tempEdgeSourceNodeIndexDivResult.rem < (numberOfNodes/2)) && (tempEdgeTargetNodeIndexDivResult.quot >= (numberOfNodes/2)) && (tempEdgeTargetNodeIndexDivResult.rem <= (numberOfNodes/2));
+
+			// If the edge belongs into the third quarter...
+			if(verticalEdgeThirdQuarterPresence || horizontalEdgeThirdQuarterPresence)
+			{
+				// If the current edge, was randomly chosen to reversed...
+				if((rand() % 2) == 0)
+				{
+					// Reverse the current edge
+					ledaDirectedGraph.rev_edge(tempEdge);
+				}
+				
+				// Check if the edge is the special horizontal edge
+				bool specialThirdQuarterHorizontalEdge = (tempEdgeSourceNodeIndexDivResult.quot == (numberOfNodes/2 + 1)) && (tempEdgeSourceNodeIndexDivResult.rem == (numberOfNodes/2 - 1)) && (tempEdgeTargetNodeIndexDivResult.quot == (numberOfNodes/2 + 1)) && (tempEdgeTargetNodeIndexDivResult.rem == (numberOfNodes/2));
+
+				// Check if the edge is the special vertical edge
+				bool specialThirdQuarterVerticalEdge = (tempEdgeSourceNodeIndexDivResult.quot == (numberOfNodes/2)) && (tempEdgeSourceNodeIndexDivResult.rem == (numberOfNodes/2 - 1)) && (tempEdgeTargetNodeIndexDivResult.quot == (numberOfNodes/2 + 1)) && (tempEdgeTargetNodeIndexDivResult.rem == (numberOfNodes/2 - 1));
+
+				// If the edge is either the special negative weight vertical edge or the special negative weight horizontal edge...
+				if(specialThirdQuarterVerticalEdge || specialThirdQuarterHorizontalEdge)
+				{
+					// Assign -100000 as weight to the current special edge
+					ledaEdgeWeightArray[tempEdge] = -100000;
+				}
+			}
+			else
+			{
+				// Assign random integer values as costs between 0 and 10000
+				ledaEdgeWeightArray[tempEdge] = (rand() % 10000);
+			}
+		}
+		// Get the grid graph number of nodes
+		numberOfNodes = ledaDirectedGraph.number_of_nodes();
+
+		// Copy the leda directed graph to the boost directed graph
+		CopyLedaGraphToBoostGraph(boostDirectedGraph, ledaDirectedGraph, ledaEdgeWeightArray);
+
+		// Initialise a property map that contain the boost graph edges weights
+		EdgeWeightMap boostEdgeWeightMap = get(edge_weight, boostDirectedGraph);
 	}
 	else
 	{
 		// If the random graph is selected...
 		if(graphOption == "random")
 		{
-			cout << "Enter the number of nodes." << endl;
-
-			// Read the number of nodes
-			cin >> numberOfNodes;
-
 			// Calculate the number of edges
-			int numberOfEdges = ceil(1 * numberOfNodes * log2(numberOfNodes));
+			int numberOfEdges = ceil(20 * numberOfNodes * log2(numberOfNodes));
 
 			// Generate a random directed graph
 			random_graph(ledaDirectedGraph, numberOfNodes, numberOfEdges, false, true, true);
@@ -219,6 +265,9 @@ int main()
 
 			// Intialise an edge array that will contain the leda graph edges weights
 			edge_array<int> edgeWeightArray(ledaDirectedGraph);
+
+			// Copy the edge array
+			ledaEdgeWeightArray = edgeWeightArray;
 
 			// Initialise a random seed
 			srand(time(NULL));
@@ -230,14 +279,14 @@ int main()
 			forall_edges(tempEdge, ledaDirectedGraph)
 			{
 				// Assign random integer values as costs between 10 and 10000
-				edgeWeightArray[tempEdge] = (rand() % 10100) - 100;
+				ledaEdgeWeightArray[tempEdge] = (rand() % 10100) - 100;
 			}
 
 			// Copy the leda directed graph to the boost directed graph
-			CopyLedaGraphToBoostGraph(boostDirectedGraph, ledaDirectedGraph, edgeWeightArray);
+			CopyLedaGraphToBoostGraph(boostDirectedGraph, ledaDirectedGraph, ledaEdgeWeightArray);
 
 			// Initialise a property map that contain the boost graph edges weights
-			EdgeWeightMap edgeWeightMap = get(edge_weight, boostDirectedGraph);
+			EdgeWeightMap boostEdgeWeightMap = get(edge_weight, boostDirectedGraph);
 		}
 		else
 		{
@@ -248,34 +297,72 @@ int main()
 		}
 	}
 
+	// Choose a random node from the Leda directed graph
+	node randomLedaNode = ledaDirectedGraph.choose_node();
+
+	// Get the index of the Boost directed graph vertex that correspond to the appropriate Leda random chosen node
+	Vertex randomBoostVertex = vertex(ledaDirectedGraph.index(randomLedaNode), boostDirectedGraph);
+	
+	// Initialise a node array the will contain the last edge on a shortest path from the starting node to a node
+	node_array<leda::edge> ledaPredecessorNodeArray(ledaDirectedGraph);
+
+	// Initialise a node array the will contain the shortest path langth from the starting node to a node
+	node_array<int> ledaDistanceNodeArray(ledaDirectedGraph);
+
+	// Initialize a property map that contain the edges's weights
+	EdgeWeightMap boostEdgeWeightMap = get(edge_weight, boostDirectedGraph);
+
+	// Initialize a vector that will contain the distance to each node and set the initial distance to INT_MAX
+	std::vector<int> boostDistanceVector(numberOfNodes,INT_MAX);
+
+	// Set the distance of the chosen vertex to 0
+	boostDistanceVector[randomBoostVertex] = 0;
+
+	// Initialize a vector that will contain the predeccesor of each node
+	std::vector<std::size_t> boostPredeccesorVector(numberOfNodes);
+
+	// For every vertex in the boost directed graph...
+	for(int index = 0; index < numberOfNodes; index++)
+	{
+		// Set the current vertex predeccesor to itself
+		boostPredeccesorVector[index] = index;
+	}
+	
 	#pragma endregion Initialization
 
 	#pragma region Simulation
 
-	// Number of nodes
-	int numberOfExecutions;
-
-	cout << "Enter the number of how many times you want the simulation to run." << endl; 
-
-	// Read the graph type
-	cin >> numberOfExecutions;
-
-	// Get the index of a random boost directed graph vertex
-	int randomBoostVertexIndex = rand() % ledaDirectedGraph.number_of_nodes();
-	
 	// Initialise the starting CPU time
 	float CPUTime = used_time();
 
-	// For 
-	for(int index = 0; index < numberOfExecutions; index++)
+	// Execute the user defined Bellman Ford algorithm for the boost directed graph using the random vertex
+	bool negativeWeightCircleNotFound = BellmanFord(boostDirectedGraph, randomBoostVertex);
+
+	// Print the user defined Bellman Ford function execution time
+	cout << "User defined Bellman Ford function execution time: " << used_time(CPUTime) << " seconds."<< endl;
+
+	// Execute the Leda Bellman Ford algorithm for the Leda directed graph using the random node and the defined arrays
+	negativeWeightCircleNotFound = BELLMAN_FORD(ledaDirectedGraph, randomLedaNode, ledaEdgeWeightArray, ledaDistanceNodeArray, ledaPredecessorNodeArray);
+
+	// Print the Leda Bellman Ford function execution time
+	cout << "Leda Bellman Ford function execution time: " << used_time(CPUTime) << " seconds."<< endl;
+
+	// If the directed graph doesn't contain a negative weight circle...
+	if(negativeWeightCircleNotFound)
 	{
-		// Execute the Bellman Ford algorithm for the boost directed graph using the random node
-		bool executionFlag = BellmanFord(boostDirectedGraph, vertex(randomBoostVertexIndex, boostDirectedGraph));
+		// Execute the Boost Bellman Ford algorithm for the boost directed graph using the defined maps
+		bellman_ford_shortest_paths(boostDirectedGraph, numberOfNodes, weight_map(boostEdgeWeightMap).distance_map(&boostDistanceVector[0]).distance_map(&boostPredeccesorVector[0]));
+
+		// Print the Boost Bellman Ford function execution time
+		cout << "Boost Bellman Ford function execution time: " << used_time(CPUTime) << " seconds."<< endl;
+
+		cout << "The directed graph doesn't contain a negative weight cycle." << endl; 
 	}
-	
-	// Print the user defined Kruscal execution time
-	cout << "User Defined Boost Bellman Ford funtion execution time: " << (used_time(CPUTime)/numberOfExecutions) << "seconds."<< endl;
-	
+	else
+	{
+		cout << "The directed graph contains a negative weight cycle." << endl;
+	}
+
 	#pragma endregion Simulation
 
 	// Return 0
