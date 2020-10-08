@@ -26,6 +26,7 @@ typedef graph_traits<DirectedGraph>::edge_descriptor Edge;
 // Define the edge iterator as edge_iterator
 typedef graph_traits<DirectedGraph>::edge_iterator EdgeIterator;
 
+// Define the out edge iterator as edge_iterator
 typedef graph_traits<DirectedGraph>::out_edge_iterator OutEdgeIterator;
 
 // Define the edge iterator as edge_iterator
