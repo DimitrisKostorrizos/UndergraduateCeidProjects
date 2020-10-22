@@ -1,2 +1,3 @@
 cd ../../elasticsearch-7.9.2\bin
 .\elasticsearch.bat
+.\C:/elasticsearch.bat
