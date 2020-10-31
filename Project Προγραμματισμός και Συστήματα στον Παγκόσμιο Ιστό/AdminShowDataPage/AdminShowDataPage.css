@@ -1,0 +1,766 @@
+.mediaViewInfo {
+	--web-view-name: AdminShowDataPage;
+	--web-view-id: AdminShowDataPage;
+	--web-scale-on-resize: true;
+	--web-enable-deep-linking: true;
+}
+:root {
+	--web-view-ids: AdminShowDataPage;
+}
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	border: none;
+}
+input[type=text]
+{
+	width: 100%;
+	padding: 12px 20px;
+	margin: 8px 0;
+	display: inline-block;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-sizing: border-box;
+}
+
+input[type=month]
+{
+	width: 100%;
+	padding: 12px 20px;
+	margin: 8px 0;
+	display: inline-block;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-sizing: border-box;
+}
+input[type=time]
+{
+	width: 100%;
+	padding: 12px 20px;
+	margin: 8px 0;
+	display: inline-block;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-sizing: border-box;
+}
+input[type=checkbox] {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 25px;
+	width: 25px;
+	background-color: #eee;
+}
+
+#AdminShowDataPage {
+	position: absolute;
+	width: 1366px;
+	height: 1437px;
+	background-color: rgba(255,255,255,1);
+	overflow: hidden;
+	--web-view-name: AdminShowDataPage;
+	--web-view-id: AdminShowDataPage;
+	--web-scale-on-resize: true;
+	--web-enable-deep-linking: true;
+}
+#Background {
+	opacity: 0.49;
+	position: absolute;
+	width: 1366px;
+	height: 1437px;
+	left: 0px;
+	top: 0px;
+	overflow: visible;
+}
+#BackgroundPicture {
+	opacity: 0.4;
+	position: absolute;
+	width: 1366px;
+	height: 1437px;
+	left: 0px;
+	top: 0px;
+	overflow: visible;
+}
+#ColorEffect_q {
+	opacity: 0.5;
+	fill: url(#ColorEffect_q);
+}
+.ColorEffect_q {
+	position: absolute;
+	overflow: visible;
+	width: 1366px;
+	height: 1437px;
+	left: 0px;
+	top: 0px;
+}
+#AdminTopMenuBar {
+	position: absolute;
+	width: 1365px;
+	height: 100px;
+	left: 0px;
+	top: 0px;
+	overflow: visible;
+}
+#TopMenu {
+	position: absolute;
+	width: 1365px;
+	height: 100px;
+	left: 0px;
+	top: 0px;
+	overflow: visible;
+}
+#TopMenu_t {
+	fill: rgba(0,168,150,1);
+	stroke: rgba(112,112,112,1);
+	stroke-width: 1px;
+	stroke-linejoin: miter;
+	stroke-linecap: butt;
+	stroke-miterlimit: 4;
+	shape-rendering: auto;
+}
+.TopMenu_t {
+	position: absolute;
+	overflow: visible;
+	width: 1365px;
+	height: 100px;
+	left: 0px;
+	top: 0px;
+}
+#DashboardTab {
+	position: absolute;
+	width: 344px;
+	height: 100px;
+	left: 0px;
+	top: 0px;
+	overflow: visible;
+}
+#TabArea {
+	fill: rgba(2,195,154,1);
+	stroke: rgba(112,112,112,1);
+	stroke-width: 1px;
+	stroke-linejoin: round;
+	stroke-linecap: butt;
+	stroke-miterlimit: 4;
+	shape-rendering: auto;
+}
+.TabArea {
+	position: absolute;
+	overflow: visible;
+	width: 344px;
+	height: 100px;
+	left: 0px;
+	top: 0px;
+}
+#Text {
+	left: 0px;
+	top: 14px;
+	position: absolute;
+	overflow: hidden;
+	width: 303px;
+	height: 66px;
+	text-align: center;
+	font-family: Calibri;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 50px;
+	color: rgba(5,102,141,1);
+}
+#ShowDataTab {
+	position: absolute;
+	width: 344px;
+	height: 100px;
+	left: 344px;
+	top: 0px;
+	overflow: visible;
+}
+#TabArea_y {
+	fill: rgba(2,195,154,1);
+	stroke: rgba(112,112,112,1);
+	stroke-width: 1px;
+	stroke-linejoin: round;
+	stroke-linecap: butt;
+	stroke-miterlimit: 4;
+	shape-rendering: auto;
+}
+.TabArea_y {
+	position: absolute;
+	overflow: visible;
+	width: 344px;
+	height: 100px;
+	left: 0px;
+	top: 0px;
+}
+#Text_z {
+	left: 0px;
+	top: 14px;
+	position: absolute;
+	overflow: hidden;
+	width: 303px;
+	height: 66px;
+	text-align: center;
+	font-family: Calibri;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 50px;
+	color: rgba(5,102,141,1);
+}
+#ClearDataTab {
+	position: absolute;
+	width: 345px;
+	height: 100px;
+	left: 688px;
+	top: 0px;
+	overflow: visible;
+}
+#TabArea_ {
+	fill: rgba(2,195,154,1);
+	stroke: rgba(112,112,112,1);
+	stroke-width: 1px;
+	stroke-linejoin: round;
+	stroke-linecap: butt;
+	stroke-miterlimit: 4;
+	shape-rendering: auto;
+}
+.TabArea_ {
+	position: absolute;
+	overflow: visible;
+	width: 345px;
+	height: 100px;
+	left: 0px;
+	top: 0px;
+}
+#Text_ {
+	left: 0px;
+	top: 14px;
+	position: absolute;
+	overflow: hidden;
+	width: 303px;
+	height: 66px;
+	text-align: center;
+	font-family: Calibri;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 50px;
+	color: rgba(5,102,141,1);
+}
+#StartingMonthInputContainer {
+	fill: rgba(255,255,255,1);
+	stroke: rgba(112,112,112,1);
+	stroke-width: 1px;
+	stroke-linejoin: miter;
+	stroke-linecap: butt;
+	stroke-miterlimit: 4;
+	shape-rendering: auto;
+}
+.StartingMonthInputContainer {
+	position: absolute;
+	overflow: visible;
+	width: 274px;
+	height: 56px;
+	left: 61px;
+	top: 164px;
+}
+#EndingMonthInputContainer {
+	fill: rgba(255,255,255,1);
+	stroke: rgba(112,112,112,1);
+	stroke-width: 1px;
+	stroke-linejoin: miter;
+	stroke-linecap: butt;
+	stroke-miterlimit: 4;
+	shape-rendering: auto;
+}
+.EndingMonthInputContainer {
+	position: absolute;
+	overflow: visible;
+	width: 274px;
+	height: 56px;
+	left: 451px;
+	top: 164px;
+}
+#StartingDayInputContainer {
+	fill: rgba(255,255,255,1);
+	stroke: rgba(112,112,112,1);
+	stroke-width: 1px;
+	stroke-linejoin: miter;
+	stroke-linecap: butt;
+	stroke-miterlimit: 4;
+	shape-rendering: auto;
+}
+.StartingDayInputContainer {
+	position: absolute;
+	overflow: visible;
+	width: 274px;
+	height: 56px;
+	left: 61px;
+	top: 285px;
+}
+#StartingHourInputContainer {
+	fill: rgba(255,255,255,1);
+	stroke: rgba(112,112,112,1);
+	stroke-width: 1px;
+	stroke-linejoin: miter;
+	stroke-linecap: butt;
+	stroke-miterlimit: 4;
+	shape-rendering: auto;
+}
+.StartingHourInputContainer {
+	position: absolute;
+	overflow: visible;
+	width: 274px;
+	height: 56px;
+	left: 61px;
+	top: 405px;
+}
+#EndingDayInputContainer {
+	fill: rgba(255,255,255,1);
+	stroke: rgba(112,112,112,1);
+	stroke-width: 1px;
+	stroke-linejoin: miter;
+	stroke-linecap: butt;
+	stroke-miterlimit: 4;
+	shape-rendering: auto;
+}
+.EndingDayInputContainer {
+	position: absolute;
+	overflow: visible;
+	width: 274px;
+	height: 56px;
+	left: 451px;
+	top: 285px;
+}
+#EndingHourInputContainer {
+	fill: rgba(255,255,255,1);
+	stroke: rgba(112,112,112,1);
+	stroke-width: 1px;
+	stroke-linejoin: miter;
+	stroke-linecap: butt;
+	stroke-miterlimit: 4;
+	shape-rendering: auto;
+}
+.EndingHourInputContainer {
+	position: absolute;
+	overflow: visible;
+	width: 274px;
+	height: 56px;
+	left: 451px;
+	top: 405px;
+}
+#_bc {
+	left: 362.5px;
+	top: 177.5px;
+	position: absolute;
+	overflow: hidden;
+	width: 60px;
+	height: 29px;
+	text-align: center;
+	font-family: Calibri;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 26px;
+	color: rgba(5,102,141,1);
+}
+#_ba {
+	left: 362.5px;
+	top: 297.5px;
+	position: absolute;
+	overflow: hidden;
+	width: 60px;
+	height: 29px;
+	text-align: center;
+	font-family: Calibri;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 26px;
+	color: rgba(5,102,141,1);
+}
+#_bb {
+	left: 362.5px;
+	top: 417.5px;
+	position: absolute;
+	overflow: hidden;
+	width: 60px;
+	height: 29px;
+	text-align: center;
+	font-family: Calibri;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 26px;
+	color: rgba(5,102,141,1);
+}
+#CheckBox {
+	fill: rgba(255,255,255,1);
+	stroke: rgba(112,112,112,1);
+	stroke-width: 1px;
+	stroke-linejoin: miter;
+	stroke-linecap: butt;
+	stroke-miterlimit: 4;
+	shape-rendering: auto;
+}
+.CheckBox {
+	position: absolute;
+	overflow: visible;
+	width: 34px;
+	height: 31px;
+	left: 942px;
+	top: 172px;
+}
+#CheckBox_bd {
+	fill: rgba(255,255,255,1);
+	stroke: rgba(112,112,112,1);
+	stroke-width: 1px;
+	stroke-linejoin: miter;
+	stroke-linecap: butt;
+	stroke-miterlimit: 4;
+	shape-rendering: auto;
+}
+.CheckBox_bd {
+	position: absolute;
+	overflow: visible;
+	width: 34px;
+	height: 31px;
+	left: 1138px;
+	top: 172px;
+}
+#CheckBox_be {
+	fill: rgba(255,255,255,1);
+	stroke: rgba(112,112,112,1);
+	stroke-width: 1px;
+	stroke-linejoin: miter;
+	stroke-linecap: butt;
+	stroke-miterlimit: 4;
+	shape-rendering: auto;
+}
+.CheckBox_be {
+	position: absolute;
+	overflow: visible;
+	width: 34px;
+	height: 31px;
+	left: 1139px;
+	top: 309px;
+}
+#CheckBox_bf {
+	fill: rgba(255,255,255,1);
+	stroke: rgba(112,112,112,1);
+	stroke-width: 1px;
+	stroke-linejoin: miter;
+	stroke-linecap: butt;
+	stroke-miterlimit: 4;
+	shape-rendering: auto;
+}
+.CheckBox_bf {
+	position: absolute;
+	overflow: visible;
+	width: 34px;
+	height: 31px;
+	left: 1138px;
+	top: 412px;
+}
+#CheckBox_bg {
+	fill: rgba(255,255,255,1);
+	stroke: rgba(112,112,112,1);
+	stroke-width: 1px;
+	stroke-linejoin: miter;
+	stroke-linecap: butt;
+	stroke-miterlimit: 4;
+	shape-rendering: auto;
+}
+.CheckBox_bg {
+	position: absolute;
+	overflow: visible;
+	width: 34px;
+	height: 31px;
+	left: 1301px;
+	top: 311px;
+}
+#CheckBox_bh {
+	fill: rgba(255,255,255,1);
+	stroke: rgba(112,112,112,1);
+	stroke-width: 1px;
+	stroke-linejoin: miter;
+	stroke-linecap: butt;
+	stroke-miterlimit: 4;
+	shape-rendering: auto;
+}
+.CheckBox_bh {
+	position: absolute;
+	overflow: visible;
+	width: 34px;
+	height: 31px;
+	left: 1301px;
+	top: 164px;
+}
+#CheckBox_bi {
+	fill: rgba(255,255,255,1);
+	stroke: rgba(112,112,112,1);
+	stroke-width: 1px;
+	stroke-linejoin: miter;
+	stroke-linecap: butt;
+	stroke-miterlimit: 4;
+	shape-rendering: auto;
+}
+.CheckBox_bi {
+	position: absolute;
+	overflow: visible;
+	width: 34px;
+	height: 31px;
+	left: 942px;
+	top: 412px;
+}
+#CheckBox_bj {
+	fill: rgba(255,255,255,1);
+	stroke: rgba(112,112,112,1);
+	stroke-width: 1px;
+	stroke-linejoin: miter;
+	stroke-linecap: butt;
+	stroke-miterlimit: 4;
+	shape-rendering: auto;
+}
+.CheckBox_bj {
+	position: absolute;
+	overflow: visible;
+	width: 34px;
+	height: 31px;
+	left: 942px;
+	top: 309px;
+}
+#IconContainer {
+	position: absolute;
+	width: 91px;
+	height: 58px;
+	left: 821px;
+	top: 162px;
+	overflow: visible;
+}
+#Mask {
+	position: absolute;
+	width: 91px;
+	height: 58px;
+	left: 0px;
+	top: 0px;
+	overflow: visible;
+}
+#IconContainer_bm {
+	position: absolute;
+	width: 100px;
+	height: 66px;
+	left: 821px;
+	top: 278.947px;
+	overflow: visible;
+}
+#Mask_bn {
+	position: absolute;
+	width: 100px;
+	height: 66px;
+	left: 0px;
+	top: 0px;
+	overflow: visible;
+}
+#IconContainer_bo {
+	position: absolute;
+	width: 100px;
+	height: 59px;
+	left: 817px;
+	top: 401px;
+	overflow: visible;
+}
+#Mask_bp {
+	position: absolute;
+	width: 100px;
+	height: 59px;
+	left: 0px;
+	top: 0px;
+	overflow: visible;
+}
+#IconContainer_bq {
+	position: absolute;
+	width: 100px;
+	height: 66px;
+	left: 1008px;
+	top: 154px;
+	overflow: visible;
+}
+#Mask_br {
+	position: absolute;
+	width: 100px;
+	height: 66px;
+	left: 0px;
+	top: 0px;
+	overflow: visible;
+}
+#IconContainer_bs {
+	position: absolute;
+	width: 100px;
+	height: 66px;
+	left: 1009px;
+	top: 274px;
+	overflow: visible;
+}
+#Mask_bt {
+	position: absolute;
+	width: 100px;
+	height: 66px;
+	left: 0px;
+	top: 0px;
+	overflow: visible;
+}
+#IconContainer_bu {
+	position: absolute;
+	width: 100px;
+	height: 66px;
+	left: 1011px;
+	top: 394px;
+	overflow: visible;
+}
+#Mask_bv {
+	position: absolute;
+	width: 100px;
+	height: 66px;
+	left: 0px;
+	top: 0px;
+	overflow: visible;
+}
+#IconContainer_bw {
+	position: absolute;
+	width: 100px;
+	height: 66px;
+	left: 1204px;
+	top: 154px;
+	overflow: visible;
+}
+#Mask_bx {
+	position: absolute;
+	width: 100px;
+	height: 66px;
+	left: 0px;
+	top: 0px;
+	overflow: visible;
+}
+#IconContainer_by {
+	position: absolute;
+	width: 100px;
+	height: 66px;
+	left: 1201px;
+	top: 274px;
+	overflow: visible;
+}
+#Mask_bz {
+	position: absolute;
+	width: 100px;
+	height: 66px;
+	left: 0px;
+	top: 0px;
+	overflow: visible;
+}
+#HeatmapContainer {
+	fill: rgba(255,255,255,1);
+	stroke: rgba(112,112,112,1);
+	stroke-width: 1px;
+	stroke-linejoin: miter;
+	stroke-linecap: butt;
+	stroke-miterlimit: 4;
+	shape-rendering: auto;
+}
+.HeatmapContainer {
+	position: absolute;
+	overflow: visible;
+	width: 955px;
+	height: 671px;
+	left: 198px;
+	top: 650px;
+}
+#SearchButton {
+	position: absolute;
+	width: 215px;
+	height: 51px;
+	left: 835px;
+	top: 535px;
+	overflow: visible;
+}
+#TextBlock {
+	fill: rgba(2,195,154,1);
+	stroke: rgba(2,128,144,1);
+	stroke-width: 1px;
+	stroke-linejoin: miter;
+	stroke-linecap: butt;
+	stroke-miterlimit: 4;
+	shape-rendering: auto;
+}
+.TextBlock {
+	position: absolute;
+	overflow: visible;
+	width: 215px;
+	height: 51px;
+	left: 0px;
+	top: 0px;
+}
+#Text_b {
+	left: 26px;
+	top: 11px;
+	position: absolute;
+	overflow: hidden;
+	width: 165px;
+	height: 30px;
+	text-align: center;
+	font-family: Calibri;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 26px;
+	color: rgba(5,102,141,1);
+}
+#ExportButton {
+	position: absolute;
+	width: 215px;
+	height: 51px;
+	left: 285px;
+	top: 535px;
+	overflow: visible;
+}
+#TextBlock_b {
+	fill: rgba(2,195,154,1);
+	stroke: rgba(2,128,144,1);
+	stroke-width: 1px;
+	stroke-linejoin: miter;
+	stroke-linecap: butt;
+	stroke-miterlimit: 4;
+	shape-rendering: auto;
+}
+.TextBlock_b {
+	position: absolute;
+	overflow: visible;
+	width: 215px;
+	height: 51px;
+	left: 0px;
+	top: 0px;
+}
+#Text_ca {
+	left: 26px;
+	top: 11px;
+	position: absolute;
+	overflow: hidden;
+	width: 165px;
+	height: 30px;
+	text-align: center;
+	font-family: Calibri;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 26px;
+	color: rgba(5,102,141,1);
+}
+#RadioInputContainer {
+	fill: rgba(255,255,255,1);
+	stroke: rgba(112,112,112,1);
+	stroke-width: 1px;
+	stroke-linejoin: miter;
+	stroke-linecap: butt;
+	stroke-miterlimit: 4;
+	shape-rendering: auto;
+}
+.RadioInputContainer {
+	position: absolute;
+	overflow: visible;
+	width: 130px;
+	height: 129px;
+	left: 35px;
+	top: 521px;
+}
