@@ -52,4 +52,29 @@
 	</xsd:simpleType>
 	
 	<xsd:element name="Event" type="eventType"/>
+	
+	<xsd:complexType name="lessonType">
+		<xsd:complexContent>
+			<xsd:extension base="eventType">
+				<xsd:sequence>
+					<xsd:element name="Professor" type="xsd:string"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="seminarType">
+		<xsd:complexContent>
+			<xsd:restriction base="eventType">
+				<xsd:sequence>
+					<xsd:element name="Title" type="xsd:string"/>
+					<xsd:element name="Lecture" type="lectureType" maxOccurs="1"/>
+				</xsd:sequence>
+			</xsd:restriction>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:element name="Lesson" substitutionGroup="Event" type="lessonType"/>
+	
+	<xsd:element name="Seminar" substitutionGroup="Event" type="seminarType"/>
 </xsd:schema>
