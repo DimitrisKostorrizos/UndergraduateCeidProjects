@@ -1,0 +1,355 @@
+.mediaViewInfo {
+	--web-view-name: AdminClearDatabasePage;
+	--web-view-id: AdminClearDatabasePage;
+	--web-scale-on-resize: true;
+	--web-enable-deep-linking: true;
+}
+:root {
+	--web-view-ids: AdminClearDatabasePage;
+}
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	border: none;
+}
+input[type=text]
+{
+	width: 100%;
+	padding: 12px 20px;
+	margin: 8px 0;
+	display: inline-block;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-sizing: border-box;
+}
+
+#AdminClearDatabasePage {
+	position: absolute;
+	width: 1366px;
+	height: 1080px;
+	background-color: rgba(255,255,255,1);
+	overflow: hidden;
+	--web-view-name: AdminClearDatabasePage;
+	--web-view-id: AdminClearDatabasePage;
+	--web-scale-on-resize: true;
+	--web-enable-deep-linking: true;
+}
+#Background {
+	opacity: 0.49;
+	position: absolute;
+	width: 1366px;
+	height: 1080px;
+	left: 0px;
+	top: 0px;
+	overflow: visible;
+}
+#BackgroundPicture {
+	opacity: 0.4;
+	position: absolute;
+	width: 1366px;
+	height: 1080px;
+	left: 0px;
+	top: 0px;
+	overflow: visible;
+}
+#ColorEffect_q {
+	opacity: 0.5;
+	fill: url(#ColorEffect_q);
+}
+.ColorEffect_q {
+	position: absolute;
+	overflow: visible;
+	width: 1366px;
+	height: 1080px;
+	left: 0px;
+	top: 0px;
+}
+#InfoContainer {
+	position: absolute;
+	width: 1062.5px;
+	height: 578.5px;
+	left: 152px;
+	top: 250.5px;
+	overflow: visible;
+}
+#Container {
+	opacity: 0;
+	fill: rgba(0,168,150,1);
+}
+.Container {
+	position: absolute;
+	overflow: visible;
+	width: 1062px;
+	height: 578px;
+	left: 0px;
+	top: 0.5px;
+}
+#Button {
+	position: absolute;
+	width: 446px;
+	height: 100px;
+	left: 308px;
+	top: 418.5px;
+	overflow: visible;
+}
+#TextBlock {
+	fill: rgba(2,195,154,1);
+	stroke: rgba(2,128,144,1);
+	stroke-width: 1px;
+	stroke-linejoin: miter;
+	stroke-linecap: butt;
+	stroke-miterlimit: 4;
+	shape-rendering: auto;
+}
+.TextBlock {
+	position: absolute;
+	overflow: visible;
+	width: 446px;
+	height: 100px;
+	left: 0px;
+	top: 0px;
+}
+#Text {
+	left: 66px;
+	top: 17px;
+	position: absolute;
+	overflow: visible;
+	width: 315px;
+	height: 66px;
+	text-align: center;
+	font-family: Calibri;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 50px;
+	color: rgba(5,102,141,1);
+}
+#InfoText {
+	position: absolute;
+	width: 1062.5px;
+	height: 212.65px;
+	left: 0px;
+	top: 0px;
+	overflow: visible;
+}
+#TextContainer {
+	opacity: 0.3;
+	fill: rgba(2,195,154,1);
+	stroke: rgba(2,128,144,1);
+	stroke-width: 1px;
+	stroke-linejoin: miter;
+	stroke-linecap: butt;
+	stroke-miterlimit: 4;
+	shape-rendering: auto;
+}
+.TextContainer {
+	position: absolute;
+	overflow: visible;
+	width: 1062px;
+	height: 212px;
+	left: 0px;
+	top: 0.5px;
+}
+#TextArea {
+	left: 0.5px;
+	top: 0px;
+	position: absolute;
+	overflow: visible;
+	width: 1063px;
+	height: 212.650390625px;
+	text-align: left;
+	font-family: Calibri;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 50px;
+	color: rgba(2,128,144,1);
+}
+#RoundedTextBlock {
+	position: absolute;
+	width: 520px;
+	height: 100px;
+	left: 271px;
+	top: 270.5px;
+	overflow: visible;
+}
+#DeleteCodeInput {
+	fill: rgba(255,255,255,1);
+	stroke: rgba(2,128,144,1);
+	stroke-width: 1px;
+	stroke-linejoin: miter;
+	stroke-linecap: butt;
+	stroke-miterlimit: 4;
+	shape-rendering: auto;
+}
+.DeleteCodeInput {
+	position: absolute;
+	overflow: visible;
+	width: 520px;
+	height: 100px;
+	left: 0px;
+	top: 0px;
+}
+#DeleteCode {
+	left: 298.5px;
+	top: 159px;
+	position: absolute;
+	overflow: hidden;
+	width: 466px;
+	height: 52px;
+	text-align: center;
+	font-family: Calibri;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 26px;
+	color: rgba(0,0,0,1);
+}
+#AdminTopMenuBar {
+	position: absolute;
+	width: 1365px;
+	height: 100px;
+	left: 1px;
+	top: 0px;
+	overflow: visible;
+}
+#TopMenu {
+	position: absolute;
+	width: 1365px;
+	height: 100px;
+	left: 0px;
+	top: 0px;
+	overflow: visible;
+}
+#TopMenu_ {
+	fill: rgba(0,168,150,1);
+	stroke: rgba(112,112,112,1);
+	stroke-width: 1px;
+	stroke-linejoin: miter;
+	stroke-linecap: butt;
+	stroke-miterlimit: 4;
+	shape-rendering: auto;
+}
+.TopMenu_ {
+	position: absolute;
+	overflow: visible;
+	width: 1365px;
+	height: 100px;
+	left: 0px;
+	top: 0px;
+}
+#DashboardTab {
+	position: absolute;
+	width: 344px;
+	height: 100px;
+	left: 0px;
+	top: 0px;
+	overflow: visible;
+}
+#TabArea {
+	fill: rgba(2,195,154,1);
+	stroke: rgba(112,112,112,1);
+	stroke-width: 1px;
+	stroke-linejoin: round;
+	stroke-linecap: butt;
+	stroke-miterlimit: 4;
+	shape-rendering: auto;
+}
+.TabArea {
+	position: absolute;
+	overflow: visible;
+	width: 344px;
+	height: 100px;
+	left: 0px;
+	top: 0px;
+}
+#Text_ {
+	left: 0px;
+	top: 14px;
+	position: absolute;
+	overflow: hidden;
+	width: 303px;
+	height: 66px;
+	text-align: center;
+	font-family: Calibri;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 50px;
+	color: rgba(5,102,141,1);
+}
+#ShowDataTab {
+	position: absolute;
+	width: 344px;
+	height: 100px;
+	left: 344px;
+	top: 0px;
+	overflow: visible;
+}
+#TabArea_ {
+	fill: rgba(2,195,154,1);
+	stroke: rgba(112,112,112,1);
+	stroke-width: 1px;
+	stroke-linejoin: round;
+	stroke-linecap: butt;
+	stroke-miterlimit: 4;
+	shape-rendering: auto;
+}
+.TabArea_ {
+	position: absolute;
+	overflow: visible;
+	width: 344px;
+	height: 100px;
+	left: 0px;
+	top: 0px;
+}
+#Text_ba {
+	left: 0px;
+	top: 14px;
+	position: absolute;
+	overflow: hidden;
+	width: 303px;
+	height: 66px;
+	text-align: center;
+	font-family: Calibri;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 50px;
+	color: rgba(5,102,141,1);
+}
+#ClearDataTab {
+	position: absolute;
+	width: 345px;
+	height: 100px;
+	left: 688px;
+	top: 0px;
+	overflow: visible;
+}
+#TabArea_bc {
+	fill: rgba(2,195,154,1);
+	stroke: rgba(112,112,112,1);
+	stroke-width: 1px;
+	stroke-linejoin: round;
+	stroke-linecap: butt;
+	stroke-miterlimit: 4;
+	shape-rendering: auto;
+}
+.TabArea_bc {
+	position: absolute;
+	overflow: visible;
+	width: 345px;
+	height: 100px;
+	left: 0px;
+	top: 0px;
+}
+#Text_bd {
+	left: 0px;
+	top: 14px;
+	position: absolute;
+	overflow: hidden;
+	width: 303px;
+	height: 66px;
+	text-align: center;
+	font-family: Calibri;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 50px;
+	color: rgba(5,102,141,1);
+}
