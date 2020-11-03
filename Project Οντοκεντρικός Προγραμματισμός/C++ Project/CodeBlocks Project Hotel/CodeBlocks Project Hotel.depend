@@ -1,0 +1,155 @@
+# depslib dependency file v1.0
+1496595004 source:c:\users\homi\desktop\codeblocks project hotel\main.cpp
+	<iostream>
+	<cstdlib>
+	<iomanip>
+	<time.h>
+	<Booking.h>
+	<Hotel.h>
+	<Room.h>
+	<RoomTypeA.h>
+	<RoomTypeB.h>
+	<RoomTypeC.h>
+	<RoomTypeD.h>
+	<RoomTypeE.h>
+
+1496594055 c:\users\homi\desktop\codeblocks project hotel\include\booking.h
+	<iostream>
+	<string>
+
+1496594359 c:\users\homi\desktop\codeblocks project hotel\include\hotel.h
+	<iostream>
+	<string>
+	<vector>
+	<Room.h>
+	<RoomTypeC.h>
+	<RoomTypeD.h>
+	<RoomTypeE.h>
+	<Booking.h>
+
+1496594055 c:\users\homi\desktop\codeblocks project hotel\include\room.h
+
+1496594546 c:\users\homi\desktop\codeblocks project hotel\include\roomtypec.h
+	<Room.h>
+
+1496594546 c:\users\homi\desktop\codeblocks project hotel\include\roomtyped.h
+	<Room.h>
+	<Booking.h>
+
+1496594578 c:\users\homi\desktop\codeblocks project hotel\include\roomtypee.h
+	<RoomTypeC.h>
+
+1496594379 c:\users\homi\desktop\codeblocks project hotel\include\roomtypea.h
+	<Room.h>
+
+1496594578 c:\users\homi\desktop\codeblocks project hotel\include\roomtypeb.h
+	<iostream>
+	<RoomTypeA.h>
+
+1496594261 source:c:\users\homi\desktop\codeblocks project hotel\src\booking.cpp
+	<Booking.h>
+
+1496595215 source:c:\users\homi\desktop\codeblocks project hotel\src\hotel.cpp
+	<Hotel.h>
+	<vector>
+	<algorithm>
+
+1496594359 source:c:\users\homi\desktop\codeblocks project hotel\src\room.cpp
+	<Room.h>
+	<Booking.h>
+
+1496594379 source:c:\users\homi\desktop\codeblocks project hotel\src\roomtypea.cpp
+	<RoomTypeA.h>
+
+1496594433 source:c:\users\homi\desktop\codeblocks project hotel\src\roomtypeb.cpp
+	<RoomTypeB.h>
+
+1496594433 source:c:\users\homi\desktop\codeblocks project hotel\src\roomtypec.cpp
+	<RoomTypeC.h>
+	<Booking.h>
+
+1496594963 source:c:\users\homi\desktop\codeblocks project hotel\src\roomtyped.cpp
+	<RoomTypeD.h>
+	<iostream>
+
+1496594433 source:c:\users\homi\desktop\codeblocks project hotel\src\roomtypee.cpp
+	<RoomTypeE.h>
+	<Booking.h>
+
+1496595004 source:c:\users\jimak\desktop\codeblocks project hotel\main.cpp
+	<iostream>
+	<cstdlib>
+	<iomanip>
+	<time.h>
+	<Booking.h>
+	<Hotel.h>
+	<Room.h>
+	<RoomTypeA.h>
+	<RoomTypeB.h>
+	<RoomTypeC.h>
+	<RoomTypeD.h>
+	<RoomTypeE.h>
+
+1496594055 c:\users\jimak\desktop\codeblocks project hotel\include\booking.h
+	<iostream>
+	<string>
+
+1496594359 c:\users\jimak\desktop\codeblocks project hotel\include\hotel.h
+	<iostream>
+	<string>
+	<vector>
+	<Room.h>
+	<RoomTypeC.h>
+	<RoomTypeD.h>
+	<RoomTypeE.h>
+	<Booking.h>
+
+1496597624 c:\users\jimak\desktop\codeblocks project hotel\include\room.h
+
+1496594546 c:\users\jimak\desktop\codeblocks project hotel\include\roomtypec.h
+	<Room.h>
+
+1496594546 c:\users\jimak\desktop\codeblocks project hotel\include\roomtyped.h
+	<Room.h>
+	<Booking.h>
+
+1496594578 c:\users\jimak\desktop\codeblocks project hotel\include\roomtypee.h
+	<RoomTypeC.h>
+
+1496594379 c:\users\jimak\desktop\codeblocks project hotel\include\roomtypea.h
+	<Room.h>
+
+1496594578 c:\users\jimak\desktop\codeblocks project hotel\include\roomtypeb.h
+	<iostream>
+	<RoomTypeA.h>
+
+1496594261 source:c:\users\jimak\desktop\codeblocks project hotel\src\booking.cpp
+	<Booking.h>
+
+1496595215 source:c:\users\jimak\desktop\codeblocks project hotel\src\hotel.cpp
+	<Hotel.h>
+	<vector>
+	<algorithm>
+
+1496594359 source:c:\users\jimak\desktop\codeblocks project hotel\src\room.cpp
+	<Room.h>
+	<Booking.h>
+
+1496594379 source:c:\users\jimak\desktop\codeblocks project hotel\src\roomtypea.cpp
+	<RoomTypeA.h>
+
+1496594433 source:c:\users\jimak\desktop\codeblocks project hotel\src\roomtypeb.cpp
+	<RoomTypeB.h>
+
+1496594433 source:c:\users\jimak\desktop\codeblocks project hotel\src\roomtypec.cpp
+	<RoomTypeC.h>
+	<Booking.h>
+
+1496594963 source:c:\users\jimak\desktop\codeblocks project hotel\src\roomtyped.cpp
+	<RoomTypeD.h>
+	<iostream>
+
+1496594433 source:c:\users\jimak\desktop\codeblocks project hotel\src\roomtypee.cpp
+	<RoomTypeE.h>
+	<Booking.h>
+
