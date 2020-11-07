@@ -1,0 +1,9 @@
+#BlueJ class context
+comment0.target=DivideByZeroException
+comment1.params=
+comment1.target=DivideByZeroException()
+comment2.params=msg
+comment2.target=DivideByZeroException(java.lang.String)
+comment3.params=
+comment3.target=java.lang.String\ toString()
+numComments=4
