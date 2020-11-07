@@ -1,0 +1,13 @@
+#BlueJ class context
+comment0.target=IO_Tester
+comment1.params=
+comment1.target=int\ readInt()
+comment2.params=
+comment2.target=float\ readFloat()
+comment3.params=
+comment3.target=java.lang.String\ readString()
+comment4.params=
+comment4.target=boolean\ readBoolean()
+comment5.params=args
+comment5.target=void\ main(java.lang.String[])
+numComments=6
