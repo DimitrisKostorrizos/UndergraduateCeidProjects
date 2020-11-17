@@ -1,0 +1,10 @@
+#BlueJ class context
+comment0.params=
+comment0.target=Window()
+comment1.params=x
+comment1.target=Window(int)
+comment2.params=
+comment2.target=int\ getSize()
+comment3.params=args
+comment3.target=void\ main(java.lang.String[])
+numComments=4
