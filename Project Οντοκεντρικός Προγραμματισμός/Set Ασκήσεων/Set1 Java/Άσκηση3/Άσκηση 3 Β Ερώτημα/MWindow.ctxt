@@ -1,0 +1,16 @@
+#BlueJ class context
+comment0.params=message
+comment0.target=MWindow(java.lang.String)
+comment1.params=size\ message
+comment1.target=MWindow(int,\ java.lang.String)
+comment2.params=y
+comment2.target=void\ setSize1(int)
+comment3.params=z
+comment3.target=void\ setSize2(int)
+comment4.params=
+comment4.target=void\ printSize()
+comment5.params=
+comment5.target=void\ printSize1()
+comment6.params=
+comment6.target=void\ printSize2()
+numComments=7
