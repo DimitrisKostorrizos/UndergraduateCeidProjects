@@ -1,0 +1,9 @@
+#BlueJ class context
+comment0.target=RoomTypeB
+comment1.params=aaa
+comment1.target=void\ setDiscountPerDay(int)
+comment2.params=
+comment2.target=double\ getPriceOfRoom()
+comment3.params=bookingID
+comment3.target=boolean\ cancelBooking(int)
+numComments=4
