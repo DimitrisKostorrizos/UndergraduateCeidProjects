@@ -1,0 +1,25 @@
+#BlueJ class context
+comment0.target=Room
+comment1.params=
+comment1.target=void\ setRoomID()
+comment10.params=bookingID
+comment10.target=boolean\ cancelBooking(int)
+comment11.params=
+comment11.target=double\ checkFullness()
+comment2.params=maxPeoplee
+comment2.target=void\ setMaxPeople(int)
+comment3.params=pricePerPersonn
+comment3.target=void\ setPricePerPerson(int)
+comment4.params=
+comment4.target=double\ getPricePerPerson()
+comment5.params=
+comment5.target=int\ getMaxPeople()
+comment6.params=
+comment6.target=int\ getRoomID()
+comment7.params=
+comment7.target=Room()
+comment8.params=a
+comment8.target=boolean\ addBooking(Booking)
+comment9.params=
+comment9.target=double\ getPriceOfRoom()
+numComments=12
