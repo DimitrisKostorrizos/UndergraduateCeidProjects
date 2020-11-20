@@ -1,0 +1,7 @@
+#BlueJ class context
+comment0.target=RunTime
+comment1.params=cancelationChan
+comment1.target=void\ setCancelationChance(int)
+comment2.params=args
+comment2.target=void\ main(java.lang.String[])
+numComments=3
