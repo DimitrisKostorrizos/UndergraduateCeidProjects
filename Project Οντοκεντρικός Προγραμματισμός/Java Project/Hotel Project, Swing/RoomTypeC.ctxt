@@ -1,0 +1,13 @@
+#BlueJ class context
+comment0.target=RoomTypeC
+comment1.params=
+comment1.target=int\ getMinDays()
+comment2.params=
+comment2.target=int\ getMinPeople()
+comment3.params=ab
+comment3.target=void\ setMinDays(int)
+comment4.params=abbb
+comment4.target=void\ setMinPeople(int)
+comment5.params=a
+comment5.target=boolean\ addBooking(Booking)
+numComments=6
