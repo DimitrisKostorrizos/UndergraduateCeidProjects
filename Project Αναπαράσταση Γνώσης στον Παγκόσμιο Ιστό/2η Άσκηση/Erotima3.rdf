@@ -1,0 +1,3 @@
+<rdf:Description rdf:about="http://mybooks/novel">
+<rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+</rdf:Description>
