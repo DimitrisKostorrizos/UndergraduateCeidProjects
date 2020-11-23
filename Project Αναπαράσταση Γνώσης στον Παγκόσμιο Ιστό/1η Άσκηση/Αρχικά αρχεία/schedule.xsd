@@ -1,0 +1,27 @@
+<?xml version="1.0"?> 
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                      targetNamespace="schedule"
+                      xmlns="schedule"
+                      elementFormDefault="qualified">
+    <xsd:element name="Schedule">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="Event"  maxOccurs="unbounded">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="Title" type="xsd:string"/>
+                            <xsd:element name="Lecture">
+							    <xsd:complexType>
+									<xsd:sequence>
+										<xsd:element name="Day" type="xsd:string"/>
+										<xsd:element name="Time" type="xsd:string"/>
+									</xsd:sequence>
+								</xsd:complexType>
+							</xsd:element>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+</xsd:schema>
