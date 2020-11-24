@@ -1,36 +1,141 @@
+<?xml version="1.0"?>
 <rdf:RDF
 xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+xmlns:uni="http://www.mydomain.org/uni-ns/">
 
-<rdf:Description rdf:about="Person">
+<rdf:Description rdf:about="http://www.mydomain.org/uni-ns/Person">
 	<rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
 </rdf:Description>
 
-<rdf:Description rdf:about="Student">
+<rdf:Description rdf:about="http://www.mydomain.org/uni-ns/Student">
 	<rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
-	<rdfs:subClassOf rdf:resource="Person"/>
+	<rdfs:subClassOf rdf:resource="http://www.mydomain.org/uni-ns/Person"/>
 </rdf:Description>
 
-<rdf:Description rdf:about="Professor">
+<rdf:Description rdf:about="http://www.mydomain.org/uni-ns/Professor">
 	<rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
-	<rdfs:subClassOf rdf:resource="Person"/>
+	<rdfs:subClassOf rdf:resource="http://www.mydomain.org/uni-ns/Person"/>
 </rdf:Description>
 
-<rdf:Description rdf:about="Department">
-	<rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
-</rdf:Description>
-
-<rdf:Description rdf:about="Lesson">
+<rdf:Description rdf:about="http://www.mydomain.org/uni-ns/Department">
 	<rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
 </rdf:Description>
 
-<rdf:Description rdf:about="Classroom">
+<rdf:Description rdf:about="http://www.mydomain.org/uni-ns/Lesson">
 	<rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
 </rdf:Description>
 
-<rdf:Property rdf:about="has_name">
-	<rdfs:domain rdf:resource="Person"/>
+<rdf:Description rdf:about="http://www.mydomain.org/uni-ns/Classroom">
+	<rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+</rdf:Description>
+
+<rdf:Property rdf:about="http://www.mydomain.org/uni-ns/has_name">
+	<rdfs:domain rdf:resource="http://www.mydomain.org/uni-ns/Person"/>
 	<rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema/Literal"/>
 </rdf:Property>
 
+<rdf:Property rdf:about="http://www.mydomain.org/uni-ns/has_phone">
+	<rdfs:domain rdf:resource="http://www.mydomain.org/uni-ns/Person"/>
+	<rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema/Literal"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="http://www.mydomain.org/uni-ns/has_email">
+	<rdfs:domain rdf:resource="http://www.mydomain.org/uni-ns/Person"/>
+	<rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema/Literal"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="http://www.mydomain.org/uni-ns/has_age">
+	<rdfs:domain rdf:resource="http://www.mydomain.org/uni-ns/Person"/>
+	<rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema/Integer"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="http://www.mydomain.org/uni-ns/member_of">
+	<rdfs:domain rdf:resource="http://www.mydomain.org/uni-ns/Person"/>
+	<rdfs:range rdf:resource="http://www.mydomain.org/uni-ns/Department"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="http://www.mydomain.org/uni-ns/teaches">
+	<rdfs:domain rdf:resource="http://www.mydomain.org/uni-ns/Professor"/>
+	<rdfs:range rdf:resource="http://www.mydomain.org/uni-ns/Lesson"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="http://www.mydomain.org/uni-ns/les_name">
+	<rdfs:domain rdf:resource="http://www.mydomain.org/uni-ns/Lesson"/>
+	<rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema/Literal"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="http://www.mydomain.org/uni-ns/taught_by">
+	<rdfs:domain rdf:resource="http://www.mydomain.org/uni-ns/Lesson"/>
+	<rdfs:range rdf:resource="http://www.mydomain.org/uni-ns/Professor"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="http://www.mydomain.org/uni-ns/dep_name">
+	<rdfs:domain rdf:resource="http://www.mydomain.org/uni-ns/Department"/>
+	<rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema/Literal"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="http://www.mydomain.org/uni-ns/dep_city">
+	<rdfs:domain rdf:resource="http://www.mydomain.org/uni-ns/Department"/>
+	<rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema/Literal"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="http://www.mydomain.org/uni-ns/room_name">
+	<rdfs:domain rdf:resource="http://www.mydomain.org/uni-ns/Classroom"/>
+	<rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema/Literal"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="http://www.mydomain.org/uni-ns/room_capacity">
+	<rdfs:domain rdf:resource="http://www.mydomain.org/uni-ns/Classroom"/>
+	<rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema/Integer"/>
+</rdf:Property>
+
+<rdf:Property rdf:about="http://www.mydomain.org/uni-ns/room_department">
+	<rdfs:domain rdf:resource="http://www.mydomain.org/uni-ns/Classroom"/>
+	<rdfs:range rdf:resource="http://www.mydomain.org/uni-ns/Department"/>
+</rdf:Property>
+
+
+
+
+
+
+
+<rdf:Description rdf:about="http://www.mydomain.org/uni-ns/WebDevelopmentDepartment">
+	<uni:dep_city>Patra</uni:dep_city>
+	<rdf:type rdf:resource="http://www.mydomain.org/uni-ns/Department"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.mydomain.org/uni-ns/SoftwareDevelopmentDepartment">
+	<uni:dep_city>Patra</uni:dep_city>
+	<rdf:type rdf:resource="http://www.mydomain.org/uni-ns/Department"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.mydomain.org/uni-ns/MobileDevelopmentDepartment">
+	<uni:dep_city>Patra</uni:dep_city>
+	<rdf:type rdf:resource="http://www.mydomain.org/uni-ns/Department"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.mydomain.org/uni-ns/DatabaseManagementDepartment">
+	<uni:dep_city>Athens</uni:dep_city>
+	<rdf:type rdf:resource="http://www.mydomain.org/uni-ns/Department"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.mydomain.org/uni-ns/BigDataAnalysisDepartment">
+	<uni:dep_city>Lamia</uni:dep_city>
+	<rdf:type rdf:resource="http://www.mydomain.org/uni-ns/Department"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.mydomain.org/uni-ns/DataStructuresDepartment">
+	<uni:dep_city>Thessaloniki</uni:dep_city>
+	<rdf:type rdf:resource="http://www.mydomain.org/uni-ns/Department"/>
+</rdf:Description>
+
+
+
+
+<rdf:Description rdf:about="http://www.mydomain.org/uni-ns/WebDevelopmentDepartment">
+	<uni:dep_city>Patra</uni:dep_city>
+	<rdf:type rdf:resource="http://www.mydomain.org/uni-ns/Professor"/>
+</rdf:Description>
 </rdf:RDF>
