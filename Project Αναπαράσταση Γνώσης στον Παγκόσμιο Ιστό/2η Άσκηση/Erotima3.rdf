@@ -322,12 +322,27 @@ xmlns:uni="http://www.mydomain.org/uni-ns/">
 	<rdf:type rdf:resource="http://www.mydomain.org/uni-ns/Student"/>
 </rdf:Description>
 
-<rdf:Description rdf:about="http://www.mydomain.org/uni-ns/Student/GemmaEwing">
-	<uni:has_name>Gemma Ewing</uni:has_name>
-	<uni:has_phone>6913487623</uni:has_phone>
-	<uni:has_email>gemmaewing@gmail.com</uni:has_email>
-	<uni:has_age>18</uni:has_age>
+<rdf:Description rdf:about="http://www.mydomain.org/uni-ns/Student/KrisBloom">
+	<uni:has_name>Kris Bloom</uni:has_name>
+	<uni:has_phone>6917653890</uni:has_phone>
+	<uni:has_email>krisbloom@gmail.com</uni:has_email>
+	<uni:has_age>25</uni:has_age>
 	<rdf:type rdf:resource="http://www.mydomain.org/uni-ns/Student"/>
 </rdf:Description>
 
+<rdf:Description rdf:about="http://www.mydomain.org/uni-ns/Student/MaciejAli">
+	<uni:has_name>Maciej Ali</uni:has_name>
+	<uni:has_phone>6916745829</uni:has_phone>
+	<uni:has_email>maciejali@gmail.com</uni:has_email>
+	<uni:has_age>23</uni:has_age>
+	<rdf:type rdf:resource="http://www.mydomain.org/uni-ns/Student"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.mydomain.org/uni-ns/Student/DrewMacgregor">
+	<uni:has_name>Drew Macgregor</uni:has_name>
+	<uni:has_phone>6971384967</uni:has_phone>
+	<uni:has_email>drewmacgregor@gmail.com</uni:has_email>
+	<uni:has_age>23</uni:has_age>
+	<rdf:type rdf:resource="http://www.mydomain.org/uni-ns/Student"/>
+</rdf:Description>
 </rdf:RDF>
