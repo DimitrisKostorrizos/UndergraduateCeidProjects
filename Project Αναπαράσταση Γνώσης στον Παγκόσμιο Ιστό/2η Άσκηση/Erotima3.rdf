@@ -345,4 +345,55 @@ xmlns:uni="http://www.mydomain.org/uni-ns/">
 	<uni:has_age>23</uni:has_age>
 	<rdf:type rdf:resource="http://www.mydomain.org/uni-ns/Student"/>
 </rdf:Description>
+
+
+<rdf:Description rdf:about="http://www.mydomain.org/uni-ns/Lesson/DatabaseManagement">
+	<uni:les_name>Database Management</uni:les_name>
+	<uni:has_phone rdf:resource="http://www.mydomain.org/uni-ns/Professor/AdilReeves"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.mydomain.org/uni-ns/Lesson/Mathematics">
+	<uni:les_name>Mathematics</uni:les_name>
+	<uni:has_phone rdf:resource="http://www.mydomain.org/uni-ns/Professor/MosesFaulkner"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.mydomain.org/uni-ns/Lesson/CSharp">
+	<uni:les_name>CSharp</uni:les_name>
+	<uni:has_phone rdf:resource="http://www.mydomain.org/uni-ns/Professor/MarcClements"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.mydomain.org/uni-ns/Lesson/Java">
+	<uni:les_name>Java</uni:les_name>
+	<uni:has_phone rdf:resource="http://www.mydomain.org/uni-ns/Professor/KaiyaPennington"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.mydomain.org/uni-ns/Lesson/CPlusPlus">
+	<uni:les_name>CPlusPlus</uni:les_name>
+	<uni:has_phone rdf:resource="http://www.mydomain.org/uni-ns/Professor/VictoriaBevan"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.mydomain.org/uni-ns/Lesson/EntityFramework">
+	<uni:les_name>Entity Framework</uni:les_name>
+	<uni:has_phone rdf:resource="http://www.mydomain.org/uni-ns/Professor/TashaPemberton"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.mydomain.org/uni-ns/Lesson/RedisDatabase">
+	<uni:les_name>Redis Database</uni:les_name>
+	<uni:has_phone rdf:resource="http://www.mydomain.org/uni-ns/Professor/PaulHopper"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.mydomain.org/uni-ns/Lesson/DesignPatterns">
+	<uni:les_name>Design Patterns</uni:les_name>
+	<uni:has_phone rdf:resource="http://www.mydomain.org/uni-ns/Professor/KacperHussain"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.mydomain.org/uni-ns/Lesson/UIDesigning">
+	<uni:les_name>UI Designing</uni:les_name>
+	<uni:has_phone rdf:resource="http://www.mydomain.org/uni-ns/Professor/PhoebeChester"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.mydomain.org/uni-ns/Lesson/WebAPIDesign">
+	<uni:les_name>Web API Design</uni:les_name>
+	<uni:has_phone rdf:resource="http://www.mydomain.org/uni-ns/Professor/AyubRoman"/>
+</rdf:Description>
 </rdf:RDF>
