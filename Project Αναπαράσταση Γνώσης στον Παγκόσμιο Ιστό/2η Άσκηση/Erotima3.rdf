@@ -197,4 +197,31 @@ xmlns:uni="http://www.mydomain.org/uni-ns/">
 	<rdf:type rdf:resource="http://www.mydomain.org/uni-ns/Professor"/>
 </rdf:Description>
 
+<rdf:Description rdf:about="http://www.mydomain.org/uni-ns/Professor/KacperHussain">
+	<uni:has_name>Kacper Hussain</uni:has_name>
+	<uni:has_phone>6938905612</uni:has_phone>
+	<uni:has_email>kacperhussain@gmail.com</uni:has_email>
+	<uni:has_age>47</uni:has_age>
+	<uni:member_of rdf:resource="http://www.mydomain.org/uni-ns/Department/DatabaseManagementDepartment"/>
+	<rdf:type rdf:resource="http://www.mydomain.org/uni-ns/Professor"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.mydomain.org/uni-ns/Professor/PhoebeChester">
+	<uni:has_name>Phoebe Chester</uni:has_name>
+	<uni:has_phone>6978561234</uni:has_phone>
+	<uni:has_email>phoebechester@gmail.com</uni:has_email>
+	<uni:has_age>31</uni:has_age>
+	<uni:member_of rdf:resource="http://www.mydomain.org/uni-ns/Department/BigDataAnalysisDepartment"/>
+	<rdf:type rdf:resource="http://www.mydomain.org/uni-ns/Professor"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.mydomain.org/uni-ns/Professor/AyubRoman">
+	<uni:has_name>Ayub Roman</uni:has_name>
+	<uni:has_phone>6945678924</uni:has_phone>
+	<uni:has_email>ayubroman@gmail.com</uni:has_email>
+	<uni:has_age>56</uni:has_age>
+	<uni:member_of rdf:resource="http://www.mydomain.org/uni-ns/Department/BigDataAnalysisDepartment"/>
+	<rdf:type rdf:resource="http://www.mydomain.org/uni-ns/Professor"/>
+</rdf:Description>
+
 </rdf:RDF>
