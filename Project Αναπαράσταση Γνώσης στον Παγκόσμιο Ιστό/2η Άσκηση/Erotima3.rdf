@@ -101,32 +101,32 @@ xmlns:uni="http://www.mydomain.org/uni-ns/">
 
 
 
-<rdf:Description rdf:about="http://www.mydomain.org/uni-ns/WebDevelopmentDepartment">
+<rdf:Description rdf:about="http://www.mydomain.org/uni-ns/Department/WebDevelopmentDepartment">
 	<uni:dep_city>Patra</uni:dep_city>
 	<rdf:type rdf:resource="http://www.mydomain.org/uni-ns/Department"/>
 </rdf:Description>
 
-<rdf:Description rdf:about="http://www.mydomain.org/uni-ns/SoftwareDevelopmentDepartment">
+<rdf:Description rdf:about="http://www.mydomain.org/uni-ns/Department/SoftwareDevelopmentDepartment">
 	<uni:dep_city>Patra</uni:dep_city>
 	<rdf:type rdf:resource="http://www.mydomain.org/uni-ns/Department"/>
 </rdf:Description>
 
-<rdf:Description rdf:about="http://www.mydomain.org/uni-ns/MobileDevelopmentDepartment">
+<rdf:Description rdf:about="http://www.mydomain.org/uni-ns/Department/MobileDevelopmentDepartment">
 	<uni:dep_city>Patra</uni:dep_city>
 	<rdf:type rdf:resource="http://www.mydomain.org/uni-ns/Department"/>
 </rdf:Description>
 
-<rdf:Description rdf:about="http://www.mydomain.org/uni-ns/DatabaseManagementDepartment">
+<rdf:Description rdf:about="http://www.mydomain.org/uni-ns/Department/DatabaseManagementDepartment">
 	<uni:dep_city>Athens</uni:dep_city>
 	<rdf:type rdf:resource="http://www.mydomain.org/uni-ns/Department"/>
 </rdf:Description>
 
-<rdf:Description rdf:about="http://www.mydomain.org/uni-ns/BigDataAnalysisDepartment">
+<rdf:Description rdf:about="http://www.mydomain.org/uni-ns/Department/BigDataAnalysisDepartment">
 	<uni:dep_city>Lamia</uni:dep_city>
 	<rdf:type rdf:resource="http://www.mydomain.org/uni-ns/Department"/>
 </rdf:Description>
 
-<rdf:Description rdf:about="http://www.mydomain.org/uni-ns/DataStructuresDepartment">
+<rdf:Description rdf:about="http://www.mydomain.org/uni-ns/Department/DataStructuresDepartment">
 	<uni:dep_city>Thessaloniki</uni:dep_city>
 	<rdf:type rdf:resource="http://www.mydomain.org/uni-ns/Department"/>
 </rdf:Description>
@@ -134,8 +134,67 @@ xmlns:uni="http://www.mydomain.org/uni-ns/">
 
 
 
-<rdf:Description rdf:about="http://www.mydomain.org/uni-ns/WebDevelopmentDepartment">
-	<uni:dep_city>Patra</uni:dep_city>
+<rdf:Description rdf:about="http://www.mydomain.org/uni-ns/Professor/AdilReeves">
+	<uni:has_name>Adil Reeves</uni:has_name>
+	<uni:has_phone>6936485729</uni:has_phone>
+	<uni:has_email>adilreeves@gmail.com</uni:has_email>
+	<uni:has_age>23</uni:has_age>
+	<uni:member_of rdf:resource="http://www.mydomain.org/uni-ns/Department/WebDevelopmentDepartment"/>
 	<rdf:type rdf:resource="http://www.mydomain.org/uni-ns/Professor"/>
 </rdf:Description>
+
+<rdf:Description rdf:about="http://www.mydomain.org/uni-ns/Professor/MosesFaulkner">
+	<uni:has_name>Moses Faulkner</uni:has_name>
+	<uni:has_phone>6986714620</uni:has_phone>
+	<uni:has_email>mosesfaulkner@gmail.com</uni:has_email>
+	<uni:has_age>67</uni:has_age>
+	<uni:member_of rdf:resource="http://www.mydomain.org/uni-ns/Department/WebDevelopmentDepartment"/>
+	<rdf:type rdf:resource="http://www.mydomain.org/uni-ns/Professor"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.mydomain.org/uni-ns/Professor/MarcClements">
+	<uni:has_name>Marc Clements</uni:has_name>
+	<uni:has_phone>6917493745</uni:has_phone>
+	<uni:has_email>marcclements@gmail.com</uni:has_email>
+	<uni:has_age>45</uni:has_age>
+	<uni:member_of rdf:resource="http://www.mydomain.org/uni-ns/Department/SoftwareDevelopmentDepartment"/>
+	<rdf:type rdf:resource="http://www.mydomain.org/uni-ns/Professor"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.mydomain.org/uni-ns/Professor/KaiyaPennington">
+	<uni:has_name>Kaiya Pennington</uni:has_name>
+	<uni:has_phone>6937465312</uni:has_phone>
+	<uni:has_email>kaiyapennington@gmail.com</uni:has_email>
+	<uni:has_age>27</uni:has_age>
+	<uni:member_of rdf:resource="http://www.mydomain.org/uni-ns/Department/SoftwareDevelopmentDepartment"/>
+	<rdf:type rdf:resource="http://www.mydomain.org/uni-ns/Professor"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.mydomain.org/uni-ns/Professor/VictoriaBevan">
+	<uni:has_name>Victoria Bevan</uni:has_name>
+	<uni:has_phone>6973261578</uni:has_phone>
+	<uni:has_email>victoriabevan@gmail.com</uni:has_email>
+	<uni:has_age>46</uni:has_age>
+	<uni:member_of rdf:resource="http://www.mydomain.org/uni-ns/Department/MobileDevelopmentDepartment"/>
+	<rdf:type rdf:resource="http://www.mydomain.org/uni-ns/Professor"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.mydomain.org/uni-ns/Professor/TashaPemberton">
+	<uni:has_name>Tasha Pemberton</uni:has_name>
+	<uni:has_phone>6957283058</uni:has_phone>
+	<uni:has_email>tashapemberton@gmail.com</uni:has_email>
+	<uni:has_age>31</uni:has_age>
+	<uni:member_of rdf:resource="http://www.mydomain.org/uni-ns/Department/MobileDevelopmentDepartment"/>
+	<rdf:type rdf:resource="http://www.mydomain.org/uni-ns/Professor"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.mydomain.org/uni-ns/Professor/PaulHopper">
+	<uni:has_name>Paul Hopper</uni:has_name>
+	<uni:has_phone>6967852439</uni:has_phone>
+	<uni:has_email>paulhopper@gmail.com</uni:has_email>
+	<uni:has_age>37</uni:has_age>
+	<uni:member_of rdf:resource="http://www.mydomain.org/uni-ns/Department/DatabaseManagementDepartment"/>
+	<rdf:type rdf:resource="http://www.mydomain.org/uni-ns/Professor"/>
+</rdf:Description>
+
 </rdf:RDF>
