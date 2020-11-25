@@ -396,4 +396,78 @@ xmlns:uni="http://www.mydomain.org/uni-ns/">
 	<uni:les_name>Web API Design</uni:les_name>
 	<uni:has_phone rdf:resource="http://www.mydomain.org/uni-ns/Professor/AyubRoman"/>
 </rdf:Description>
+
+
+
+<rdf:Description rdf:about="http://www.mydomain.org/uni-ns/Classroom/A1">
+	<uni:room_name>A1</uni:room_name>
+	<uni:room_capacity>10</uni:room_capacity>
+	<uni:has_phone rdf:resource="http://www.mydomain.org/uni-ns/Department/WebDevelopmentDepartment"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.mydomain.org/uni-ns/Classroom/A2">
+	<uni:room_name>A2</uni:room_name>
+	<uni:room_capacity>16</uni:room_capacity>
+	<uni:has_phone rdf:resource="http://www.mydomain.org/uni-ns/Department/WebDevelopmentDepartment"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.mydomain.org/uni-ns/Classroom/B1">
+	<uni:room_name>B1</uni:room_name>
+	<uni:room_capacity>34</uni:room_capacity>
+	<uni:has_phone rdf:resource="http://www.mydomain.org/uni-ns/Department/SoftwareDevelopmentDepartment"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.mydomain.org/uni-ns/Classroom/B2">
+	<uni:room_name>B2</uni:room_name>
+	<uni:room_capacity>25</uni:room_capacity>
+	<uni:has_phone rdf:resource="http://www.mydomain.org/uni-ns/Department/SoftwareDevelopmentDepartment"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.mydomain.org/uni-ns/Classroom/C1">
+	<uni:room_name>C1</uni:room_name>
+	<uni:room_capacity>14</uni:room_capacity>
+	<uni:has_phone rdf:resource="http://www.mydomain.org/uni-ns/Department/MobileDevelopmentDepartment"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.mydomain.org/uni-ns/Classroom/C2">
+	<uni:room_name>C2</uni:room_name>
+	<uni:room_capacity>138</uni:room_capacity>
+	<uni:has_phone rdf:resource="http://www.mydomain.org/uni-ns/Department/MobileDevelopmentDepartment"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.mydomain.org/uni-ns/Classroom/D1">
+	<uni:room_name>D1</uni:room_name>
+	<uni:room_capacity>20</uni:room_capacity>
+	<uni:has_phone rdf:resource="http://www.mydomain.org/uni-ns/Department/DatabaseManagementDepartment"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.mydomain.org/uni-ns/Classroom/D2">
+	<uni:room_name>D2</uni:room_name>
+	<uni:room_capacity>30</uni:room_capacity>
+	<uni:has_phone rdf:resource="http://www.mydomain.org/uni-ns/Department/DatabaseManagementDepartment"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.mydomain.org/uni-ns/Classroom/E1">
+	<uni:room_name>E1</uni:room_name>
+	<uni:room_capacity>50</uni:room_capacity>
+	<uni:has_phone rdf:resource="http://www.mydomain.org/uni-ns/Department/BigDataAnalysisDepartment"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.mydomain.org/uni-ns/Classroom/E2">
+	<uni:room_name>E2</uni:room_name>
+	<uni:room_capacity>77</uni:room_capacity>
+	<uni:has_phone rdf:resource="http://www.mydomain.org/uni-ns/Department/BigDataAnalysisDepartment"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.mydomain.org/uni-ns/Classroom/F1">
+	<uni:room_name>F1</uni:room_name>
+	<uni:room_capacity>100</uni:room_capacity>
+	<uni:has_phone rdf:resource="http://www.mydomain.org/uni-ns/Department/DataStructuresDepartment"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.mydomain.org/uni-ns/Classroom/F2">
+	<uni:room_name>F2</uni:room_name>
+	<uni:room_capacity>237</uni:room_capacity>
+	<uni:has_phone rdf:resource="http://www.mydomain.org/uni-ns/Department/DataStructuresDepartment"/>
+</rdf:Description>
 </rdf:RDF>
