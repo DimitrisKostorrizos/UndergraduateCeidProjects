@@ -1,0 +1,8 @@
+﻿  ConsoleApplication1.cpp
+c:\users\jimak\desktop\οντοκεντρικός προγραμματισμός\c++ project\hotel-project\consoleapplication1\consoleapplication1.cpp(81): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+c:\users\jimak\desktop\οντοκεντρικός προγραμματισμός\c++ project\hotel-project\consoleapplication1\consoleapplication1.cpp(171): warning C4018: '<': signed/unsigned mismatch
+c:\users\jimak\desktop\οντοκεντρικός προγραμματισμός\c++ project\hotel-project\consoleapplication1\consoleapplication1.cpp(183): warning C4018: '<': signed/unsigned mismatch
+  Booking.cpp
+  Generating Code...
+  ConsoleApplication1.vcxproj -> C:\Users\jimak\Desktop\Οντοκεντρικός Προγραμματισμός\C++ Project\Hotel-Project\Debug\ConsoleApplication1.exe
+  ConsoleApplication1.vcxproj -> C:\Users\jimak\Desktop\Οντοκεντρικός Προγραμματισμός\C++ Project\Hotel-Project\Debug\ConsoleApplication1.pdb (Partial PDB)
