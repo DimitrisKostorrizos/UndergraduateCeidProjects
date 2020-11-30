@@ -236,6 +236,7 @@ xmlns:uni="http://www.mydomain.org/uni-ns/">
 	<uni:has_phone>6956789012</uni:has_phone>
 	<uni:has_email>hayleighbright@gmail.com</uni:has_email>
 	<uni:has_age>27</uni:has_age>
+	<uni:member_of rdf:resource="http://www.mydomain.org/uni-ns/Department/WebDevelopmentDepartment"/>
 	<rdf:type rdf:resource="http://www.mydomain.org/uni-ns/Student"/>
 </rdf:Description>
 
@@ -244,6 +245,7 @@ xmlns:uni="http://www.mydomain.org/uni-ns/">
 	<uni:has_phone>6934125645</uni:has_phone>
 	<uni:has_email>maesalinas@gmail.com</uni:has_email>
 	<uni:has_age>21</uni:has_age>
+	<uni:member_of rdf:resource="http://www.mydomain.org/uni-ns/Department/SoftwareDevelopmentDepartment"/>
 	<rdf:type rdf:resource="http://www.mydomain.org/uni-ns/Student"/>
 </rdf:Description>
 
@@ -252,6 +254,7 @@ xmlns:uni="http://www.mydomain.org/uni-ns/">
 	<uni:has_phone>6943562718</uni:has_phone>
 	<uni:has_email>lubnastanley@gmail.com</uni:has_email>
 	<uni:has_age>18</uni:has_age>
+	<uni:member_of rdf:resource="http://www.mydomain.org/uni-ns/Department/MobileDevelopmentDepartment"/>
 	<rdf:type rdf:resource="http://www.mydomain.org/uni-ns/Student"/>
 </rdf:Description>
 
@@ -260,6 +263,7 @@ xmlns:uni="http://www.mydomain.org/uni-ns/">
 	<uni:has_phone>6923415876</uni:has_phone>
 	<uni:has_email>eshalchristie@gmail.com</uni:has_email>
 	<uni:has_age>16</uni:has_age>
+	<uni:member_of rdf:resource="http://www.mydomain.org/uni-ns/Department/DatabaseManagementDepartment"/>
 	<rdf:type rdf:resource="http://www.mydomain.org/uni-ns/Student"/>
 </rdf:Description>
 
@@ -268,6 +272,7 @@ xmlns:uni="http://www.mydomain.org/uni-ns/">
 	<uni:has_phone>6992376801</uni:has_phone>
 	<uni:has_email>connerheaton@gmail.com</uni:has_email>
 	<uni:has_age>34</uni:has_age>
+	<uni:member_of rdf:resource="http://www.mydomain.org/uni-ns/Department/BigDataAnalysisDepartment"/>
 	<rdf:type rdf:resource="http://www.mydomain.org/uni-ns/Student"/>
 </rdf:Description>
 
@@ -276,6 +281,7 @@ xmlns:uni="http://www.mydomain.org/uni-ns/">
 	<uni:has_phone>6917834092</uni:has_phone>
 	<uni:has_email>erenfoley@gmail.com</uni:has_email>
 	<uni:has_age>14</uni:has_age>
+	<uni:member_of rdf:resource="http://www.mydomain.org/uni-ns/Department/DataStructuresDepartment"/>
 	<rdf:type rdf:resource="http://www.mydomain.org/uni-ns/Student"/>
 </rdf:Description>
 
@@ -284,6 +290,7 @@ xmlns:uni="http://www.mydomain.org/uni-ns/">
 	<uni:has_phone>6965783125</uni:has_phone>
 	<uni:has_email>jimmygibson@gmail.com</uni:has_email>
 	<uni:has_age>26</uni:has_age>
+	<uni:member_of rdf:resource="http://www.mydomain.org/uni-ns/Department/WebDevelopmentDepartment"/>
 	<rdf:type rdf:resource="http://www.mydomain.org/uni-ns/Student"/>
 </rdf:Description>
 
@@ -292,6 +299,7 @@ xmlns:uni="http://www.mydomain.org/uni-ns/">
 	<uni:has_phone>6917852790</uni:has_phone>
 	<uni:has_email>annaliesewheatley@gmail.com</uni:has_email>
 	<uni:has_age>23</uni:has_age>
+	<uni:member_of rdf:resource="http://www.mydomain.org/uni-ns/Department/SoftwareDevelopmentDepartment"/>
 	<rdf:type rdf:resource="http://www.mydomain.org/uni-ns/Student"/>
 </rdf:Description>
 
@@ -300,6 +308,7 @@ xmlns:uni="http://www.mydomain.org/uni-ns/">
 	<uni:has_phone>6916789234</uni:has_phone>
 	<uni:has_email>jadecarty@gmail.com</uni:has_email>
 	<uni:has_age>21</uni:has_age>
+	<uni:member_of rdf:resource="http://www.mydomain.org/uni-ns/Department/MobileDevelopmentDepartment"/>
 	<rdf:type rdf:resource="http://www.mydomain.org/uni-ns/Student"/>
 </rdf:Description>
 
@@ -308,6 +317,7 @@ xmlns:uni="http://www.mydomain.org/uni-ns/">
 	<uni:has_phone>6917834527</uni:has_phone>
 	<uni:has_email>kirstymonaghan@gmail.com</uni:has_email>
 	<uni:has_age>13</uni:has_age>
+	<uni:member_of rdf:resource="http://www.mydomain.org/uni-ns/Department/DatabaseManagementDepartment"/>
 	<rdf:type rdf:resource="http://www.mydomain.org/uni-ns/Student"/>
 </rdf:Description>
 
@@ -316,6 +326,7 @@ xmlns:uni="http://www.mydomain.org/uni-ns/">
 	<uni:has_phone>6973412983</uni:has_phone>
 	<uni:has_email>chantelleallan@gmail.com</uni:has_email>
 	<uni:has_age>16</uni:has_age>
+	<uni:member_of rdf:resource="http://www.mydomain.org/uni-ns/Department/BigDataAnalysisDepartment"/>
 	<rdf:type rdf:resource="http://www.mydomain.org/uni-ns/Student"/>
 </rdf:Description>
 
@@ -324,6 +335,7 @@ xmlns:uni="http://www.mydomain.org/uni-ns/">
 	<uni:has_phone>6913487623</uni:has_phone>
 	<uni:has_email>gemmaewing@gmail.com</uni:has_email>
 	<uni:has_age>18</uni:has_age>
+	<uni:member_of rdf:resource="http://www.mydomain.org/uni-ns/Department/DataStructuresDepartment"/>
 	<rdf:type rdf:resource="http://www.mydomain.org/uni-ns/Student"/>
 </rdf:Description>
 
@@ -332,6 +344,7 @@ xmlns:uni="http://www.mydomain.org/uni-ns/">
 	<uni:has_phone>6917653890</uni:has_phone>
 	<uni:has_email>krisbloom@gmail.com</uni:has_email>
 	<uni:has_age>25</uni:has_age>
+	<uni:member_of rdf:resource="http://www.mydomain.org/uni-ns/Department/WebDevelopmentDepartment"/>
 	<rdf:type rdf:resource="http://www.mydomain.org/uni-ns/Student"/>
 </rdf:Description>
 
@@ -340,6 +353,7 @@ xmlns:uni="http://www.mydomain.org/uni-ns/">
 	<uni:has_phone>6916745829</uni:has_phone>
 	<uni:has_email>maciejali@gmail.com</uni:has_email>
 	<uni:has_age>23</uni:has_age>
+	<uni:member_of rdf:resource="http://www.mydomain.org/uni-ns/Department/SoftwareDevelopmentDepartment"/>
 	<rdf:type rdf:resource="http://www.mydomain.org/uni-ns/Student"/>
 </rdf:Description>
 
@@ -348,6 +362,7 @@ xmlns:uni="http://www.mydomain.org/uni-ns/">
 	<uni:has_phone>6971384967</uni:has_phone>
 	<uni:has_email>drewmacgregor@gmail.com</uni:has_email>
 	<uni:has_age>23</uni:has_age>
+	<uni:member_of rdf:resource="http://www.mydomain.org/uni-ns/Department/MobileDevelopmentDepartment"/>
 	<rdf:type rdf:resource="http://www.mydomain.org/uni-ns/Student"/>
 </rdf:Description>
 
