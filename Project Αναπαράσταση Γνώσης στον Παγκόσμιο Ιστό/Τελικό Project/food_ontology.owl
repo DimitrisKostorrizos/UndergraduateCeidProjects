@@ -6,12 +6,15 @@
      xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
      ontologyIRI="http://www.semanticweb.org/foodontology">
-    <Prefix name="" IRI="http://www.semanticweb.org/foodontology#"/>
+    <Prefix name="" IRI="http://www.semanticweb.org/foodontology"/>
     <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
     <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
     <Prefix name="xml" IRI="http://www.w3.org/XML/1998/namespace"/>
     <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
     <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
+    <Declaration>
+        <Class IRI="#BakeryProducts"/>
+    </Declaration>
     <Declaration>
         <Class IRI="#Beverage"/>
     </Declaration>
@@ -55,6 +58,9 @@
         <Class IRI="#GreekPitaClub"/>
     </Declaration>
     <Declaration>
+        <Class IRI="#IceCream"/>
+    </Declaration>
+    <Declaration>
         <Class IRI="#InstantCoffee"/>
     </Declaration>
     <Declaration>
@@ -93,6 +99,61 @@
     <Declaration>
         <Class IRI="#SweetPizza"/>
     </Declaration>
+    <Declaration>
+        <Class IRI="#Whiskey"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Wine"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#ObjectProperty1"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#ObjectProperty2"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#ObjectProperty3"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#ObjectProperty4"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#SubObjectProperty1"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#SubObjectProperty2"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#SubObjectProperty3"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#SubObjectProperty4"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#AlcoholPercentage"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#ContainsAlcohol"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#ContainsAllergens"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#ContainsEggProducts"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#ContainsMeat"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#IsSuitableForVegan"/>
+    </Declaration>
+    <EquivalentClasses>
+        <Class IRI="#BakeryProducts"/>
+        <ObjectUnionOf>
+            <Class IRI="#Calzone"/>
+            <Class IRI="#Peinirli"/>
+        </ObjectUnionOf>
+    </EquivalentClasses>
     <EquivalentClasses>
         <Class IRI="#CoveredPizza"/>
         <ObjectUnionOf>
@@ -114,6 +175,22 @@
             <Class IRI="#Salad"/>
         </ObjectIntersectionOf>
     </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#SavoryPizza"/>
+        <ObjectComplementOf>
+            <Class IRI="#SweetPizza"/>
+        </ObjectComplementOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#SweetPizza"/>
+        <ObjectComplementOf>
+            <Class IRI="#SavoryPizza"/>
+        </ObjectComplementOf>
+    </EquivalentClasses>
+    <SubClassOf>
+        <Class IRI="#BakeryProducts"/>
+        <Class IRI="#Food"/>
+    </SubClassOf>
     <SubClassOf>
         <Class IRI="#Burger"/>
         <Class IRI="#Food"/>
@@ -160,6 +237,10 @@
     </SubClassOf>
     <SubClassOf>
         <Class IRI="#GreekPitaClub"/>
+        <Class IRI="#Food"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#IceCream"/>
         <Class IRI="#Food"/>
     </SubClassOf>
     <SubClassOf>
@@ -214,6 +295,14 @@
         <Class IRI="#SweetPizza"/>
         <Class IRI="#Pizza"/>
     </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Whiskey"/>
+        <Class IRI="#SoftDrinks"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Wine"/>
+        <Class IRI="#SoftDrinks"/>
+    </SubClassOf>
     <DisjointClasses>
         <Class IRI="#Calzone"/>
         <Class IRI="#ClubSandwich"/>
@@ -224,6 +313,86 @@
         <Class IRI="#Pizza"/>
         <Class IRI="#Salad"/>
     </DisjointClasses>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#ObjectProperty1"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#ObjectProperty2"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#ObjectProperty3"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#ObjectProperty4"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#SubObjectProperty1"/>
+        <ObjectProperty IRI="#ObjectProperty1"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#SubObjectProperty2"/>
+        <ObjectProperty IRI="#ObjectProperty2"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#SubObjectProperty3"/>
+        <ObjectProperty IRI="#ObjectProperty3"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#SubObjectProperty4"/>
+        <ObjectProperty IRI="#ObjectProperty4"/>
+    </SubObjectPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#AlcoholPercentage"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#ContainsAlcohol"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#ContainsAllergens"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#ContainsEggProducts"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#ContainsMeat"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#IsSuitableForVegan"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <DataPropertyRange>
+        <DataProperty IRI="#AlcoholPercentage"/>
+        <Datatype abbreviatedIRI="xsd:positiveInteger"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#ContainsAlcohol"/>
+        <Datatype abbreviatedIRI="xsd:boolean"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#ContainsEggProducts"/>
+        <Datatype abbreviatedIRI="xsd:boolean"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#ContainsMeat"/>
+        <Datatype abbreviatedIRI="xsd:boolean"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#IsSuitableForVegan"/>
+        <Datatype abbreviatedIRI="xsd:boolean"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+        <Datatype abbreviatedIRI="xsd:boolean"/>
+    </DataPropertyRange>
 </Ontology>
 
 
