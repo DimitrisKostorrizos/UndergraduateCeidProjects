@@ -13,6 +13,9 @@
     <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
     <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
     <Declaration>
+        <Class IRI="#Affogato"/>
+    </Declaration>
+    <Declaration>
         <Class IRI="#BakeryProducts"/>
     </Declaration>
     <Declaration>
@@ -28,7 +31,13 @@
         <Class IRI="#Cappuccino"/>
     </Declaration>
     <Declaration>
+        <Class IRI="#ChocoCrepe"/>
+    </Declaration>
+    <Declaration>
         <Class IRI="#ClubSandwich"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Cocktail"/>
     </Declaration>
     <Declaration>
         <Class IRI="#Coffee"/>
@@ -49,6 +58,12 @@
         <Class IRI="#FizzyDrink"/>
     </Declaration>
     <Declaration>
+        <Class IRI="#FizzyWhiskey"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#FlatWhite"/>
+    </Declaration>
+    <Declaration>
         <Class IRI="#Food"/>
     </Declaration>
     <Declaration>
@@ -61,7 +76,16 @@
         <Class IRI="#IceCream"/>
     </Declaration>
     <Declaration>
+        <Class IRI="#IceCreamCrepe"/>
+    </Declaration>
+    <Declaration>
         <Class IRI="#InstantCoffee"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#IrishCoffee"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#LemonadeSoftDrinks"/>
     </Declaration>
     <Declaration>
         <Class IRI="#OvenBakedPasta"/>
@@ -82,6 +106,9 @@
         <Class IRI="#Pizza"/>
     </Declaration>
     <Declaration>
+        <Class IRI="#RedEye"/>
+    </Declaration>
+    <Declaration>
         <Class IRI="#Salad"/>
     </Declaration>
     <Declaration>
@@ -89,6 +116,9 @@
     </Declaration>
     <Declaration>
         <Class IRI="#SavoryPizza"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#SoftDrinkCoffee"/>
     </Declaration>
     <Declaration>
         <Class IRI="#SoftDrinks"/>
@@ -101,6 +131,9 @@
     </Declaration>
     <Declaration>
         <Class IRI="#Whiskey"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#WhiskeyBasedCocktail"/>
     </Declaration>
     <Declaration>
         <Class IRI="#Wine"/>
@@ -128,6 +161,12 @@
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="#InverseObjectProperty4"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#MixedBeverage"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#MixedFood"/>
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="#ObjectProperty1"/>
@@ -182,6 +221,75 @@
     </Declaration>
     <Declaration>
         <DataProperty IRI="#IsSuitableForVegan"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#BaconCalzone"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#CheeseBurger"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#CheeseCrepe"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#ChefSalad"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#ChickenClubSandwich"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#ChocolateBananaPizza"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#ChocolateBiscuitCrepe"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#ChocolateFlavor"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Cognac"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#FetaPie"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Frape"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#GreekOrzoSalad"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#GreekPitaGyro"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#JackDanielsBlackWhiskey"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Lemonade"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#LemonadeVodka"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#MaiTaiCocktail"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Milk"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Rigatoni"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#SausagePeinirli"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#SpecialPizza"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Vodka"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#WhiskeyCola"/>
     </Declaration>
     <EquivalentClasses>
         <Class IRI="#BakeryProducts"/>
@@ -224,6 +332,17 @@
         </ObjectComplementOf>
     </EquivalentClasses>
     <SubClassOf>
+        <Class IRI="#Affogato"/>
+        <Class IRI="#Espresso"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Affogato"/>
+        <ObjectAllValuesFrom>
+            <ObjectProperty IRI="#MixedFood"/>
+            <Class IRI="#IceCream"/>
+        </ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
         <Class IRI="#BakeryProducts"/>
         <Class IRI="#Food"/>
     </SubClassOf>
@@ -240,8 +359,30 @@
         <Class IRI="#Espresso"/>
     </SubClassOf>
     <SubClassOf>
+        <Class IRI="#ChocoCrepe"/>
+        <Class IRI="#IceCreamCrepe"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ChocoCrepe"/>
+        <ObjectHasValue>
+            <ObjectProperty IRI="#MixedFood"/>
+            <NamedIndividual IRI="#ChocolateFlavor"/>
+        </ObjectHasValue>
+    </SubClassOf>
+    <SubClassOf>
         <Class IRI="#ClubSandwich"/>
         <Class IRI="#Food"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Cocktail"/>
+        <Class IRI="#SoftDrinks"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Cocktail"/>
+        <ObjectMinCardinality cardinality="3">
+            <ObjectProperty IRI="#MixedBeverage"/>
+            <Class IRI="#SoftDrinks"/>
+        </ObjectMinCardinality>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="#Coffee"/>
@@ -264,8 +405,43 @@
         <Class IRI="#Coffee"/>
     </SubClassOf>
     <SubClassOf>
+        <Class IRI="#FilterCoffee"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#MixedBeverage"/>
+            <Class IRI="#SoftDrinks"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
         <Class IRI="#FizzyDrink"/>
         <Class IRI="#Beverage"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#FizzyWhiskey"/>
+        <Class IRI="#SoftDrinks"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#FizzyWhiskey"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#MixedBeverage"/>
+            <Class IRI="#FizzyDrink"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#FlatWhite"/>
+        <Class IRI="#Espresso"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#FlatWhite"/>
+        <ObjectUnionOf>
+            <Class IRI="#Espresso"/>
+            <ObjectIntersectionOf>
+                <Class IRI="#Cappuccino"/>
+                <ObjectHasValue>
+                    <ObjectProperty IRI="#MixedBeverage"/>
+                    <NamedIndividual IRI="#Milk"/>
+                </ObjectHasValue>
+            </ObjectIntersectionOf>
+        </ObjectUnionOf>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="#GreekPita"/>
@@ -280,8 +456,45 @@
         <Class IRI="#Food"/>
     </SubClassOf>
     <SubClassOf>
+        <Class IRI="#IceCreamCrepe"/>
+        <Class IRI="#SweetCrepe"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#IceCreamCrepe"/>
+        <ObjectMinCardinality cardinality="1">
+            <ObjectProperty IRI="#MixedFood"/>
+            <Class IRI="#IceCream"/>
+        </ObjectMinCardinality>
+    </SubClassOf>
+    <SubClassOf>
         <Class IRI="#InstantCoffee"/>
         <Class IRI="#Coffee"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#IrishCoffee"/>
+        <Class IRI="#SoftDrinkCoffee"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#IrishCoffee"/>
+        <ObjectHasValue>
+            <ObjectProperty IRI="#MixedBeverage"/>
+            <NamedIndividual IRI="#Cognac"/>
+        </ObjectHasValue>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#LemonadeSoftDrinks"/>
+        <Class IRI="#SoftDrinks"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#LemonadeSoftDrinks"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#FizzyDrink"/>
+            <Class IRI="#SoftDrinks"/>
+            <ObjectHasValue>
+                <ObjectProperty IRI="#MixedBeverage"/>
+                <NamedIndividual IRI="#Lemonade"/>
+            </ObjectHasValue>
+        </ObjectIntersectionOf>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="#OvenBakedPasta"/>
@@ -308,6 +521,17 @@
         <Class IRI="#Food"/>
     </SubClassOf>
     <SubClassOf>
+        <Class IRI="#RedEye"/>
+        <Class IRI="#Espresso"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#RedEye"/>
+        <ObjectAllValuesFrom>
+            <ObjectProperty IRI="#MixedBeverage"/>
+            <Class IRI="#InstantCoffee"/>
+        </ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
         <Class IRI="#Salad"/>
         <Class IRI="#Food"/>
     </SubClassOf>
@@ -318,6 +542,17 @@
     <SubClassOf>
         <Class IRI="#SavoryPizza"/>
         <Class IRI="#Pizza"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#SoftDrinkCoffee"/>
+        <Class IRI="#Espresso"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#SoftDrinkCoffee"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#MixedBeverage"/>
+            <Class IRI="#SoftDrinks"/>
+        </ObjectSomeValuesFrom>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="#SoftDrinks"/>
@@ -336,6 +571,10 @@
         <Class IRI="#SoftDrinks"/>
     </SubClassOf>
     <SubClassOf>
+        <Class IRI="#WhiskeyBasedCocktail"/>
+        <Class IRI="#Cocktail"/>
+    </SubClassOf>
+    <SubClassOf>
         <Class IRI="#Wine"/>
         <Class IRI="#SoftDrinks"/>
     </SubClassOf>
@@ -349,6 +588,98 @@
         <Class IRI="#Pizza"/>
         <Class IRI="#Salad"/>
     </DisjointClasses>
+    <ClassAssertion>
+        <Class IRI="#Calzone"/>
+        <NamedIndividual IRI="#BaconCalzone"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Burger"/>
+        <NamedIndividual IRI="#CheeseBurger"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#SavoryCrepe"/>
+        <NamedIndividual IRI="#CheeseCrepe"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Salad"/>
+        <NamedIndividual IRI="#ChefSalad"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#ClubSandwich"/>
+        <NamedIndividual IRI="#ChickenClubSandwich"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#SweetPizza"/>
+        <NamedIndividual IRI="#ChocolateBananaPizza"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#SweetCrepe"/>
+        <NamedIndividual IRI="#ChocolateBiscuitCrepe"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#IceCream"/>
+        <NamedIndividual IRI="#ChocolateFlavor"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#SoftDrinks"/>
+        <NamedIndividual IRI="#Cognac"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Pie"/>
+        <NamedIndividual IRI="#FetaPie"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#InstantCoffee"/>
+        <NamedIndividual IRI="#Frape"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#PastaSalad"/>
+        <NamedIndividual IRI="#GreekOrzoSalad"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#GreekPita"/>
+        <NamedIndividual IRI="#GreekPitaGyro"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Whiskey"/>
+        <NamedIndividual IRI="#JackDanielsBlackWhiskey"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#FizzyDrink"/>
+        <NamedIndividual IRI="#Lemonade"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#LemonadeSoftDrinks"/>
+        <NamedIndividual IRI="#LemonadeVodka"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Cocktail"/>
+        <NamedIndividual IRI="#MaiTaiCocktail"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Beverage"/>
+        <NamedIndividual IRI="#Milk"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Pasta"/>
+        <NamedIndividual IRI="#Rigatoni"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Peinirli"/>
+        <NamedIndividual IRI="#SausagePeinirli"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#SavoryPizza"/>
+        <NamedIndividual IRI="#SpecialPizza"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#SoftDrinks"/>
+        <NamedIndividual IRI="#Vodka"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#FizzyWhiskey"/>
+        <NamedIndividual IRI="#WhiskeyCola"/>
+    </ClassAssertion>
     <SubObjectPropertyOf>
         <ObjectProperty IRI="#FunctionalObjectProperty1"/>
         <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
@@ -379,6 +710,14 @@
     </SubObjectPropertyOf>
     <SubObjectPropertyOf>
         <ObjectProperty IRI="#InverseObjectProperty4"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#MixedBeverage"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#MixedFood"/>
         <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
     </SubObjectPropertyOf>
     <SubObjectPropertyOf>
@@ -463,12 +802,22 @@
     <SymmetricObjectProperty>
         <ObjectProperty IRI="#SymmetricObjectProperty2"/>
     </SymmetricObjectProperty>
-    <TransitiveObjectProperty>
-        <ObjectProperty IRI="#TransitiveObjectProperty1"/>
-    </TransitiveObjectProperty>
-    <TransitiveObjectProperty>
-        <ObjectProperty IRI="#TransitiveObjectProperty2"/>
-    </TransitiveObjectProperty>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#MixedBeverage"/>
+        <Class abbreviatedIRI="owl:Thing"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#MixedFood"/>
+        <Class abbreviatedIRI="owl:Thing"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#MixedBeverage"/>
+        <Class IRI="#Beverage"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#MixedFood"/>
+        <Class IRI="#Food"/>
+    </ObjectPropertyRange>
     <SubDataPropertyOf>
         <DataProperty IRI="#AlcoholPercentage"/>
         <DataProperty abbreviatedIRI="owl:topDataProperty"/>
@@ -511,10 +860,6 @@
     </DataPropertyRange>
     <DataPropertyRange>
         <DataProperty IRI="#IsSuitableForVegan"/>
-        <Datatype abbreviatedIRI="xsd:boolean"/>
-    </DataPropertyRange>
-    <DataPropertyRange>
-        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
         <Datatype abbreviatedIRI="xsd:boolean"/>
     </DataPropertyRange>
 </Ontology>
