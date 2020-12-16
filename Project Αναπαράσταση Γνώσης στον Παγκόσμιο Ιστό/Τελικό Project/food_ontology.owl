@@ -106,6 +106,30 @@
         <Class IRI="#Wine"/>
     </Declaration>
     <Declaration>
+        <ObjectProperty IRI="#FunctionalObjectProperty1"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#FunctionalObjectProperty2"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#InverseFunctionalObjectProperty1"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#InverseFunctionalObjectProperty2"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#InverseObjectProperty1"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#InverseObjectProperty2"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#InverseObjectProperty3"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#InverseObjectProperty4"/>
+    </Declaration>
+    <Declaration>
         <ObjectProperty IRI="#ObjectProperty1"/>
     </Declaration>
     <Declaration>
@@ -128,6 +152,18 @@
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="#SubObjectProperty4"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#SymmetricObjectProperty1"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#SymmetricObjectProperty2"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#TransitiveObjectProperty1"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#TransitiveObjectProperty2"/>
     </Declaration>
     <Declaration>
         <DataProperty IRI="#AlcoholPercentage"/>
@@ -314,6 +350,38 @@
         <Class IRI="#Salad"/>
     </DisjointClasses>
     <SubObjectPropertyOf>
+        <ObjectProperty IRI="#FunctionalObjectProperty1"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#FunctionalObjectProperty2"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#InverseFunctionalObjectProperty1"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#InverseFunctionalObjectProperty2"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#InverseObjectProperty1"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#InverseObjectProperty2"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#InverseObjectProperty3"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#InverseObjectProperty4"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
         <ObjectProperty IRI="#ObjectProperty1"/>
         <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
     </SubObjectPropertyOf>
@@ -345,6 +413,62 @@
         <ObjectProperty IRI="#SubObjectProperty4"/>
         <ObjectProperty IRI="#ObjectProperty4"/>
     </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#SymmetricObjectProperty1"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#SymmetricObjectProperty2"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#TransitiveObjectProperty1"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#TransitiveObjectProperty2"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#InverseObjectProperty1"/>
+        <ObjectProperty IRI="#ObjectProperty1"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#InverseObjectProperty2"/>
+        <ObjectProperty IRI="#ObjectProperty2"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#InverseObjectProperty3"/>
+        <ObjectProperty IRI="#ObjectProperty3"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#InverseObjectProperty4"/>
+        <ObjectProperty IRI="#ObjectProperty4"/>
+    </InverseObjectProperties>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#FunctionalObjectProperty1"/>
+    </FunctionalObjectProperty>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#FunctionalObjectProperty2"/>
+    </FunctionalObjectProperty>
+    <InverseFunctionalObjectProperty>
+        <ObjectProperty IRI="#InverseFunctionalObjectProperty1"/>
+    </InverseFunctionalObjectProperty>
+    <InverseFunctionalObjectProperty>
+        <ObjectProperty IRI="#InverseFunctionalObjectProperty2"/>
+    </InverseFunctionalObjectProperty>
+    <SymmetricObjectProperty>
+        <ObjectProperty IRI="#SymmetricObjectProperty1"/>
+    </SymmetricObjectProperty>
+    <SymmetricObjectProperty>
+        <ObjectProperty IRI="#SymmetricObjectProperty2"/>
+    </SymmetricObjectProperty>
+    <TransitiveObjectProperty>
+        <ObjectProperty IRI="#TransitiveObjectProperty1"/>
+    </TransitiveObjectProperty>
+    <TransitiveObjectProperty>
+        <ObjectProperty IRI="#TransitiveObjectProperty2"/>
+    </TransitiveObjectProperty>
     <SubDataPropertyOf>
         <DataProperty IRI="#AlcoholPercentage"/>
         <DataProperty abbreviatedIRI="owl:topDataProperty"/>
