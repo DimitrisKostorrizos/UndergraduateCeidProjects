@@ -654,6 +654,28 @@
     
 
 
+    <!-- http://www.semanticweb.org/DnD_Classes_Ontology#SkillExpert -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#SkillExpert">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#ClassCombinations"/>
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#HasMulticlass"/>
+                        <owl:allValuesFrom rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#Ranger"/>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#HasMulticlass"/>
+                        <owl:allValuesFrom rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#Rogue"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
     <!-- http://www.semanticweb.org/DnD_Classes_Ontology#SneakAttack -->
 
     <owl:Class rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#SneakAttack">
@@ -752,6 +774,20 @@
 
     <owl:Class rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#WitchKnight">
         <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#ClassCombinations"/>
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#HasMulticlass"/>
+                        <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#Wizard"/>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#HasMulticlass"/>
+                        <owl:allValuesFrom rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#Fighter"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
     </owl:Class>
     
 
@@ -775,6 +811,62 @@
     
 
 
+    <!-- http://www.semanticweb.org/DnD_Classes_Ontology#Artillerist -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#Artillerist">
+        <rdf:type rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#Artificer"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/DnD_Classes_Ontology#Assassinate -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#Assassinate">
+        <rdf:type rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#SneakAttack"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/DnD_Classes_Ontology#BearWildShape -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#BearWildShape">
+        <rdf:type rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#WildShape"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/DnD_Classes_Ontology#Berserker -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#Berserker">
+        <rdf:type rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#Barbarian"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/DnD_Classes_Ontology#BloodBindingCurse -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#BloodBindingCurse">
+        <rdf:type rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#BloodCurse"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/DnD_Classes_Ontology#Creation -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#Creation">
+        <rdf:type rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#Bard"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/DnD_Classes_Ontology#DoubleActionSurge -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#DoubleActionSurge">
+        <rdf:type rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#ActionSurge"/>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://www.semanticweb.org/DnD_Classes_Ontology#Dueling -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#Dueling">
@@ -786,7 +878,31 @@
     <!-- http://www.semanticweb.org/DnD_Classes_Ontology#EldritchKnight -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#EldritchKnight">
-        <rdf:type rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#Warlock"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#Fighter"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/DnD_Classes_Ontology#EmpowerSpell -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#EmpowerSpell">
+        <rdf:type rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#Metamagic"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/DnD_Classes_Ontology#FiendSense -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#FiendSense">
+        <rdf:type rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#DivineSense"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/DnD_Classes_Ontology#GloomStalker -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#GloomStalker">
+        <rdf:type rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#Ranger"/>
     </owl:NamedIndividual>
     
 
@@ -794,7 +910,119 @@
     <!-- http://www.semanticweb.org/DnD_Classes_Ontology#Hexblade -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#Hexblade">
-        <rdf:type rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#Fighter"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#Warlock"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/DnD_Classes_Ontology#Kensei -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#Kensei">
+        <rdf:type rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#Monk"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/DnD_Classes_Ontology#KiFist -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#KiFist">
+        <rdf:type rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#KiStrike"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/DnD_Classes_Ontology#Life -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#Life">
+        <rdf:type rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#Cleric"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/DnD_Classes_Ontology#Lycan -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#Lycan">
+        <rdf:type rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#BloodHunter"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/DnD_Classes_Ontology#Mastermind -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#Mastermind">
+        <rdf:type rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#Rogue"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/DnD_Classes_Ontology#Necromancer -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#Necromancer">
+        <rdf:type rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#Wizard"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/DnD_Classes_Ontology#PactMagic -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#PactMagic">
+        <rdf:type rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#Spellcasting"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/DnD_Classes_Ontology#RelentlessRage -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#RelentlessRage">
+        <rdf:type rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#Rage"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/DnD_Classes_Ontology#SpellSlotRecovery -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#SpellSlotRecovery">
+        <rdf:type rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#ArcaneRecovery"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/DnD_Classes_Ontology#StunningKick -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#StunningKick">
+        <rdf:type rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#StunningStrike"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/DnD_Classes_Ontology#Vengeance -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#Vengeance">
+        <rdf:type rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#Paladin"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/DnD_Classes_Ontology#VowOfEnmity -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#VowOfEnmity">
+        <rdf:type rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#ChannelDivinity"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/DnD_Classes_Ontology#WildMagic -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#WildMagic">
+        <rdf:type rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#Sorcerer"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/DnD_Classes_Ontology#Wildfire -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#Wildfire">
+        <rdf:type rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#Druid"/>
     </owl:NamedIndividual>
     
 
