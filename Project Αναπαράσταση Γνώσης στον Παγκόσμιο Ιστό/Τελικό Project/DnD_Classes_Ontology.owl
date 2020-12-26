@@ -67,6 +67,14 @@
     
 
 
+    <!-- http://www.semanticweb.org/DnD_Classes_Ontology#BloodCurse -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#BloodCurse">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#Ability"/>
+    </owl:Class>
+    
+
+
     <!-- http://www.semanticweb.org/DnD_Classes_Ontology#BloodHunter -->
 
     <owl:Class rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#BloodHunter">
@@ -80,6 +88,12 @@
     <owl:Class rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#ChannelDivinity">
         <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#Ability"/>
     </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/DnD_Classes_Ontology#ClassCombinations -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#ClassCombinations"/>
     
 
 
@@ -131,6 +145,23 @@
     
 
 
+    <!-- http://www.semanticweb.org/DnD_Classes_Ontology#HalfCaster -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#HalfCaster">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#ClassCombinations"/>
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#Artificer"/>
+                    <rdf:Description rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#Paladin"/>
+                    <rdf:Description rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#Ranger"/>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
     <!-- http://www.semanticweb.org/DnD_Classes_Ontology#KiStrike -->
 
     <owl:Class rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#KiStrike">
@@ -155,9 +186,19 @@
     
 
 
-    <!-- http://www.semanticweb.org/DnD_Classes_Ontology#MultyClassCombinations -->
+    <!-- http://www.semanticweb.org/DnD_Classes_Ontology#OneThirdCaster -->
 
-    <owl:Class rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#MultyClassCombinations"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#OneThirdCaster">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#ClassCombinations"/>
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#Fighter"/>
+                    <rdf:Description rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#Rogue"/>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
+    </owl:Class>
     
 
 
@@ -165,6 +206,22 @@
 
     <owl:Class rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#Paladin">
         <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#PrimaryClass"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/DnD_Classes_Ontology#PaladinWarlock -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#PaladinWarlock">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#ClassCombinations"/>
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#Paladin"/>
+                    <rdf:Description rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#Warlock"/>
+                </owl:intersectionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
     </owl:Class>
     
 
@@ -223,6 +280,22 @@
     
 
 
+    <!-- http://www.semanticweb.org/DnD_Classes_Ontology#SorcererWarlock -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#SorcererWarlock">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#ClassCombinations"/>
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#Sorcerer"/>
+                    <rdf:Description rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#Warlock"/>
+                </owl:intersectionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
     <!-- http://www.semanticweb.org/DnD_Classes_Ontology#Spellcaster -->
 
     <owl:Class rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#Spellcaster">
@@ -234,6 +307,14 @@
     <!-- http://www.semanticweb.org/DnD_Classes_Ontology#Spellcasting -->
 
     <owl:Class rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#Spellcasting">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#Ability"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/DnD_Classes_Ontology#StunningStrike -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#StunningStrike">
         <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#Ability"/>
     </owl:Class>
     
@@ -268,6 +349,35 @@
     <owl:Class rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#Wizard">
         <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#PrimaryClass"/>
     </owl:Class>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // General axioms
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#ActionSurge"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#ArcaneRecovery"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#BloodCurse"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#ChannelDivinity"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#DivineSense"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#FightingStyle"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#KiStrike"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#Metamagic"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#Rage"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#SneakAttack"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#Spellcasting"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#StunningStrike"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#WildShape"/>
+        </owl:members>
+    </rdf:Description>
 </rdf:RDF>
 
 
