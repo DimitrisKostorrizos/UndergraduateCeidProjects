@@ -839,6 +839,15 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#Berserker">
         <rdf:type rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#Barbarian"/>
+        <HasAbility rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#RelentlessRage"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/DnD_Classes_Ontology#Bladesinger -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#Bladesinger">
+        <rdf:type rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#Wizard"/>
     </owl:NamedIndividual>
     
 
@@ -875,6 +884,15 @@
     
 
 
+    <!-- http://www.semanticweb.org/DnD_Classes_Ontology#EchoKnight -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#EchoKnight">
+        <HasMulticlass rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#Bladesinger"/>
+        <HasMulticlass rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#EldritchKnight"/>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://www.semanticweb.org/DnD_Classes_Ontology#EldritchKnight -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#EldritchKnight">
@@ -907,6 +925,15 @@
     
 
 
+    <!-- http://www.semanticweb.org/DnD_Classes_Ontology#HexOathbreaker -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#HexOathbreaker">
+        <rdf:type rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#PaladinWarlock"/>
+        <HasMulticlass rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#Hexblade"/>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://www.semanticweb.org/DnD_Classes_Ontology#Hexblade -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#Hexblade">
@@ -919,6 +946,7 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#Kensei">
         <rdf:type rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#Monk"/>
+        <HasUnarmoredDefense rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#Kensei"/>
     </owl:NamedIndividual>
     
 
@@ -951,6 +979,7 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#Mastermind">
         <rdf:type rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#Rogue"/>
+        <HasAbility rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#Assassinate"/>
     </owl:NamedIndividual>
     
 
@@ -959,6 +988,7 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#Necromancer">
         <rdf:type rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#Wizard"/>
+        <SpellcastingClass rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#Necromancer"/>
     </owl:NamedIndividual>
     
 
@@ -975,6 +1005,15 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#RelentlessRage">
         <rdf:type rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#Rage"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/DnD_Classes_Ontology#Scout -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#Scout">
+        <HasMulticlass rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#GloomStalker"/>
+        <HasMulticlass rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#Mastermind"/>
     </owl:NamedIndividual>
     
 
@@ -999,6 +1038,7 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#Vengeance">
         <rdf:type rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#Paladin"/>
+        <HasAbility rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#VowOfEnmity"/>
     </owl:NamedIndividual>
     
 
