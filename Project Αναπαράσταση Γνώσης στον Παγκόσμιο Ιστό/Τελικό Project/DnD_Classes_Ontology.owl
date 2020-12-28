@@ -840,6 +840,7 @@
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#Berserker">
         <rdf:type rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#Barbarian"/>
         <HasAbility rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#RelentlessRage"/>
+        <Level rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">20</Level>
     </owl:NamedIndividual>
     
 
@@ -889,6 +890,7 @@
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#EchoKnight">
         <HasMulticlass rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#Bladesinger"/>
         <HasMulticlass rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#EldritchKnight"/>
+        <Level rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">7</Level>
     </owl:NamedIndividual>
     
 
@@ -897,6 +899,7 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#EldritchKnight">
         <rdf:type rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#Fighter"/>
+        <Level rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</Level>
     </owl:NamedIndividual>
     
 
@@ -989,6 +992,7 @@
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#Necromancer">
         <rdf:type rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#Wizard"/>
         <SpellcastingClass rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#Necromancer"/>
+        <Level rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">17</Level>
     </owl:NamedIndividual>
     
 
@@ -1012,8 +1016,11 @@
     <!-- http://www.semanticweb.org/DnD_Classes_Ontology#Scout -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#Scout">
+        <rdf:type rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#Rogue"/>
+        <HasAbility rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#Assassinate"/>
         <HasMulticlass rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#GloomStalker"/>
         <HasMulticlass rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#Mastermind"/>
+        <Level rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">6</Level>
     </owl:NamedIndividual>
     
 
