@@ -4,9 +4,29 @@
      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
      xmlns:owl="http://www.w3.org/2002/07/owl#"
      xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:swrlb="http://www.w3.org/2003/11/swrlb#"
+     xmlns:swrl="http://www.w3.org/2003/11/swrl#"
      xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
-     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:swrla="http://swrl.stanford.edu/ontologies/3.3/swrla.owl#">
     <owl:Ontology rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://swrl.stanford.edu/ontologies/3.3/swrla.owl#isRuleEnabled -->
+
+    <owl:AnnotationProperty rdf:about="http://swrl.stanford.edu/ontologies/3.3/swrla.owl#isRuleEnabled"/>
     
 
 
@@ -564,6 +584,7 @@
     <!-- http://www.semanticweb.org/DnD_Classes_Ontology#MultiCaster -->
 
     <owl:Class rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#MultiCaster">
+        <owl:equivalentClass rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#OneThirdCaster"/>
         <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#ClassCombinations"/>
         <rdfs:subClassOf>
             <owl:Restriction>
@@ -840,6 +861,7 @@
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#Berserker">
         <rdf:type rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#Barbarian"/>
         <HasAbility rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#RelentlessRage"/>
+        <ArmorClass rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">16</ArmorClass>
         <Level rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">20</Level>
     </owl:NamedIndividual>
     
@@ -966,6 +988,7 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#Life">
         <rdf:type rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#Cleric"/>
+        <Alignment>Lawful</Alignment>
     </owl:NamedIndividual>
     
 
@@ -983,6 +1006,7 @@
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#Mastermind">
         <rdf:type rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#Rogue"/>
         <HasAbility rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#Assassinate"/>
+        <Level rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">13</Level>
     </owl:NamedIndividual>
     
 
@@ -1099,6 +1123,213 @@
             <rdf:Description rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#StunningStrike"/>
             <rdf:Description rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#WildShape"/>
         </owl:members>
+    </rdf:Description>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Rules
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <rdf:Description rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#b">
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
+    </rdf:Description>
+    <rdf:Description rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#c">
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
+    </rdf:Description>
+    <rdf:Description rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#m">
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
+    </rdf:Description>
+    <rdf:Description rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#r">
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
+    </rdf:Description>
+    <rdf:Description rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#w">
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
+    </rdf:Description>
+    <rdf:Description rdf:about="http://www.semanticweb.org/DnD_Classes_Ontology#sc">
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
+    </rdf:Description>
+    <rdf:Description>
+        <swrla:isRuleEnabled rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swrla:isRuleEnabled>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"></rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Set the barbarian armor class value</rdfs:label>
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Imp"/>
+        <swrl:body>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#ClassAtom"/>
+                        <swrl:classPredicate rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#Barbarian"/>
+                        <swrl:argument1 rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#b"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:Description>
+        </swrl:body>
+        <swrl:head>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom"/>
+                        <swrl:propertyPredicate rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#ArmorClass"/>
+                        <swrl:argument1 rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#b"/>
+                        <swrl:argument2 rdf:datatype="http://www.w3.org/2001/XMLSchema#int">16</swrl:argument2>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:Description>
+        </swrl:head>
+    </rdf:Description>
+    <rdf:Description>
+        <swrla:isRuleEnabled rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swrla:isRuleEnabled>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"></rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Set the cleric alignment</rdfs:label>
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Imp"/>
+        <swrl:body>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#ClassAtom"/>
+                        <swrl:classPredicate rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#Cleric"/>
+                        <swrl:argument1 rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#c"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:Description>
+        </swrl:body>
+        <swrl:head>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom"/>
+                        <swrl:propertyPredicate rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#Alignment"/>
+                        <swrl:argument1 rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#c"/>
+                        <swrl:argument2 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Lawful</swrl:argument2>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:Description>
+        </swrl:head>
+    </rdf:Description>
+    <rdf:Description>
+        <swrla:isRuleEnabled rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swrla:isRuleEnabled>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"></rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Set the monk Ki based ability</rdfs:label>
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Imp"/>
+        <swrl:body>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#ClassAtom"/>
+                        <swrl:classPredicate rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#Monk"/>
+                        <swrl:argument1 rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#m"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:Description>
+        </swrl:body>
+        <swrl:head>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                        <swrl:propertyPredicate rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#HasAbility"/>
+                        <swrl:argument1 rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#m"/>
+                        <swrl:argument2 rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#KiFist"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:Description>
+        </swrl:head>
+    </rdf:Description>
+    <rdf:Description>
+        <swrla:isRuleEnabled rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swrla:isRuleEnabled>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"></rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Set the lv of the ranger</rdfs:label>
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Imp"/>
+        <swrl:body>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#ClassAtom"/>
+                        <swrl:classPredicate rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#Ranger"/>
+                        <swrl:argument1 rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#r"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:Description>
+        </swrl:body>
+        <swrl:head>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom"/>
+                        <swrl:propertyPredicate rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#Level"/>
+                        <swrl:argument1 rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#r"/>
+                        <swrl:argument2 rdf:datatype="http://www.w3.org/2001/XMLSchema#int">9</swrl:argument2>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:Description>
+        </swrl:head>
+    </rdf:Description>
+    <rdf:Description>
+        <swrla:isRuleEnabled rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swrla:isRuleEnabled>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"></rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Set warlock subclass</rdfs:label>
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Imp"/>
+        <swrl:body>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#ClassAtom"/>
+                        <swrl:classPredicate rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#Warlock"/>
+                        <swrl:argument1 rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#w"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                        <rdf:first>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                                <swrl:propertyPredicate rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#SpellcastingClass"/>
+                                <swrl:argument1 rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#w"/>
+                                <swrl:argument2 rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#sc"/>
+                            </rdf:Description>
+                        </rdf:first>
+                        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                    </rdf:Description>
+                </rdf:rest>
+            </rdf:Description>
+        </swrl:body>
+        <swrl:head>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                        <swrl:propertyPredicate rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#HasSubclass"/>
+                        <swrl:argument1 rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#w"/>
+                        <swrl:argument2 rdf:resource="http://www.semanticweb.org/DnD_Classes_Ontology#sc"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:Description>
+        </swrl:head>
     </rdf:Description>
 </rdf:RDF>
 
