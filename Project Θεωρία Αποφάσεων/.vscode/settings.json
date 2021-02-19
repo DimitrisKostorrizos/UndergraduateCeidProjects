@@ -1,6 +1,9 @@
 {
     "cSpell.words": [
         "numpy",
-        "sklearn"
+        "pyplot",
+        "sklearn",
+        "xlabel",
+        "ylabel"
     ]
 }
