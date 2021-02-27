@@ -194,7 +194,7 @@ def KMeansPHColumn(trainingSample, qualityTrainingSample, testSample, supportVec
     # Declare a dictionary for the clusters and the average pH values
     ClusterPHDictionary = {}
 
-    # For every K-Means cluster
+    # For every K-Means cluster...
     for index in range(kMeansClustering.n_clusters):
 
         # Set the cluster's average pH value to 0
